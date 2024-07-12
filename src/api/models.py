@@ -7,7 +7,7 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(80), unique=False, nullable=False)
     Creation_date = db.Column(db.String(80), unique=False, nullable=False)
-    Id_member = db.Column(db.Integer, db.ForeignKey('member.Id_member'))
+
 
     def __repr__(self):
         return '<User %r>' %self.email
@@ -32,6 +32,7 @@ class Member(db.Model):
     Birthday = db.Column(db.String(10), nullable=False) 
     City = db.Column(db.String(30), nullable=False) 
     Country = db.Column(db.String(30), nullable=False)
+    id = db.Column(db.Integer, db.ForeignKey('user.id'))
     Id_objective = db.Column(db.Integer, db.ForeignKey('objective.Id_objective'))
 
     def __repr__(self):
@@ -76,10 +77,10 @@ class Workout_plan(db.Model):
     Rest_time = db.Column(db.String(50), nullable=False)
     training_day = db.Column(db.Integer)
     SuperSet = db.Column(db.Integer)
-    Id_user = db.Column(db.Integer, db.ForeignKey('user.Id_user'))
+    id = db.Column(db.Integer, db.ForeignKey('user.id'))
     Id_member = db.Column(db.Integer, db.ForeignKey('member.Id_member'))
     Id_exercise = db.Column(db.Integer, db.ForeignKey('exercises.Id_exercise'))
-    Id_musclegroup = db.Column(db.Integer, db.ForeignKey('musclegroup.Id_musclegroup'))
+    Id_musclegroup = db.Column(db.Integer, db.ForeignKey('muscle_group.Id_musclegroup'))
 
     def __repr__(self):
         return '<Workout_plan %r>' %self.Id_workout
@@ -101,7 +102,7 @@ class Exercises(db.Model):
     Id_exercise = db.Column(db.Integer, primary_key=True)
     Name = db.Column(db.String(50), nullable=False, unique=True)
     Link_video = db.Column(db.Integer)
-    Id_musclegroup = db.Column(db.Integer, db.ForeignKey('musclegroup.Id_musclegroup'))
+    Id_musclegroup = db.Column(db.Integer, db.ForeignKey('muscle_group.Id_musclegroup'))
     
     def __repr__(self):
         return '<Exercises %r>' %self.Id_exercise
@@ -116,8 +117,8 @@ class Exercises(db.Model):
 
 
 
-class Muscle_groups(db.Model):
-    __tablename__ = 'muscle_groups'
+class Muscle_group(db.Model):
+    __tablename__ = 'muscle_group'
     Id_musclegroup = db.Column(db.Integer, primary_key=True)
     Name = db.Column(db.String(50), nullable=False, unique=True)
 
