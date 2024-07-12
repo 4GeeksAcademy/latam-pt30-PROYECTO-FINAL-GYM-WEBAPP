@@ -16,13 +16,14 @@ class User(db.Model):
         return {
             "id": self.id,
             "email": self.email,
+            "Creation_date": self.Creation_date
             # do not serialize the password, its a security breach
         }    
     
 
 class Member(db.Model):
     __tablename__ = 'member'    
-    id_member = db.Column(db.Integer, primary_key=True)
+    Id_member = db.Column(db.Integer, primary_key=True)
     Name  = db.Column(db.String(60), nullable=False) 
     Last_name  = db.Column(db.String(60), nullable=False)
     Gender  = db.Column(db.String(2), nullable=False)
@@ -33,11 +34,38 @@ class Member(db.Model):
     Country = db.Column(db.String(30), nullable=False)
     Id_objective = db.Column(db.Integer, db.ForeignKey('objective.Id_objective'))
 
+    def __repr__(self):
+        return '<Member %r>' %self.id_member
+
+    def serialize(self):
+        return {
+            "id": self.Id_member,
+            "Name": self.Name,
+            "Last_name": self.Last_name,
+            "Gender": self.Gender,
+            "Height": self.Height,
+            "Weight": self.Weight,
+            "Birthday": self.Birthday,
+            "City": self.City,
+            "Country": self.Country
+            # do not serialize the password, its a security breach
+        }  
+
     
 class Objective(db.Model):
     __tablename__ = 'objective'
     Id_objective = db.Column(db.Integer, primary_key=True)
-    Objective_name = db.Column(db.String(60), nullable=False) 
+    name = db.Column(db.String(60), nullable=False) 
+
+    def __repr__(self):
+        return '<Objective %r>' %self.Id_objective
+
+    def serialize(self):
+        return {
+            "Id_objective": self.Id_objective,
+            "name": self.name
+            # do not serialize the password, its a security breach
+        }
 
 
 class Workout_plan(db.Model):
@@ -53,6 +81,20 @@ class Workout_plan(db.Model):
     Id_exercise = db.Column(db.Integer, db.ForeignKey('exercises.Id_exercise'))
     Id_musclegroup = db.Column(db.Integer, db.ForeignKey('musclegroup.Id_musclegroup'))
 
+    def __repr__(self):
+        return '<Workout_plan %r>' %self.Id_workout
+
+    def serialize(self):
+        return {
+            "Id_workout": self.Id_workout,
+            "Name": self.Name,
+            "Sets": self.Sets,
+            "Reps": self.Reps,
+            "Rest_time": self.HeiRest_timeght,
+            "training_day": self.training_day,
+            "SuperSet": self.SuperSet
+            # do not serialize the password, its a security breach
+        }  
 
 class Exercises(db.Model):
     __tablename__ = 'exercises'
@@ -61,6 +103,16 @@ class Exercises(db.Model):
     Link_video = db.Column(db.Integer)
     Id_musclegroup = db.Column(db.Integer, db.ForeignKey('musclegroup.Id_musclegroup'))
     
+    def __repr__(self):
+        return '<Exercises %r>' %self.Id_exercise
+
+    def serialize(self):
+        return {
+            "Id_exercise": self.Id_exercise,
+            "name": self.name,
+            "Link_video": self.Link_video
+            # do not serialize the password, its a security breach
+        }
 
 
 
@@ -68,3 +120,13 @@ class Muscle_groups(db.Model):
     __tablename__ = 'muscle_groups'
     Id_musclegroup = db.Column(db.Integer, primary_key=True)
     Name = db.Column(db.String(50), nullable=False, unique=True)
+
+    def __repr__(self):
+        return '<Muscle_groups %r>' %self.Id_musclegroup
+
+    def serialize(self):
+        return {
+            "Id_musclegroup": self.Id_musclegroup,
+            "name": self.name
+            # do not serialize the password, its a security breach
+        }
