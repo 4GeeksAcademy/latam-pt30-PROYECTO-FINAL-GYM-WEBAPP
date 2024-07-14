@@ -2,15 +2,16 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 import os
+import secrets
 from flask import Flask, request, jsonify, url_for, send_from_directory
 from flask_migrate import Migrate
 from flask_swagger import swagger
 from api.utils import APIException, generate_sitemap
-from api.models import db, User
+from api.models import db
 from api.routes import api
 from api.admin import setup_admin
 from api.commands import setup_commands
-from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
+from flask_jwt_extended import JWTManager, create_access_token, get_jwt_identity, jwt_required
 from datetime import datetime
 
 
@@ -33,9 +34,7 @@ else:
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 MIGRATE = Migrate(app, db, compare_type=True)
 db.init_app(app)
-
-# JWT config
-app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET")  # Change this!
+app.config["JWT_SECRET_KEY"] = secrets.token_urlsafe(32) # Generate a 32-character URL-safe string
 jwt = JWTManager(app)
 
 # add the admin
@@ -47,8 +46,6 @@ setup_commands(app)
 # Add all endpoints form the API with a "api" prefix
 app.register_blueprint(api, url_prefix='/api')
 
-# Se inicializa JWT en la app
-jwt = JWTManager(app)
 
 # Handle/serialize errors like a JSON object
 
@@ -206,13 +203,13 @@ def get_user_ig():
 
 
 
-# @app.route('/<path:path>', methods=['GET'])
-# def serve_any_other_file(path):
-#     if not os.path.isfile(os.path.join(static_file_dir, path)):
-#         path = 'index.html'
-#     response = send_from_directory(static_file_dir, path)
-#     response.cache_control.max_age = 0  # avoid cache memory
-#     return response
+@app.route('/<path:path>', methods=['GET'])
+def serve_any_other_file(path):
+    if not os.path.isfile(os.path.join(static_file_dir, path)):
+        path = 'index.html'
+    response = send_from_directory(static_file_dir, path)
+    response.cache_control.max_age = 0  # avoid cache memory
+    return response
 
 
 # this only runs if `$ python src/main.py` is executed
