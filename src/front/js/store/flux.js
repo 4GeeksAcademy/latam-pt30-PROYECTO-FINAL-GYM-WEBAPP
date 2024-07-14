@@ -1,6 +1,3 @@
-
-
-
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
@@ -8,27 +5,27 @@ const getState = ({ getStore, getActions, setStore }) => {
 			isAuthenticated: false,
 			userToken: null,
 			user: null,
-			workOutPlan:[
+			workOutPlan: [
 				{
-					sets:"" ,
-					reps:"" ,
-					restTime:"" ,
-					training_day:"" ,
-					description:""
+					sets: "",
+					reps: "",
+					rest_time: "",
+					training_day: "",
+					description: ""
 				}
 			]
 
 		},
 		actions: {
 			// Function to handle user signup
-			createUser: async (email, password, Creation_date) => {
+			createUser: async (email, password) => {
 				try {
 					const response = await fetch(`${process.env.BACKEND_URL}/api/user`, {
 						method: "POST",
 						headers: {
 							"Content-Type": "application/json",
 						},
-						body: JSON.stringify({ email, password, Creation_date}),
+						body: JSON.stringify({ email, password }),
 					});
 					const data = await response.json();
 
@@ -78,7 +75,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				try {
 					const response = await fetch(`${process.env.BACKEND_URL}/api/user/${id}`)
 					const data = await response.json()
-					setStore({user: data.user})				
+					setStore({ user: data.user })
 				} catch (error) {
 					console.error(error)
 				}
@@ -86,8 +83,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			logOut: () => {
-                setStore({ user: null });
-            }
+				setStore({ user: null });
+			}
 		}
 	};
 };

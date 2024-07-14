@@ -8,7 +8,6 @@ export const SignUp = () => {
 	const { store, actions } = useContext(Context);
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-	const []
 	const navigate = useNavigate();
 
 	const handleSignUp = async (event) => {

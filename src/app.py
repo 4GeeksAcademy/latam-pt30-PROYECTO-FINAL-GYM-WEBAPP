@@ -10,8 +10,8 @@ from api.models import db, User
 from api.routes import api
 from api.admin import setup_admin
 from api.commands import setup_commands
-from flask_jwt_extended import JWTManager, create_access_token
-
+from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
+from datetime import datetime
 
 
 # from models import Person
@@ -33,6 +33,10 @@ else:
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 MIGRATE = Migrate(app, db, compare_type=True)
 db.init_app(app)
+
+# JWT config
+app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET")  # Change this!
+jwt = JWTManager(app)
 
 # add the admin
 setup_admin(app)
@@ -85,7 +89,7 @@ def create_user():
         return jsonify({"message": "Invalid email"}), 400
     
     #We create new user
-    new_user = User(email=email, password=password, is_active=True)
+    new_user = User(email=email, password=password, creation_date=datetime.now(), is_active=True)
     try:
         db.session.add(new_user)
         db.session.commit()
