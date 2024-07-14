@@ -9,18 +9,27 @@ const getState = ({ getStore, getActions, setStore }) => {
 			userToken: null,
 			user: null,
 			//work out data
-			day: "",
-			muscle_group: "",
-			sets: "", 
-			ecercise: [
+			workouts: [
 				{
-					name: "",
-					reps: "", 
-					rest_time: "", 
-					description:""
-				}
-			]
-
+				  day: "Day 1",
+				  muscle_group: "Leg",
+				  exercises: [
+					{ name: "Pullups", reps: 8, sets: 4, rest_time: "20s", description: "" },
+					{ name: "Pushups", reps: 15, sets: 4, rest_time: "20s", description: "" },
+					{ name: "Bar", reps: 20, sets: 4, rest_time: "20s", description: "" },
+				  ],
+				},
+				{
+				  day: "Day 2",
+				  muscle_group: "Arm",
+				  exercises: [
+					{ name: "Pullups", reps: 10, sets: 3, rest_time: "20s", description: "" },
+					{ name: "Pushups", reps: 20, sets: 3, rest_time: "20s", description: "" },
+					{ name: "Bar", reps: 25, sets: 3, rest_time: "20s", description: "" },
+					{ name: "Peckfly", reps: 12, sets: 3, rest_time: "20s", description: "" },
+				  ],
+				},  
+			],
 		},
 		actions: {
 			// Function to handle user signup
@@ -91,6 +100,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			logOut: () => {
 				setStore({ user: null });
 			},
+
+		
 
 		}
 	};

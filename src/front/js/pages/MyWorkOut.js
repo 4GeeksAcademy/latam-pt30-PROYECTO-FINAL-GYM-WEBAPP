@@ -5,38 +5,17 @@ import { Context } from "../store/appContext";
 export const MyWorkOut = () => {
     const { store, actions } = useContext(Context);
     const navigate = useNavigate();
-    const data = [
-        {
-            day: "Day 1",
-            muscle_group: "Leg",
-            exercises: [
-                "Pullups",
-                "Pushups",
-                "Bar"
-            ],
-            description: "",
-            reps: "8",
-            sets: "4",
-            rest_time: "20s"
-        },
-        {
-            day: "Day 2",
-            muscle_group: "Arm",
-            exercises: [
-                "Pullups",
-                "Pushups",
-                "Bar",
-                "peckfly",
-            ],
-            rest_time: "20",
-            description: "",
-            reps: "20",
-            sets: "3"
-        }
-    ];
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+      setData(store.workouts);
+    }, [store.workouts]);
+
     const handleNavigate = (exercise) => {
-        navigate(`/exercise/${exercise}`);
+        navigate(`/workout/${exercise.name}`);
     };
+
+
     return (
         <div>
             <div className="d-flex flex-column">
@@ -44,7 +23,12 @@ export const MyWorkOut = () => {
                 {data.map((item, index) => {
                     return (
                         <div>
-                            <button className="alert rounded-5 bg-light opacity-75 col-11" type="button" data-bs-toggle="collapse" data-bs-target={"#collapseWidthExample-" + index} aria-expanded="false" aria-controls="collapseWidthExample">
+                            <button className="alert rounded-5 bg-light opacity-75 col-11" 
+                            type="button" 
+                            data-bs-toggle="collapse" 
+                            data-bs-target={"#collapseWidthExample-" + index} 
+                            aria-expanded="false" 
+                            aria-controls="collapseWidthExample">
                                 <div className="d-flex justify-content-center">
                                     <div>
                                         <span className="text-warning">{item.day}</span>
@@ -59,10 +43,10 @@ export const MyWorkOut = () => {
                                         {item.exercises.map((exercise, exerciseIndex) => (
                                             <div
                                                 key={exerciseIndex}
-                                                onClick={() => handleNavigate(exercise)} style={{ cursor: "pointer" }}
+                                                onClick={() => handleNavigate(exercise.name)} style={{ cursor: "pointer" }}
                                             >
                                                 <div className="alert rounded-5 bg-light text-dark opacity-75 col-11" role="alert">
-                                                    {exercise}
+                                                    {exercise.name}
                                                 </div>
                                             </div>
                                         ))}
