@@ -64,59 +64,156 @@ def sitemap():
 
 # any other endpoint will try to serve it like a static file
 
-def Signup(data):
-    #data = request.json
-    new_user = User()
-    new_user.email = data.get("email")
-    new_user.password = data.get("password")
-    new_user.Creation_date = bool(data.get("Creation_date"))
-    if new_user.email == "" or new_user.password == "" :
-        response_body = {"message": "email and password are required"}
-        return response_body
-    else:
-        user_result = db.session.execute(db.select(User).filter_by(email=new_user.email)).one_or_none()
-        if user_result != None and user_result[0].email == new_user.email:
-            response_body = {"message": "Usuario ya existe"}
-            return response_body
-        else:
-            db.session.add(new_user)
-            db.session.commit()
-            response_body = {"message": "Usuario creado con Exito"}
-            return response_body
+#### SIGN UP
+#[POST] /users Create users. 
+@app.route("/user", methods=["POST"])
+def create_user():
+    #Extract data from request
+    data = request.json
+    #Verifying we are receiving all required data in the request
+    email = data.get("email")
+    password  = data.get("password")
+
+    #Returning 400 if data is not correct  
+    if not email or not password:
+        return jsonify({
+            "message": "Email and Password are Required"
+        }), 400
+    #Email Verification
+    
+    if User.query.filter_by(email=email).first():
+        return jsonify({"message": "Invalid email"}), 400
+    
+    #We create new user
+    new_user = User(email=email, password=password, is_active=True)
+    try:
+        db.session.add(new_user)
+        db.session.commit()
+    except Exception as error:
+        print(error)
+        db.session.rollback()
+        return jsonify({"message":"Error in server"}), 500
+    return jsonify({"message": "User created successfully"}), 201
 
 
-def Login(data):
-    new_user = User()
-    print("Newuser dentro de Login",new_user.email)
-    new_user.email = data.get("email")
-    new_user.password = data.get("password")
+##LOGIN
+# token
+@app.route("/token", methods=["POST"])
+def login_user():
+   #Extract data from request
+    data = request.json
+    #Verifying we are receiving all required data in the request
+    email = data.get("email")
+    password = data.get("password")
 
-    if new_user.email == "" or new_user.password == "" :
-        response_body = {"message": "email and password are required"}
-        return response_body
-    else:
-        user_result = db.session.execute(db.select(User).filter_by(email=data.get("email"))).one_or_none()
-        user_result = user_result[0]
-        passwd_is_ok = user_result.password == new_user.password
-        if not passwd_is_ok:
-            response_body = {"message": "Password incorrecto"}
-            return response_body
-        token = create_access_token(identity=user_result.id)
-        response_body = {"token": token}
-        return response_body
+    #Returning 400 if data is not correct  
+    if not email or not password:
+        return jsonify({
+            "message": "Email and Password are Required"
+        }), 400
+
+    user = User.query.filter_by(email=email).first()
+    print(user)
+
+    if user is None:
+        return jsonify({
+            "message": "Email or password invalid"
+        }), 400
+    
+
+    password_is_valid = data["password"]
+    
+    if not password_is_valid:
+        return jsonify({
+            "message": "Email or password invalid"
+        }), 400
+    
+    token = create_access_token(identity=user.id)
+    response_body={
+        "token": token,
+        "user": user.serialize()
+    }
+    return jsonify(response_body), 201
+
+
+##PERSONALPRIVATE VIEW --- USERS only can see theirs info
+#[GET] /user/id Get user ig
+@app.route("/user/id", methods=['GET'])
+@jwt_required()
+def get_user_ig():
+    user_id= get_jwt_identity()
+    user = User.query.get(user_id)
+
+    if not user:
+        return jsonify({"message": "User not found"}), 400
+    return jsonify(
+        {
+            "user": {
+                "email": user.email,
+                "password": user.password,
+                #"private_info": user.private_info,
+                "is_active": user.is_active
+            }
+        }
+    ), 200
+
+#COMENTADO TEMPORAL PARA PODER CONTINUAR CON FLUX 
+
+# def Signup(data):
+#     #data = request.json
+#     new_user = User()
+#     new_user.email = data.get("email")
+#     new_user.password = data.get("password")
+#     new_user.Creation_date = bool(data.get("Creation_date"))
+#     if new_user.email == "" or new_user.password == "" :
+#         response_body = {"message": "email and password are required"}
+#         return response_body
+#     else:
+#         user_result = db.session.execute(db.select(User).filter_by(email=new_user.email)).one_or_none()
+#         if user_result != None and user_result[0].email == new_user.email:
+#             response_body = {"message": "Usuario ya existe"}
+#             return response_body
+#         else:
+#             db.session.add(new_user)
+#             db.session.commit()
+#             response_body = {"message": "Usuario creado con Exito"}
+#             return response_body
+
+
+# def Login(data):
+#     new_user = User()
+#     print("Newuser dentro de Login",new_user.email)
+#     new_user.email = data.get("email")
+#     new_user.password = data.get("password")
+
+#     if new_user.email == "" or new_user.password == "" :
+#         response_body = {"message": "email and password are required"}
+#         return response_body
+#     else:
+#         user_result = db.session.execute(db.select(User).filter_by(email=data.get("email"))).one_or_none()
+#         user_result = user_result[0]
+#         passwd_is_ok = user_result.password == new_user.password
+#         if not passwd_is_ok:
+#             response_body = {"message": "Password incorrecto"}
+#             return response_body
+#         token = create_access_token(identity=user_result.id)
+#         response_body = {"token": token}
+#         return response_body
 
 
 
-@app.route('/<path:path>', methods=['GET'])
-def serve_any_other_file(path):
-    if not os.path.isfile(os.path.join(static_file_dir, path)):
-        path = 'index.html'
-    response = send_from_directory(static_file_dir, path)
-    response.cache_control.max_age = 0  # avoid cache memory
-    return response
+# @app.route('/<path:path>', methods=['GET'])
+# def serve_any_other_file(path):
+#     if not os.path.isfile(os.path.join(static_file_dir, path)):
+#         path = 'index.html'
+#     response = send_from_directory(static_file_dir, path)
+#     response.cache_control.max_age = 0  # avoid cache memory
+#     return response
 
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
     PORT = int(os.environ.get('PORT', 3001))
     app.run(host='0.0.0.0', port=PORT, debug=True)
+
+##En la ruta que recibe el create user generar horario actual y guardarlo en el momento , como parte de 

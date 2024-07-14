@@ -8,6 +8,7 @@ export const SignUp = () => {
 	const { store, actions } = useContext(Context);
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+	const []
 	const navigate = useNavigate();
 
 	const handleSignUp = async (event) => {
@@ -20,7 +21,7 @@ export const SignUp = () => {
 	}
 
 	return (
-		<div className="card text-dark col-10 mx-auto my-5 p-5">
+		<div className="card text-light col-10 mx-auto my-5 p-5">
 			<form onSubmit={handleSignUp}>
 				<fieldset >
 					<legend className="d-flex justify-content-center fs-1 "> SIGN UP </legend>

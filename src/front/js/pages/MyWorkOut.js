@@ -13,7 +13,11 @@ export const MyWorkOut = () => {
 				"Pullups",
 				"Pushups",
 				"Bar"
-			]
+			],
+			description: "",
+			reps: "8",
+			sets: "4",
+			rest_time:"20s"
 		},
 		{
 			day: "Day 2",
@@ -22,13 +26,17 @@ export const MyWorkOut = () => {
 				"Pullups",
 				"Pushups",
 				"Bar",
-				"peckfly"
-			]
+				"peckfly",
+			],
+			rest_time:"20",
+			description: "",
+			reps: "20",
+			sets: "3"
 		}
 	]
 
 	return (
-		<>
+		<div>
 			<div className="d-flex flex-column">
 				<h1 className="d-flex justify-content-center m-4">TODAY'S WORKOUT?</h1>
 				{data.map((item, index) => {
@@ -54,7 +62,7 @@ export const MyWorkOut = () => {
 					)
 				})}
 			</div>
-		</>
+		</div>
 	);
 };
 

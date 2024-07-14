@@ -5,7 +5,7 @@ import { BackendURL } from "./component/backendURL";
 
 import { SignUp } from "./pages/SignUp";
 import { LogIn } from "./pages/LogIn";
-import { MyWorkOut } from "./pages/myWorkOut";
+import { MyWorkOut } from "./pages/MyWorkOut";
 import injectContext from "./store/appContext";
 
 import { Navbar } from "./component/navbar";
