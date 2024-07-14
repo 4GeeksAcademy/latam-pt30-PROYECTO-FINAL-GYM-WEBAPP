@@ -1,17 +1,23 @@
+import { internalIP } from "webpack-dev-server";
+
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
+			//log in and log out data
 			message: null,
 			isAuthenticated: false,
 			userToken: null,
 			user: null,
-			workOutPlan: [
+			//work out data
+			day: "",
+			muscle_group: "",
+			sets: "", 
+			ecercise: [
 				{
-					sets: "",
-					reps: "",
-					rest_time: "",
-					training_day: "",
-					description: ""
+					name: "",
+					reps: "", 
+					rest_time: "", 
+					description:""
 				}
 			]
 
@@ -84,7 +90,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			logOut: () => {
 				setStore({ user: null });
-			}
+			},
+
 		}
 	};
 };

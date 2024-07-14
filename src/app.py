@@ -152,7 +152,6 @@ def get_user_ig():
             "user": {
                 "email": user.email,
                 "password": user.password,
-                #"private_info": user.private_info,
                 "is_active": user.is_active
             }
         }
