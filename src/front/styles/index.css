@@ -19,17 +19,17 @@
   .workout-details {
     background-color: white;
     border: 1px solid #ccc;
-    border-top: none; /* Elimina el borde superior para unirse visualmente con el botón */
+    border-top: none; 
     border-radius: 0 0 5px 5px;
     padding: 10px 20px;
-    color: black; /* Color del texto dentro del menú desplegable */
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Sombra suave para destacar el menú */
-    width: 90%; /* Ancho más angosto que el botón para un efecto estético */
-    margin: 0 5%; /* Margen automático para centrar el bloque debajo del botón */
-    text-align: center; /* Asegura que el texto y los elementos internos estén centrados */
+    color: black; 
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
+    width: 90%; 
+    margin: 0 5%; 
+    text-align: center; 
     display: flex;
-    flex-direction: column; /* Organiza los elementos internos en una columna */
-    align-items: center; /* Centra los elementos dentro del contenedor */
+    flex-direction: column; 
+    align-items: center; 
   }
   
   /* Contenedor para cada set, incluyendo el número y el botón */
@@ -53,8 +53,8 @@
     padding: 5px 10px;
     border-radius: 5px;
     cursor: pointer;
-    width: 30px;  /* Reducir el ancho para sólo el chulo */
-    height: 30px; /* Altura igual al ancho para mantener aspecto cuadrado */
+    width: 30px;  
+    height: 30px; 
     display: flex;
     align-items: center;
     justify-content: center;
@@ -62,17 +62,17 @@
   }
   
   .set-btn.completed {
-    background-color: #dff0d8; /* Verde suave para indicar completado */
-    color: #3c763d; /* Color de texto oscuro para contrastar */
+    background-color: #dff0d8; 
+    color: #3c763d; 
   }
   
   /* Contenedor para los botones de series para asegurar alineación y distribución */
   .sets {
     display: flex;
-    justify-content: center; /* Centra los botones de series horizontalmente */
-    flex-wrap: wrap; /* Permite que los botones se envuelvan en múltiples líneas si es necesario */
-    gap: 10px; /* Espacio entre botones */
-    align-items: center; /* Alinea los elementos verticalmente en el centro */
+    justify-content: center;
+    flex-wrap: wrap; 
+    gap: 10px; 
+    align-items: center; 
   }
   
   /* Estilos para el cronómetro */
@@ -85,7 +85,7 @@
     border: 2px solid #ccc;
     border-radius: 10px;
     padding: 20px;
-    width: 200px; /* Ajusta el ancho del contenedor del cronómetro */
+    width: 200px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin-top: 20px;
   }
@@ -99,7 +99,7 @@
   
   .buttons {
     display: flex;
-    gap: 10px; /* Espacio entre los botones */
+    gap: 10px; 
   }
   
   .start-btn, .reset-btn {
@@ -107,11 +107,11 @@
     color: white;
     border: none;
     border-radius: 5px;
-    padding: 10px; /* Reduce el padding para hacer los botones más pequeños */
+    padding: 10px; 
     cursor: pointer;
     transition: background 0.3s ease;
-    flex: 1; /* Permite que los botones se ajusten al espacio disponible */
-    text-align: center; /* Asegura que el texto dentro de los botones esté centrado */
+    flex: 1; 
+    text-align: center; 
   }
   
   .reset-btn {

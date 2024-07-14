@@ -5,8 +5,8 @@ import { BackendURL } from "./component/backendURL";
 
 import { SignUp } from "./pages/SignUp";
 import { LogIn } from "./pages/LogIn";
-import { MyWorkOut } from "./pages/MyWorkOut"; // Asegúrate de que la importación sea correcta
-import { Workout } from "./pages/Workout"; // Nueva importación
+import { MyWorkOut } from "./pages/MyWorkOut";
+import { Workout } from "./pages/Workout"; // Nueva importación por Kevin
 import injectContext from "./store/appContext";
 
 import { Navbar } from "./component/navbar";
@@ -29,7 +29,7 @@ const Layout = () => {
             <Route element={<SignUp />} path="/" />
             <Route element={<LogIn />} path="/login" />
             <Route element={<MyWorkOut />} path="/myworkout" />
-            <Route element={<Workout />} path="/workout/:exerciseName" /> {/* Nueva ruta */}
+            <Route element={<Workout />} path="/workout/:exerciseName" />
             <Route element={<h1>Not found!</h1>} />
           </Routes>
           <Footer />
