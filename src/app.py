@@ -2,6 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 import os
+import secrets
 from flask import Flask, request, jsonify, url_for, send_from_directory
 from flask_migrate import Migrate
 from flask_swagger import swagger
@@ -10,8 +11,8 @@ from api.models import db
 from api.routes import api
 from api.admin import setup_admin
 from api.commands import setup_commands
-from flask_jwt_extended import JWTManager, create_access_token
-
+from flask_jwt_extended import JWTManager, create_access_token, get_jwt_identity, jwt_required
+from datetime import datetime
 
 
 # from models import Person
@@ -33,6 +34,8 @@ else:
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 MIGRATE = Migrate(app, db, compare_type=True)
 db.init_app(app)
+app.config["JWT_SECRET_KEY"] = secrets.token_urlsafe(32) # Generate a 32-character URL-safe string
+jwt = JWTManager(app)
 
 # add the admin
 setup_admin(app)
@@ -43,8 +46,6 @@ setup_commands(app)
 # Add all endpoints form the API with a "api" prefix
 app.register_blueprint(api, url_prefix='/api')
 
-# Se inicializa JWT en la app
-jwt = JWTManager(app)
 
 # Handle/serialize errors like a JSON object
 
@@ -182,26 +183,6 @@ def get_user_ig():
 # def Login(data):
 #     new_user = User()
 #     print("Newuser dentro de Login",new_user.email)
-#     new_user.email = data.get("email")
-#     new_user.password = data.get("password")
-
-#     if new_user.email == "" or new_user.password == "" :
-#         response_body = {"message": "email and password are required"}
-#         return response_body
-#     else:
-#         user_result = db.session.execute(db.select(User).filter_by(email=data.get("email"))).one_or_none()
-#         user_result = user_result[0]
-#         passwd_is_ok = user_result.password == new_user.password
-#         if not passwd_is_ok:
-#             response_body = {"message": "Password incorrecto"}
-#             return response_body
-#         token = create_access_token(identity=user_result.id)
-#         response_body = {"token": token}
-#         return response_body
-
-# def Muscle_group(data):
-#     new_user = User()
-#     print("New user dentro de Login",new_user.email)
 #     new_user.email = data.get("email")
 #     new_user.password = data.get("password")
 

@@ -2,13 +2,12 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from flask_sqlalchemy import SQLAlchemy
-from api.models import db, User, Member, Objective, Workout_plan, Exercises, Muscle_group
+from api.models import db, User, Member, Objective, Muscle_group
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
-from sqlalchemy.orm.exc import NoResultFound
-from sqlalchemy.exc import IntegrityError
 import app
+import api.models
+
 
 
 api = Blueprint('api', __name__)
