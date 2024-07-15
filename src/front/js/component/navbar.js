@@ -5,7 +5,7 @@ import logo from "/src/front/img/gymapp_logo.jpeg"
 
 export const Navbar = () => {
 	return (
-		<nav className="navbar navbar-dark bg-dark text-light shadow-lg">
+		<nav className="navbar navbar-dark bg-pink-500 text-light shadow-lg">
 			<div className="container">
 				<Link to="/">
 					<img 
@@ -24,3 +24,4 @@ export const Navbar = () => {
 		</nav>
 	);
 };
+

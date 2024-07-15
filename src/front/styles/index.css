@@ -1,3 +1,128 @@
 /* 
     General Styles used on every website (Don't Repeat Yourself)
 */
+/* Estilos base para botones de desplegable en la aplicación */
+.alert {
+    background-color: white;
+    color: black;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    opacity: 0.75;
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  }
+  
+  /* Estilos específicos para los detalles del ejercicio en Workout.js */
+  .workout-details {
+    background-color: white;
+    border: 1px solid #ccc;
+    border-top: none; 
+    border-radius: 0 0 5px 5px;
+    padding: 10px 20px;
+    color: black; 
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
+    width: 90%; 
+    margin: 0 5%; 
+    text-align: center; 
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+  }
+  
+  /* Contenedor para cada set, incluyendo el número y el botón */
+  .set-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 5px;
+  }
+  
+  /* Estilo para el número del set */
+  .set-number {
+    margin-right: 10px; /* Espacio entre el número y el botón */
+  }
+  
+  /* Estilos para los botones de series dentro del menú desplegable */
+  .set-btn {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    color: #495057;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 30px;  
+    height: 30px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  
+  .set-btn.completed {
+    background-color: #dff0d8; 
+    color: #3c763d; 
+  }
+  
+  /* Contenedor para los botones de series para asegurar alineación y distribución */
+  .sets {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap; 
+    gap: 10px; 
+    align-items: center; 
+  }
+  
+  /* Estilos para el cronómetro */
+  .timer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #f5f5f5 0%, #ddd 100%);
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    width: 200px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+  }
+  
+  .time {
+    font-size: 2em;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .buttons {
+    display: flex;
+    gap: 10px; 
+  }
+  
+  .start-btn, .reset-btn {
+    background: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px; 
+    cursor: pointer;
+    transition: background 0.3s ease;
+    flex: 1; 
+    text-align: center; 
+  }
+  
+  .reset-btn {
+    background: #dc3545;
+  }
+  
+  .start-btn:hover {
+    background: #218838;
+  }
+  
+  .reset-btn:hover {
+    background: #c82333;
+  }
+  
