@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Member, Objective, Muscle_group
+from api.models import db, User, Member, Objective, Muscle_group, Workout_plan
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 import app
@@ -172,17 +172,6 @@ def update_objective(objective_id):
 
         db.session.commit()
         return jsonify({"message": "Objective updated successfully", "objective_id": objective.Id_objective}), 200
-    except NoResultFound:
-        raise APIException('Objective not found', status_code=404)
-
-# Endpoint para eliminar un objetivo por su ID
-@api.route('/objectives/<int:objective_id>', methods=['DELETE'])
-def delete_objective(objective_id):
-    try:
-        objective = Objective.query.filter_by(Id_objective=objective_id).one()
-        db.session.delete(objective)
-        db.session.commit()
-        return jsonify({"message": "Objective deleted successfully", "objective_id": objective_id}), 200
     except NoResultFound:
         raise APIException('Objective not found', status_code=404)
 
@@ -374,4 +363,3 @@ def delete_muscle_group(group_id):
         return jsonify({"message": "Muscle group deleted successfully", "group_id": group_id}), 200
     except NoResultFound:
         raise APIException('Muscle group not found', status_code=404)
-    

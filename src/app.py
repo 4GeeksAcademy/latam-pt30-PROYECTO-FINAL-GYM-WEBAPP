@@ -216,4 +216,4 @@ if __name__ == '__main__':
     PORT = int(os.environ.get('PORT', 3001))
     app.run(host='0.0.0.0', port=PORT, debug=True)
 
-##En la ruta que recibe el create user generar horario actual y guardarlo en el momento , como parte de 
+##En la ruta que recibe el create user generar horario actual y guardarlo en el momento , como parte de v
