@@ -101,7 +101,7 @@ class Exercises(db.Model):
     __tablename__ = 'exercises'
     Id_exercise = db.Column(db.Integer, primary_key=True)
     Name = db.Column(db.String(50), nullable=False, unique=True)
-    Link_video = db.Column(db.Integer)
+    Link_video = db.Column(db.String(50))
     Id_musclegroup = db.Column(db.Integer, db.ForeignKey('muscle_group.Id_musclegroup'))
     
     def __repr__(self):
