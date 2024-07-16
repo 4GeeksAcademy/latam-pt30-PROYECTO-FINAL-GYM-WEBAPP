@@ -109,9 +109,9 @@
   border: none;
   border-radius: 10px;
   padding: 20px;
-  width: 100%; /* Ajusta el ancho del contenedor del cronómetro para que sea igual al contenedor de sets */
+  width: 100%;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  font-family: 'Arial', sans-serif; /* Asegurar la misma tipografía */
+  font-family: 'Arial', sans-serif;
 }
 
 .time {
@@ -139,4 +139,40 @@
 .pause-btn:hover, .reset-btn:hover {
   background-color: #7CB342;
   color: #FFFFFF;
+}
+
+/* Estilos para la alerta */
+.custom-alert {
+  background-color: #333333;
+  color: #9ACD32;
+  font-size: 1.5rem; /* Tamaño más grande para la alerta */
+  font-family: 'Arial', sans-serif;
+}
+
+.modal-content {
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+}
+
+.modal-title {
+  font-size: 2rem; /* Tamaño del título */
+  font-weight: bold;
+}
+
+.modal-body p {
+  font-size: 1.5rem; /* Tamaño del texto de la alerta */
+}
+
+.btn-close {
+  color: #9ACD32;
+  background: none;
+  border: none;
+  font-size: 2rem; /* Tamaño más grande para el botón de cerrar */
+  cursor: pointer;
+}
+
+.btn-close:hover {
+  color: #FFFFFF;
+  background: none;
 }
