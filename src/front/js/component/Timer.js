@@ -46,11 +46,27 @@ const Timer = ({ startTimer, resetTimer }) => {
     return `${getHours}:${getMinutes}:${getSeconds}`;
   };
 
+  const handlePause = () => {
+    setIsActive(false);
+  };
+
+  const handleReset = () => {
+    setIsActive(false);
+    setTime(0);
+  };
+
   return (
-    <div className="timer">
-      <div className="time">{formatTime(time)}</div>
+    <div className="timer-container">
+      <div className="timer">
+        <div className="time">{formatTime(time)}</div>
+        <div className="buttons">
+          <button className="pause-btn" onClick={handlePause}>Pause</button>
+          <button className="reset-btn" onClick={handleReset}>Reset</button>
+        </div>
+      </div>
     </div>
   );
 };
 
 export default Timer;
+

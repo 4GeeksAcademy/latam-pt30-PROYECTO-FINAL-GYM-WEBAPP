@@ -1,39 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useLocation } from "react-router-dom";
 import Timer from "../component/Timer";
-import { Context } from "../store/appContext"; // Importa el contexto de Flux
-
-//1. import { Context } from "../store/appContext"; // Importa el contexto de Flux FM
-
-// COMENTARIOS DE FLUJO GENERAL DE FUNCIONALIDAD
-// 1. Estructura data kevin en MyWorkoutOut - 
-//La data se necesita traer como estado global desde flux,
-// pudes ver lo necesario comentado en esta misma vista 1 - 1.1
-//Data que se cosumio desde vista MyWorkOut...
-// const data = [
-//     {
-//       day: "Day 1",
-//       muscle_group: "Leg",
-//       exercises: [
-//         { name: "Pullups", reps: 10, sets: 3 },
-//         { name: "Pushups", reps: 15, sets: 3 },
-//         { name: "Bar", reps: 20, sets: 3 },
-//       ]
-//     },
-//     {
-//       day: "Day 2",
-//       muscle_group: "Arm",
-//       exercises: [
-//         { name: "Pullups", reps: 10, sets: 3 },
-//         { name: "Pushups", reps: 15, sets: 3 },
-//         { name: "Bar", reps: 20, sets: 3 },
-//         { name: "Peckfly", reps: 12, sets: 3 }
-//       ]
-//     }
-//   ];
-// 2. La estructura difiere un poco a la que se necesita para la logia futura de las proximas vistas, 
-//se muestra igualmente en flux.
-// 3. El tiempo para el coronometro == a nuestro actual parametro en .store - rest_time.
+import { Context } from "../store/appContext"; 
 
 export const Workout = () => {
   const { store } = useContext(Context);
@@ -66,13 +34,16 @@ export const Workout = () => {
 
   const toggleSetCompletion = (index) => {
     const updatedSets = [...completedSets];
-    updatedSets[index] = !updatedSets[index];
+    if (!updatedSets[index]) {
+      // Solo activar el cronómetro si la serie no estaba completada antes
+      updatedSets[index] = true;
+      setResetTimer(true);
+      setStartTimer(false); // Desactiva el temporizador para reiniciar
+      setTimeout(() => setStartTimer(true), 50); // Activa el temporizador después de un pequeño retraso
+    } else {
+      updatedSets[index] = false; // Desmarcar la serie sin activar el cronómetro
+    }
     setCompletedSets(updatedSets);
-    
-    // Reiniciar y activar el temporizador
-    setResetTimer(true);
-    setStartTimer(false); // Desactiva el temporizador para reiniciar
-    setTimeout(() => setStartTimer(true), 50); // Activa el temporizador después de un pequeño retraso
   };
 
   return (
@@ -90,7 +61,7 @@ export const Workout = () => {
       </button>
       {isOpen && (
         <div id="exerciseDetails" className="workout-details">
-          <p>{exercise.reps} reps | {exercise.sets} sets</p>
+          <p className="exercise-details">{exercise.reps} REPS | {exercise.sets} SETS</p>
           <div className="sets">
             {completedSets.map((completed, i) => (
               <div key={i} className="set-container">
@@ -101,9 +72,9 @@ export const Workout = () => {
               </div>
             ))}
           </div>
-          <Timer startTimer={startTimer} resetTimer={resetTimer} />
         </div>
       )}
+      <Timer startTimer={startTimer} resetTimer={resetTimer} />
     </div>
   );
 };
