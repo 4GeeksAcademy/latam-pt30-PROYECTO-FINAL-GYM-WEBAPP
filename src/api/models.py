@@ -56,7 +56,7 @@ class Member(db.Model):
 class Objective(db.Model):
     __tablename__ = 'objective'
     Id_objective = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(60), nullable=False) 
+    Name = db.Column(db.String(60), nullable=False) 
 
     def __repr__(self):
         return '<Objective %r>' %self.Id_objective
@@ -64,7 +64,7 @@ class Objective(db.Model):
     def serialize(self):
         return {
             "Id_objective": self.Id_objective,
-            "name": self.name
+            "Name": self.Name
             # do not serialize the password, its a security breach
         }
 
@@ -88,10 +88,9 @@ class Workout_plan(db.Model):
     def serialize(self):
         return {
             "Id_workout": self.Id_workout,
-            "Name": self.Name,
             "Sets": self.Sets,
             "Reps": self.Reps,
-            "Rest_time": self.HeiRest_timeght,
+            "Rest_time": self.Rest_time,
             "training_day": self.training_day,
             "SuperSet": self.SuperSet
             # do not serialize the password, its a security breach
@@ -110,7 +109,7 @@ class Exercises(db.Model):
     def serialize(self):
         return {
             "Id_exercise": self.Id_exercise,
-            "name": self.Name,
+            "Name": self.Name,
             "Link_video": self.Link_video
             # do not serialize the password, its a security breach
         }
@@ -128,6 +127,6 @@ class Muscle_group(db.Model):
     def serialize(self):
         return {
             "Id_musclegroup": self.Id_musclegroup,
-            "name": self.name
+            "Name": self.Name
             # do not serialize the password, its a security breach
         }
