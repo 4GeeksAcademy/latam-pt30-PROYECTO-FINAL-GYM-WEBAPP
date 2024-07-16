@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useLocation } from "react-router-dom";
 import Timer from "../component/Timer";
+import { Context } from "../store/appContext"; // Importa el contexto de Flux
+
 //1. import { Context } from "../store/appContext"; // Importa el contexto de Flux FM
 
 // COMENTARIOS DE FLUJO GENERAL DE FUNCIONALIDAD
@@ -34,12 +36,25 @@ import Timer from "../component/Timer";
 // 3. El tiempo para el coronometro == a nuestro actual parametro en .store - rest_time.
 
 export const Workout = () => {
+  const { store } = useContext(Context);
   const location = useLocation();
-  const exercise = location.state ? location.state.exercise : null;
+  const exerciseName = location.state ? location.state.exercise.name : null;
+  const [exercise, setExercise] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
-  const [completedSets, setCompletedSets] = useState(Array(exercise ? exercise.sets : 0).fill(false));
+  const [completedSets, setCompletedSets] = useState([]);
   const [startTimer, setStartTimer] = useState(false);
   const [resetTimer, setResetTimer] = useState(false);
+
+  useEffect(() => {
+    if (exerciseName && store.workouts.length > 0) {
+      const workout = store.workouts.find(w => w.exercises.some(e => e.name === exerciseName));
+      if (workout) {
+        const ex = workout.exercises.find(e => e.name === exerciseName);
+        setExercise(ex);
+        setCompletedSets(Array(ex.sets).fill(false));
+      }
+    }
+  }, [exerciseName, store.workouts]);
 
   if (!exercise) {
     return <div>No exercise data available. Please go back to the workouts list.</div>;
@@ -92,39 +107,3 @@ export const Workout = () => {
     </div>
   );
 };
-
-
-
-/* 
-  Comentario sobre el código anterior:
-  El código anterior se maneja sin verificar si el objeto "exercise" está presente o no, lo que podría llevar a errores 
-  si el estado se pierde (por ejemplo, en una recarga de la página). Mantengo este código aquí comentado para posiblemente 
-  reutilizar algunas de sus partes más adelante cuando aseguremos mejor la persistencia del estado entre recargas.
-
-import React from "react";
-import { useLocation } from "react-router-dom";
-import Timer from "../component/Timer";
-
-export const Workout = () => {
-  const location = useLocation();
-  const { exercise } = location.state;
-
-  return (
-    <div className="container my-5">
-      <h1 className="text-center">Today's Routine</h1>
-      <div className="exercise-details">
-        <h3>{exercise.name}</h3>
-        <p>{exercise.reps} REPS</p>
-        <div className="sets">
-          {Array(exercise.sets).fill().map((_, i) => (
-            <button key={i} className="set-btn">
-              {i + 1}
-            </button>
-          ))}
-        </div>
-      </div>
-      <Timer />
-    </div>
-  );
-};
-*/
