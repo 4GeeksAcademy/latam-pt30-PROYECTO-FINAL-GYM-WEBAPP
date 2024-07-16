@@ -33,13 +33,11 @@ import Timer from "../component/Timer";
 //se muestra igualmente en flux.
 // 3. El tiempo para el coronometro == a nuestro actual parametro en .store - rest_time.
 
-
 export const Workout = () => {
-  //1.1 const { store } = useContext(Context); // Obtén el estado global del contexto FM
   const location = useLocation();
   const exercise = location.state ? location.state.exercise : null;
   const [isOpen, setIsOpen] = useState(false);
-  const [completedSets, setCompletedSets] = useState(Array(exercise ? exercise.sets : 0).fill(false)); // Estado para manejar las series completadas
+  const [completedSets, setCompletedSets] = useState(Array(exercise ? exercise.sets : 0).fill(false));
   const [startTimer, setStartTimer] = useState(false);
   const [resetTimer, setResetTimer] = useState(false);
 
@@ -55,18 +53,12 @@ export const Workout = () => {
     const updatedSets = [...completedSets];
     updatedSets[index] = !updatedSets[index];
     setCompletedSets(updatedSets);
-    setStartTimer(true);
-    setResetTimer(false);
+    
+    // Reiniciar y activar el temporizador
+    setResetTimer(true);
+    setStartTimer(false); // Desactiva el temporizador para reiniciar
+    setTimeout(() => setStartTimer(true), 50); // Activa el temporizador después de un pequeño retraso
   };
-
-  useEffect(() => {
-    if (startTimer) {
-      const timer = setTimeout(() => {
-        setStartTimer(false);
-      }, 500);
-      return () => clearTimeout(timer);
-    }
-  }, [startTimer]);
 
   return (
     <div className="container my-5">

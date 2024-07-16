@@ -54,6 +54,3 @@ const Timer = ({ startTimer, resetTimer }) => {
 };
 
 export default Timer;
-
-
-
