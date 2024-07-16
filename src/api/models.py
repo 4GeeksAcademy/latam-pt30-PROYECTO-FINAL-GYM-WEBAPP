@@ -110,7 +110,7 @@ class Exercises(db.Model):
     def serialize(self):
         return {
             "Id_exercise": self.Id_exercise,
-            "name": self.name,
+            "name": self.Name,
             "Link_video": self.Link_video
             # do not serialize the password, its a security breach
         }
