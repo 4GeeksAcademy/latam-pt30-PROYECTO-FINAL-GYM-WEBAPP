@@ -1,5 +1,3 @@
-import { internalIP } from "webpack-dev-server";
-
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
