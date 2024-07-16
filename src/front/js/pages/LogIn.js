@@ -10,13 +10,10 @@ export const LogIn = () => {
   const navigate = useNavigate();
 
 
-
-
-
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const success = await actions.logIn(email, password);
-    console.log(store.email);
+    const success = await actions.postLogin(email, password);
+    console.log(success);
     if (success) {
       console.log(store.user.id);
       navigate(`/private/${store.user.id}`)

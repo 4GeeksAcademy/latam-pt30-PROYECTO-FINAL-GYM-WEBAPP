@@ -86,9 +86,9 @@ def create_user():
         return jsonify({"message": "Invalid email"}), 400
     
     #We create new user
-    new_user = User(email=email, password=password, creation_date=datetime.now(), is_active=True)
+    newUser = User(email=email, password=password, creation_date=datetime.now(), is_active=True)
     try:
-        db.session.add(new_user)
+        db.session.add(newUser)
         db.session.commit()
     except Exception as error:
         print(error)
@@ -161,41 +161,39 @@ def get_user_ig():
 
 def Signup(data):
     #data = request.json
-    new_user = User()
-    print("Dentro de ROUTe:  ",data.get("email"))
-    print("Dentro de ROUTe:  ",data.get("password"))
-    print("Dentro de ROUTe:  ",data.get("date"))
-    new_user.email = data.get("email")
-    new_user.password = data.get("password")
-    new_user.Creation_date = bool(data.get("date"))
-    if new_user.email == "" or new_user.password == "" :
+    newUser = User()
+    newUser.email = data.get("email")
+    newUser.password = data.get("password")
+    newUser.Creation_date = data.get("date")
+    if newUser.email == "" or newUser.password == "" :
         response_body = {"message": "email and password are required"}
         return response_body
     else:
-        user_result = db.session.execute(db.select(User).filter_by(email=new_user.email)).one_or_none()
-        if user_result != None and user_result[0].email == new_user.email:
+        user_result = db.session.execute(db.select(User).filter_by(email=newUser.email)).one_or_none()
+        if user_result != None and user_result[0].email == newUser.email:
             response_body = {"message": "Usuario ya existe"}
             return response_body
         else:
-            db.session.add(new_user)
+            db.session.add(newUser)
             db.session.commit()
             response_body = {"message": "Usuario creado con Exito"}
             return response_body
 
 
 def Login(data):
-    new_user = User()
-    print("Newuser dentro de Login",new_user.email)
-    new_user.email = data.get("email")
-    new_user.password = data.get("password")
+    newUser = User()
+    print("Newuser dentro de Login",data.get("email"), data.get("password"))
+    newUser.email = data.get("email")
+    newUser.password = data.get("password")
 
-    if new_user.email == "" or new_user.password == "" :
+    if newUser.email == "" or newUser.password == "" :
         response_body = {"message": "email and password are required"}
         return response_body
     else:
         user_result = db.session.execute(db.select(User).filter_by(email=data.get("email"))).one_or_none()
         user_result = user_result[0]
-        passwd_is_ok = user_result.password == new_user.password
+        print("Newuser PASSWORD",user_result.password, newUser.password)
+        passwd_is_ok = user_result.password == newUser.password
         if not passwd_is_ok:
             response_body = {"message": "Password incorrecto"}
             return response_body

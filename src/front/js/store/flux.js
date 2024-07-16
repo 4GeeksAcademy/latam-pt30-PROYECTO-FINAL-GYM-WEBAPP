@@ -72,11 +72,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 					.then(response => console.log("Success:", response))
 					.catch(error => console.error("Error:", error));
 			},
-			postLogin: (data) => {
-				console.log(data)
+			postLogin: (email, password) => {
+				console.log(email, password)
 				fetch(process.env.BACKEND_URL + "/api/login", {
 					method: "POST",
-					body: JSON.stringify(data), // data can be `string` or {object}!
+					body: JSON.stringify({ email, password }), // data can be `string` or {object}!
 
 					headers: {
 						"Content-Type": "application/json"
@@ -105,7 +105,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						body: JSON.stringify({ email, password }),
 					});
 					const data = await response.json();
-
+					console.log("retona API LOGIN", data)
 					if (response.ok) {
 						setStore({
 							isAuthenticated: true,
