@@ -9,10 +9,15 @@ export const LogIn = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
+
+
+
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const success = await actions.logIn(email, password);
-    if (success){
+    console.log(store.email);
+    if (success) {
       console.log(store.user.id);
       navigate(`/private/${store.user.id}`)
     } else {
