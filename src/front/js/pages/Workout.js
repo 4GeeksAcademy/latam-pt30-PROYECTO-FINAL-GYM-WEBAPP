@@ -38,10 +38,10 @@ export const Workout = () => {
       // Solo activar el cronómetro si la serie no estaba completada antes
       updatedSets[index] = true;
       setResetTimer(true);
-      setStartTimer(false); // Desactiva el temporizador para reiniciar
-      setTimeout(() => setStartTimer(true), 50); // Activa el temporizador después de un pequeño retraso
+      setStartTimer(false); 
+      setTimeout(() => setStartTimer(true), 50); 
     } else {
-      updatedSets[index] = false; // Desmarcar la serie sin activar el cronómetro
+      updatedSets[index] = false; 
     }
     setCompletedSets(updatedSets);
   };
