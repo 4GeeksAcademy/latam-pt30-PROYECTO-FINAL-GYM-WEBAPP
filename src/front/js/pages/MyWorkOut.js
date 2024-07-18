@@ -8,8 +8,11 @@ export const MyWorkOut = () => {
     const navigate = useNavigate();
     const [data, setData] = useState([]);
 
+    const { storeActions, actions } = useContext(Context);
+
     useEffect(() => {
-      setData(store.workouts);
+
+        setData(store.workouts);
     }, [store.workouts]);
 
     const handleNavigate = (exercise) => {
@@ -22,12 +25,12 @@ export const MyWorkOut = () => {
                 <h1 className="d-flex justify-content-center m-4">TODAY'S WORKOUT?</h1>
                 {data.map((item, index) => (
                     <div key={index}>
-                        <button className="alert rounded-5 bg-light opacity-75 col-11" 
-                        type="button" 
-                        data-bs-toggle="collapse" 
-                        data-bs-target={"#collapseWidthExample-" + index} 
-                        aria-expanded="false" 
-                        aria-controls="collapseWidthExample">
+                        <button className="alert rounded-5 bg-light opacity-75 col-11"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target={"#collapseWidthExample-" + index}
+                            aria-expanded="false"
+                            aria-controls="collapseWidthExample">
                             <div className="d-flex justify-content-center">
                                 <div>
                                     <span className="text-warning">{item.day}</span>
@@ -42,7 +45,7 @@ export const MyWorkOut = () => {
                                     {item.exercises.map((exercise, exerciseIndex) => (
                                         <div
                                             key={exerciseIndex}
-                                            onClick={() => handleNavigate(exercise)} 
+                                            onClick={() => handleNavigate(exercise)}
                                             style={{ cursor: "pointer" }}
                                         >
                                             <div className="alert rounded-5 bg-light text-dark opacity-75 col-11" role="alert">

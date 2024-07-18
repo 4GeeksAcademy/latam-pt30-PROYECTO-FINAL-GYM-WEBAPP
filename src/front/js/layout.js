@@ -8,7 +8,8 @@ import { LogIn } from "./pages/LogIn";
 import { MyWorkOut } from "./pages/MyWorkOut";
 import { Workout } from "./pages/Workout"; // Nueva importación por Kevin
 import injectContext from "./store/appContext";
-
+import { PruebaExercises } from "./pages/PruebaExercises"; // Nueva importación por GE
+import { Exercise } from "./pages/Exercise"; // Nueva importación por GE
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
 
@@ -30,6 +31,11 @@ const Layout = () => {
             <Route element={<LogIn />} path="/login" />
             <Route element={<MyWorkOut />} path="/myworkout" />
             <Route element={<Workout />} path="/workout/:exerciseName" />
+            <Route element={<PruebaExercises />} path="/excercises" />
+            <Route element={<Exercise />} path="/excercises/:id" />
+            <Route element={<PruebaExercises />} path="/prueba" />
+            <Route element={<Exercise />} path="/prueba/:id" />
+
             <Route element={<h1>Not found!</h1>} />
           </Routes>
           <Footer />
