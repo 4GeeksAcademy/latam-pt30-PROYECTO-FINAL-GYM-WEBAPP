@@ -7,6 +7,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 			isAuthenticated: false,
 			userToken: null,
 			user: {},
+			valExercises: [],
+			exercise: {},
+			valMuscleGroup: [],
+			MuscleGroup: {},
 			//work out data
 			workouts: [
 				{
@@ -57,10 +61,40 @@ const getState = ({ getStore, getActions, setStore }) => {
 			// 	}
 			// },
 
+			// // Function to handle user login
+			// logIn: async (email, password) => {
+			// 	try {
+			// 		const response = await fetch(`${process.env.BACKEND_URL}/api/token`, {
+			// 			method: "POST",
+			// 			headers: {
+			// 				"Content-Type": "application/json",
+			// 			},
+			// 			body: JSON.stringify({ email, password }),
+			// 		});
+			// 		const data = await response.json();
+			// 		console.log("retona API LOGIN", data)
+			// 		if (response.ok) {
+			// 			setStore({
+			// 				isAuthenticated: true,
+			// 				userToken: data.token,
+			// 				user: data.user,
+			// 			});
+			// 			return true;
+			// 		} else {
+			// 			setStore({ message: data.message });
+			// 			return false;
+			// 		}
+			// 	} catch (error) {
+			// 		console.error("Error logging in:", error);
+			// 		setStore({ message: "Error logging in" });
+			// 		return false;
+			// 	}
+			// },
+
 			// *** Se adiciona Signup y login 16 de julio de 2024 9:22 a.m. Por GE
 			postSignup: (email, password, date) => {
 				console.log(email, password, date)
-				fetch(process.env.BACKEND_URL + "api/signup", {
+				fetch(process.env.BACKEND_URL + "/api/signup", {
 					method: "POST",
 					body: JSON.stringify({ email, password, date }), // data can be `string` or {object}!
 
@@ -85,44 +119,69 @@ const getState = ({ getStore, getActions, setStore }) => {
 				})
 					.then(res => res.json())
 					.then(data_ => localStorage.setItem("accessToken", data_.Message.token))
-					.then(response => console.log(localStorage.getItem('accessToken')))
+					// .then(data2 => localStorage.setItem("accessId", data2.Message.id))
+					.then(response => console.log("VALOR DE LOCALSTORAGE  *** ", localStorage.getItem('accessToken')))
 					.catch(error => console.error("Error:", error));
 			},
 
 			// **** Fin se adiciona Singup y login 16 de julio de 2024 9:22 a.m. Por GE
-
-
-
-
-			// Function to handle user login
-			logIn: async (email, password) => {
+			getExercises: async () => {
 				try {
-					const response = await fetch(`${process.env.BACKEND_URL}/api/token`, {
-						method: "POST",
-						headers: {
-							"Content-Type": "application/json",
-						},
-						body: JSON.stringify({ email, password }),
-					});
-					const data = await response.json();
-					console.log("retona API LOGIN", data)
-					if (response.ok) {
-						setStore({
-							isAuthenticated: true,
-							userToken: data.token,
-							user: data.user,
-						});
-						return true;
-					} else {
-						setStore({ message: data.message });
-						return false;
-					}
+					// fetching data from the backend
+					const resp = await fetch(process.env.BACKEND_URL + "/api/exercises")
+					const data = await resp.json()
+					setStore({ valExercises: data })
+					console.log("VALORES DE EXERCISES", data)
+					// console.log("VALORES DE EXERCISES", data[0]["Name"])
+					// don't forget to return something, that is how the async resolves
+					return data;
 				} catch (error) {
-					console.error("Error logging in:", error);
-					setStore({ message: "Error logging in" });
-					return false;
+					console.log("Error loading message from backend", error)
 				}
 			},
+			getOneExercise: async (id) => {
+				try {
+					// fetching data from the backend
+					const resp = await fetch(process.env.BACKEND_URL + `/api/exercises/${id}`)
+					const data = await resp.json()
+					setStore({ exercise: data })
+					console.log("VALORES DE EXERCISES", data)
+					// console.log("VALORES DE EXERCISES", data[0]["Name"])
+					// don't forget to return something, that is how the async resolves
+					return data;
+				} catch (error) {
+					console.log("Error loading message from backend", error)
+				}
+			},
+			getMuscleGroup: async () => {
+				try {
+					// fetching data from the backend
+					const resp = await fetch(process.env.BACKEND_URL + "/api/muscle-groups")
+					const data = await resp.json()
+					setStore({ valMuscleGroup: data })
+					console.log("VALORES DE MuscleGroup", data)
+					// console.log("VALORES DE EXERCISES", data[0]["Name"])
+					// don't forget to return something, that is how the async resolves
+					return data;
+				} catch (error) {
+					console.log("Error loading message from backend", error)
+				}
+			},
+			getOneMuscleGroup: async (id) => {
+				try {
+					// fetching data from the backend
+					const resp = await fetch(process.env.BACKEND_URL + `/api/muscle-groups/${id}`)
+					const data = await resp.json()
+					setStore({ MuscleGroup: data })
+					console.log("VALORES DE ONE MuscleGroup", data)
+					// console.log("VALORES DE EXERCISES", data[0]["Name"])
+					// don't forget to return something, that is how the async resolves
+					return data;
+				} catch (error) {
+					console.log("Error loading message from backend", error)
+				}
+			},
+
 
 			getUserById: async (id) => {
 				try {

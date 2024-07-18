@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useLocation } from "react-router-dom";
 import Timer from "../component/Timer";
-import { Context } from "../store/appContext"; 
+import { Context } from "../store/appContext";
 
 export const Workout = () => {
   const { store } = useContext(Context);
@@ -14,6 +14,7 @@ export const Workout = () => {
   const [resetTimer, setResetTimer] = useState(false);
 
   useEffect(() => {
+    actions.getExercises()
     if (exerciseName && store.workouts.length > 0) {
       const workout = store.workouts.find(w => w.exercises.some(e => e.name === exerciseName));
       if (workout) {

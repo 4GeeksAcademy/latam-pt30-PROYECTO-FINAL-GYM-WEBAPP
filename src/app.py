@@ -187,19 +187,26 @@ def Login(data):
     newUser.password = data.get("password")
 
     if newUser.email == "" or newUser.password == "" :
-        response_body = {"message": "email and password are required"}
+        response_body = {"Error": "email and password are required"}
         return response_body
     else:
         user_result = db.session.execute(db.select(User).filter_by(email=data.get("email"))).one_or_none()
-        user_result = user_result[0]
-        print("Newuser PASSWORD",user_result.password, newUser.password)
-        passwd_is_ok = user_result.password == newUser.password
-        if not passwd_is_ok:
-            response_body = {"message": "Password incorrecto"}
+        if user_result == None:
+            response_body = {"Error": "Usuario No existe, por favor realizar registro"}
             return response_body
-        token = create_access_token(identity=user_result.id)
-        response_body = {"token": token}
-        return response_body
+        else:
+            user_result = user_result[0]
+            print("Newuser PASSWORD",user_result.password, newUser.password, "ID es: ", user_result.id)
+            passwd_is_ok = user_result.password == newUser.password
+            if not passwd_is_ok:
+                response_body = {"Error": "Password incorrecto",}
+                return response_body
+            token = create_access_token(identity=user_result.id)
+            response_body = {"token": token,
+                            "id": user_result.id,
+                            "email": user_result.email
+                            }
+            return response_body
 
 
 
