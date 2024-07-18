@@ -31,8 +31,8 @@ const Layout = () => {
             <Route element={<LogIn />} path="/login" />
             <Route element={<MyWorkOut />} path="/myworkout" />
             <Route element={<Workout />} path="/workout/:exerciseName" />
-            <Route element={<PruebaExercises />} path="/excercises" />
-            <Route element={<Exercise />} path="/excercises/:id" />
+            <Route element={<PruebaExercises />} path="/exercises" />
+            <Route element={<Exercise />} path="/exercises/:id" />
             <Route element={<PruebaExercises />} path="/prueba" />
             <Route element={<Exercise />} path="/prueba/:id" />
 
