@@ -1,20 +1,21 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
-//import "../../styles/private.css"; // Import the CSS for styling
+
+
 export const MyWorkOut = () => {
-    const { store, actions } = useContext(Context);
+    const { store } = useContext(Context);
     const navigate = useNavigate();
     const [data, setData] = useState([]);
     
     useEffect(() => {
-      setData(store.workouts);
+
+        setData(store.workouts);
     }, [store.workouts]);
 
     const handleNavigate = (exercise) => {
-        navigate(`/workout/${exercise.name}`);
+        navigate(`/workout/${exercise.name}`, { state: { exercise } });
     };
-
 
     return (
         <div>
@@ -29,13 +30,12 @@ export const MyWorkOut = () => {
                             data-bs-target={"#collapseWidthExample-" + index} 
                             aria-expanded="false" 
                             aria-controls="collapseWidthExample">
-                                <div className="d-flex justify-content-center">
-                                    <div>
-                                        <span className="text-warning">{item.day}</span>
-                                        <h4 className="text-dark fw-bold">{item.muscle_group}</h4>
-                                    </div>
-                                    <small className="text-dark">{item.exercises.length}</small>
+                            <div className="d-flex justify-content-center">
+                                <div>
+                                    <span className="text-warning">{item.day}</span>
+                                    <h4 className="text-dark fw-bold">{item.muscle_group}</h4>
                                 </div>
+                            </div>    
                             </button>
                             <div className="col-12">
                                 <div className="collapse collapse-horizontal" id={"collapseWidthExample-" + index}>
@@ -49,13 +49,12 @@ export const MyWorkOut = () => {
                                                     {exercise.name} - {exercise.sets} Sets x {exercise.reps} Reps
                                                 </div>
                                             </div>
-                                        ))}
+                                    ))}
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    )
-                })}
+                    </div>
+                )})}
             </div>
         </div>
     );

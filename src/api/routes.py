@@ -47,9 +47,9 @@ def Signup1():
 @api.route('/login', methods=['POST'])
 def Login1():
      data = request.json
-     print("Data dentro de Login1",data)
+     #print("Data dentro de Login1",data)
      respuesta = app.Login(data)
-     print(respuesta)
+     #print(respuesta)
      return jsonify({"Message" : respuesta}),200
 
 # Endpoint para obtener todos los usuarios

@@ -8,7 +8,8 @@ import { LogIn } from "./pages/LogIn.js";
 import { Dashboard } from "./pages/Dashboard.js";
 import { Workout } from "./pages/Workout.js"; // Nueva importación por Kevin
 import injectContext from "./store/appContext";
-
+import { PruebaExercises } from "./pages/PruebaExercises"; // Nueva importación por GE
+import { Exercise } from "./pages/Exercise"; // Nueva importación por GE
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
 import { CreateEditPlan } from "./pages/CreateEditPlan.jsx";
@@ -33,6 +34,15 @@ const Layout = () => {
             <Route element={<CreateEditPlan />} path="/creatEditPlan:id>" />
             <Route element={<Workout />} path="/workout/name" />
             <Route element={<h1>Not found!</h1>} path="*"/>
+            <Route element={<MyWorkOut />} path="/myworkout" />
+
+            {/* <Route element={<Workout />} path="/workout/:exerciseName" />
+            <Route element={<PruebaExercises />} path="/exercises" />
+            <Route element={<Exercise />} path="/exercises/:id" />
+            <Route element={<PruebaExercises />} path="/prueba" />
+            <Route element={<Exercise />} path="/prueba/:id" /> */}
+
+            <Route element={<h1>Not found!</h1>} />
           </Routes>
           <Footer />
         </ScrollToTop>

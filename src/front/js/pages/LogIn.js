@@ -9,12 +9,16 @@ export const LogIn = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const success = await actions.logIn(email, password);
-    if (success){
-      console.log(store.user.id);
-      navigate(`/private/${store.user.id}`)
+    const success = await actions.postLogin(email, password);
+    const response = localStorage.getItem('accessToken');
+    if (response != "") {
+      console.log("VALOR DE store.user.id ****:", store.user.id);
+      console.log("VALOR DE LOCALSTORAGE despues de la condición *** ", localStorage.getItem('accessID'))
+      // navigate(`/private/${store.id}`)
+      navigate("/myworkout")
     } else {
       setError("Invalid email or password");
     }
