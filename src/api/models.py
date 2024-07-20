@@ -130,3 +130,4 @@ class Muscle_group(db.Model):
             "Name": self.Name
             # do not serialize the password, its a security breach
         }
+

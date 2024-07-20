@@ -1,41 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import Timer from "../component/Timer";
-//1. import { Context } from "../store/appContext"; // Importa el contexto de Flux FM
-
-// COMENTARIOS DE FLUJO GENERAL DE FUNCIONALIDAD
-// 1. Estructura data kevin en MyWorkoutOut - 
-//La data se necesita traer como estado global desde flux,
-// pudes ver lo necesario comentado en esta misma vista 1 - 1.1
-//Data que se cosumio desde vista MyWorkOut...
-// const data = [
-//     {
-//       day: "Day 1",
-//       muscle_group: "Leg",
-//       exercises: [
-//         { name: "Pullups", reps: 10, sets: 3 },
-//         { name: "Pushups", reps: 15, sets: 3 },
-//         { name: "Bar", reps: 20, sets: 3 },
-//       ]
-//     },
-//     {
-//       day: "Day 2",
-//       muscle_group: "Arm",
-//       exercises: [
-//         { name: "Pullups", reps: 10, sets: 3 },
-//         { name: "Pushups", reps: 15, sets: 3 },
-//         { name: "Bar", reps: 20, sets: 3 },
-//         { name: "Peckfly", reps: 12, sets: 3 }
-//       ]
-//     }
-//   ];
-// 2. La estructura difiere un poco a la que se necesita para la logia futura de las proximas vistas, 
-//se muestra igualmente en flux.
-// 3. El tiempo para el coronometro == a nuestro actual parametro en .store - rest_time.
+import Timer from "../component/Timer.js";
 
 
 export const Workout = () => {
-  //1.1 const { store } = useContext(Context); // Obtén el estado global del contexto FM
   const location = useLocation();
   const exercise = location.state ? location.state.exercise : null;
   const [isOpen, setIsOpen] = useState(false);
@@ -136,3 +104,35 @@ export const Workout = () => {
   );
 };
 */
+
+//1. import { Context } from "../store/appContext"; // Importa el contexto de Flux FM
+
+// COMENTARIOS DE FLUJO GENERAL DE FUNCIONALIDAD
+// 1. Estructura data kevin en MyWorkoutOut - 
+//La data se necesita traer como estado global desde flux,
+// pudes ver lo necesario comentado en esta misma vista 1 - 1.1
+//Data que se cosumio desde vista MyWorkOut...
+// const data = [
+//     {
+//       day: "Day 1",
+//       muscle_group: "Leg",
+//       exercises: [
+//         { name: "Pullups", reps: 10, sets: 3 },
+//         { name: "Pushups", reps: 15, sets: 3 },
+//         { name: "Bar", reps: 20, sets: 3 },
+//       ]
+//     },
+//     {
+//       day: "Day 2",
+//       muscle_group: "Arm",
+//       exercises: [
+//         { name: "Pullups", reps: 10, sets: 3 },
+//         { name: "Pushups", reps: 15, sets: 3 },
+//         { name: "Bar", reps: 20, sets: 3 },
+//         { name: "Peckfly", reps: 12, sets: 3 }
+//       ]
+//     }
+//   ];
+// 2. La estructura difiere un poco a la que se necesita para la logia futura de las proximas vistas, 
+//se muestra igualmente en flux.
+// 3. El tiempo para el coronometro == a nuestro actual parametro en .store - rest_time.

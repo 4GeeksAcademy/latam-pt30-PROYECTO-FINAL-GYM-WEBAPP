@@ -7,7 +7,9 @@ from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 import app
 import api.models
-
+from sqlalchemy.orm.exc import NoResultFound
+from sqlalchemy.exc import IntegrityError
+from flask_jwt_extended import jwt_required
 
 
 api = Blueprint('api', __name__)
@@ -26,6 +28,16 @@ def handle_hello():
 
     return jsonify(response_body), 200
 
+##HANDLE ERRORS
+@app.errorhandler(APIException)
+def handle_api_exception(error):
+    response = jsonify(error.to_dict())
+    response.status_code = error.status_code
+    return response
+
+
+#SignUp & Login
+
 @api.route('/signup', methods=['POST'])
 def Signup1():
      data = request.json
@@ -38,7 +50,7 @@ def Login1():
      print("Data dentro de Login1",data)
      respuesta = app.Login(data)
      print(respuesta)
-     return jsonify({"Message" : respuesta}),201
+     return jsonify({"Message" : respuesta}),200
 
 # Endpoint para obtener todos los usuarios
 @api.route('/users', methods=['GET'])
@@ -100,25 +112,59 @@ def get_member(member_id):
         raise APIException('Member not found', status_code=404)
     
 # Endpoint para actualizar un miembro existente por su ID
-@api.route('/members/<int:member_id>', methods=['PUT'])
-def update_member(member_id):
+# @api.route('/members/<int:member_id>', methods=['PUT'])
+# def update_member(member_id):
+#     data = request.json
+
+#     try:
+#         member = Member.query.filter_by(Id_member=member_id).one()
+#         member.Name = data.get('Name', member.Name)
+#         member.Last_name = data.get('Last_name', member.Last_name)
+#         member.Gender = data.get('Gender', member.Gender)
+#         member.Height = data.get('Height', member.Height)
+#         member.Weight = data.get('Weight', member.Weight)
+#         member.Birthday = data.get('Birthday', member.Birthday)
+#         member.City = data.get('City', member.City)
+#         member.Country = data.get('Country', member.Country)
+
+#         db.session.commit()
+#         return jsonify({"message": "Member updated successfully", "member_id": member.Id_member}), 200
+#     except NoResultFound:
+#         raise APIException('Member not found', status_code=404)
+
+
+@api.route('/members', methods=['POST'])
+@jwt_required()
+def create_member():
     data = request.json
 
-    try:
-        member = Member.query.filter_by(Id_member=member_id).one()
-        member.Name = data.get('Name', member.Name)
-        member.Last_name = data.get('Last_name', member.Last_name)
-        member.Gender = data.get('Gender', member.Gender)
-        member.Height = data.get('Height', member.Height)
-        member.Weight = data.get('Weight', member.Weight)
-        member.Birthday = data.get('Birthday', member.Birthday)
-        member.City = data.get('City', member.City)
-        member.Country = data.get('Country', member.Country)
+    required_fields = ['Name', 'Last_name', 'Gender', 'Height', 'Weight', 'Birthday', 'City', 'Country']
+    for field in required_fields:
+        if field not in data:
+            return jsonify({"error": f"Field '{field}' is required"}), 400
 
+    if not isinstance(data['Height'], (int, float)) or not isinstance(data['Weight'], (int, float)):
+        return jsonify({"error": "Height and Weight must be numeric"}), 400
+
+    new_member = Member(
+        Name=data['Name'],
+        Last_name=data['Last_name'],
+        Gender=data['Gender'],
+        Height=data['Height'],
+        Weight=data['Weight'],
+        Birthday=data['Birthday'],
+        City=data['City'],
+        Country=data['Country']
+    )
+
+    try:
+        db.session.add(new_member)
         db.session.commit()
-        return jsonify({"message": "Member updated successfully", "member_id": member.Id_member}), 200
-    except NoResultFound:
-        raise APIException('Member not found', status_code=404)
+        return jsonify({"message": "Member created successfully", "member_id": new_member.Id_member}), 201
+    except IntegrityError:
+        db.session.rollback()
+        return jsonify({"error": "Error creating member, possibly due to duplicate entry"}), 400
+
 
 # Endpoint para eliminar un miembro por su ID
 @api.route('/members/<int:member_id>', methods=['DELETE'])

@@ -6,7 +6,7 @@ export const MyWorkOut = () => {
     const { store, actions } = useContext(Context);
     const navigate = useNavigate();
     const [data, setData] = useState([]);
-
+    
     useEffect(() => {
       setData(store.workouts);
     }, [store.workouts]);
@@ -22,7 +22,7 @@ export const MyWorkOut = () => {
                 <h1 className="d-flex justify-content-center m-4">TODAY'S WORKOUT?</h1>
                 {data.map((item, index) => {
                     return (
-                        <div>
+                        <div key={index}>
                             <button className="alert rounded-5 bg-light opacity-75 col-11" 
                             type="button" 
                             data-bs-toggle="collapse" 
@@ -46,7 +46,7 @@ export const MyWorkOut = () => {
                                                 onClick={() => handleNavigate(exercise.name)} style={{ cursor: "pointer" }}
                                             >
                                                 <div className="alert rounded-5 bg-light text-dark opacity-75 col-11" role="alert">
-                                                    {exercise.name}
+                                                    {exercise.name} - {exercise.sets} Sets x {exercise.reps} Reps
                                                 </div>
                                             </div>
                                         ))}

@@ -11,7 +11,9 @@ from api.models import db, User, Exercises, Member, Muscle_group
 from api.routes import api
 from api.admin import setup_admin
 from api.commands import setup_commands
+print("start______________________________________")
 from flask_jwt_extended import JWTManager, create_access_token, get_jwt_identity, jwt_required
+print("end______________________________________")
 from datetime import datetime
 
 

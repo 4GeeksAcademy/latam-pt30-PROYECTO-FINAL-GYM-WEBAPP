@@ -3,14 +3,15 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ScrollToTop from "./component/scrollToTop";
 import { BackendURL } from "./component/backendURL";
 
-import { SignUp } from "./pages/SignUp";
-import { LogIn } from "./pages/LogIn";
-import { MyWorkOut } from "./pages/MyWorkOut";
-import { Workout } from "./pages/Workout"; // Nueva importación por Kevin
+import { SignUp } from "./pages/SignUp.js";
+import { LogIn } from "./pages/LogIn.js";
+import { Dashboard } from "./pages/Dashboard.js";
+import { Workout } from "./pages/Workout.js"; // Nueva importación por Kevin
 import injectContext from "./store/appContext";
 
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
+import { CreateEditPlan } from "./pages/CreateEditPlan.jsx";
 
 //create your first component
 const Layout = () => {
@@ -28,9 +29,10 @@ const Layout = () => {
           <Routes>
             <Route element={<SignUp />} path="/" />
             <Route element={<LogIn />} path="/login" />
-            <Route element={<MyWorkOut />} path="/myworkout" />
-            <Route element={<Workout />} path="/workout/:exerciseName" />
-            <Route element={<h1>Not found!</h1>} />
+            <Route element={<Dashboard />} path="/dashboard" />
+            <Route element={<CreateEditPlan />} path="/creatEditPlan:id>" />
+            <Route element={<Workout />} path="/workout/name" />
+            <Route element={<h1>Not found!</h1>} path="*"/>
           </Routes>
           <Footer />
         </ScrollToTop>
