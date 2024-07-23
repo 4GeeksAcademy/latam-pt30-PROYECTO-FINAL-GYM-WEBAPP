@@ -13,6 +13,7 @@ import { Exercise } from "./pages/Exercise"; // Nueva importación por GE
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
 import { CreateEditPlan } from "./pages/CreateEditPlan.jsx";
+import { MyWorkOut } from "./component/MyWorkOut.jsx";
 
 //create your first component
 const Layout = () => {
@@ -34,7 +35,8 @@ const Layout = () => {
             <Route element={<CreateEditPlan />} path="/creatEditPlan:id>" />
             <Route element={<Workout />} path="/workout/name" />
             <Route element={<h1>Not found!</h1>} path="*"/>
-            <Route element={<MyWorkOut />} path="/myworkout" />
+
+            <Route element={<MyWorkOut/>} path="/MyWorkOut"/>
 
             {/* <Route element={<Workout />} path="/workout/:exerciseName" />
             <Route element={<PruebaExercises />} path="/exercises" />
