@@ -1,26 +1,25 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Timer from "../component/Timer";
 import { Context } from "../store/appContext";
 export const Workout = () => {
   const { store } = useContext(Context);
-  const location = useLocation();
-  const exerciseName = location.state ? location.state.exercise.name : null;
   const [exercise, setExercise] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [completedSets, setCompletedSets] = useState([]);
   const [startTimer, setStartTimer] = useState(false);
   const [resetTimer, setResetTimer] = useState(false);
+  const params = useParams();
   useEffect(() => {
-    if (exerciseName && store.workouts.length > 0) {
-      const workout = store.workouts.find(w => w.exercises.some(e => e.name === exerciseName));
+    if (params.name && store.workouts.length > 0) {
+      const workout = store.workouts.find(w => w.id == params.workoutId);
       if (workout) {
-        const ex = workout.exercises.find(e => e.name === exerciseName);
+        const ex = workout.days[params.dayId].exercises.find(e => e.name === params.name);
         setExercise(ex);
         setCompletedSets(Array(ex.sets).fill(false));
       }
     }
-  }, [exerciseName, store.workouts]);
+  }, [params.name, store.workouts]);
   if (!exercise) {
     return <div>No exercise data available. Please go back to the workouts list.</div>;
   }

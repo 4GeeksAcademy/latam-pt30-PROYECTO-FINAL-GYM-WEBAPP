@@ -2,131 +2,80 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
-			//log in and log out data
+			//Authentication data
 			message: null,
 			isAuthenticated: false,
 			userToken: null,
 			user: {},
-			valExercises: [],
-			exercise: {},
-			MuscleGroup: {},
-			//work out data
-			muscle_groups: [],
 			workouts: [
 				{
 					id: "1",
 					name: "Plan 1",
 					days: [
-						{
+							{
 							day: "Day 1",
 							muscle_group: "Leg",
 							exercises: [
-								{ name: "Pullups", reps: 8, sets: 4, rest_time: "20s", description: "" },
-								{ name: "Pushups", reps: 15, sets: 4, rest_time: "20s", description: "" },
-								{ name: "Bar", reps: 20, sets: 4, rest_time: "20s", description: "" },
-							],
-						},
-						{
+									{ name: "Pullups", reps: 8, sets: 4, rest_time: "20s", description: "" },
+									{ name: "Pushups", reps: 15, sets: 4, rest_time: "20s", description: "" },
+									{ name: "Bar", reps: 20, sets: 4, rest_time: "20s", description: "" },
+								],
+							},
+							{
 							day: "Day 2",
 							muscle_group: "Arm",
 							exercises: [
-								{ name: "Pullups", reps: 10, sets: 3, rest_time: "20s", description: "" },
-								{ name: "Pushups", reps: 20, sets: 3, rest_time: "20s", description: "" },
-								{ name: "Bar", reps: 25, sets: 3, rest_time: "20s", description: "" },
-								{ name: "Peckfly", reps: 12, sets: 3, rest_time: "20s", description: "" },
+									{ name: "Pullups", reps: 10, sets: 3, rest_time: "20s", description: "" },
+									{ name: "Pushups", reps: 20, sets: 3, rest_time: "20s", description: "" },
+									{ name: "Bar", reps: 25, sets: 3, rest_time: "20s", description: "" },
+									{ name: "Peckfly", reps: 12, sets: 3, rest_time: "20s", description: "" },
+								],
+							},
+						],
+					},
+					{
+						id: "2",
+						name: "Plan 2",
+						days: [
+								{
+								day: "Day 1",
+								muscle_group: "Leg",
+								exercises: [
+										{ name: "Pullups", reps: 8, sets: 4, rest_time: "20s", description: "" },
+										{ name: "Pushups", reps: 15, sets: 4, rest_time: "20s", description: "" },
+										{ name: "Bar", reps: 20, sets: 4, rest_time: "20s", description: "" },
+									],
+								},
+								{
+								day: "Day 2",
+								muscle_group: "Arm",
+								exercises: [
+										{ name: "Pullups", reps: 10, sets: 3, rest_time: "20s", description: "" },
+										{ name: "Pushups", reps: 20, sets: 3, rest_time: "20s", description: "" },
+										{ name: "Bar", reps: 25, sets: 3, rest_time: "20s", description: "" },
+										{ name: "Peckfly", reps: 12, sets: 3, rest_time: "20s", description: "" },
+									],
+								},
 							],
 						},
-					],
-				},
-				{
-					id: "2",
-					plan_name: "Plan 2",
-					days: [
-						{
-							day: "Day 1",
-							muscle_group: "Chest",
-							exercises: [
-								{ name: "Bench Press", reps: 10, sets: 4, rest_time: "30s", description: "" },
-								{ name: "Dumbbell Flyes", reps: 12, sets: 4, rest_time: "30s", description: "" },
-								{ name: "Pushups", reps: 20, sets: 4, rest_time: "30s", description: "" },
-							],
-						},
-						{
-							day: "Day 2",
-							muscle_group: "Back",
-							exercises: [
-								{ name: "Pullups", reps: 10, sets: 4, rest_time: "30s", description: "" },
-								{ name: "Deadlift", reps: 8, sets: 4, rest_time: "30s", description: "" },
-								{ name: "Barbell Rows", reps: 10, sets: 4, rest_time: "30s", description: "" },
-							],
-						},
-				  ],
-				},  
-			],
-			
-			//member data
-			// members data
-			members: [], // Para almacenar una lista de miembros
-			member: null // Para almacenar un miembro específico
 
+				],	
+		
+			muscle_groups: [],
+			exercises: [],
+			exercise: {},
+			muscle_group: {},
+			
+			
+		    // members data
+			members: [], // Para almacenar una lista de miembros
+			member: null, // Para almacenar un miembro específico
+			measurements: [], // New state for storing measurements
+            graphics: [] // New state for storing graphics
 		},
 
 		actions: {
-			// Function to handle user signup
-
-			// se cmente el 16 de julio de 2024 a las 9:19a.m. Por GE para cr
-			// createUser: async (email, password) => {
-			// 	try {
-			// 		const response = await fetch(`${process.env.BACKEND_URL}/api/user`, {
-			// 			method: "POST",
-			// 			headers: {
-			// 				"Content-Type": "application/json",
-			// 			},
-			// 			body: JSON.stringify({ email, password }),
-			// 		});
-			// 		const data = await response.json();
-
-			// 		if (response.ok) {
-			// 			setStore({ message: "User created successfully" });
-			// 			return true
-			// 		} else {
-			// 			setStore({ message: data.message });
-			// 		}
-			// 	} catch (error) {
-			// 		console.error("Error creating user:", error);
-			// 		setStore({ message: "Error creating user" });
-			// 	}
-			// },
-
-			// // Function to handle user login
-			// logIn: async (email, password) => {
-			// 	try {
-			// 		const response = await fetch(`${process.env.BACKEND_URL}/api/token`, {
-			// 			method: "POST",
-			// 			headers: {
-			// 				"Content-Type": "application/json",
-			// 			},
-			// 			body: JSON.stringify({ email, password }),
-			// 		});
-			// 		const data = await response.json();
-			// 		console.log("retona API LOGIN", data)
-			// 		if (response.ok) {
-			// 			setStore({
-			// 				isAuthenticated: true,
-			// 				userToken: data.token,
-			// 				user: data.user,
-			// 			});
-			// 			return true;
-			// 		} else {
-			// 			setStore({ message: data.message });
-			// 			return false;
-			// 		}
-			// 	} catch (error) {
-			// 		console.error("Error logging in:", error);
-			// 		setStore({ message: "Error logging in" });
-			// 		return false;
-			// 	}
-			// },
+			
 
 			// *** Se adiciona Signup y login 16 de julio de 2024 9:22 a.m. Por GE
 			postSignup: (email, password, date) => {
@@ -139,7 +88,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 						"Content-Type": "application/json"
 					}
 				})
-					.then(res => res.json())
+					.then(res => {
+						if (!res.ok) {
+							throw new Error(`HTTP error! status: ${res.status}`);
+						}
+						return res.json();
+					})
 					.then(response => console.log("Success:", response))
 					.catch(error => console.error("Error:", error));
 			},
@@ -162,34 +116,32 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			// **** Fin se adiciona Singup y login 16 de julio de 2024 9:22 a.m. Por GE
+			// Fetching exercises and muscle groups
 			getExercises: async () => {
 				try {
-					// fetching data from the backend
 					const resp = await fetch(process.env.BACKEND_URL + "/api/exercises")
 					const data = await resp.json()
 					setStore({ valExercises: data })
 					console.log("VALORES DE EXERCISES", data)
-					// console.log("VALORES DE EXERCISES", data[0]["Name"])
-					// don't forget to return something, that is how the async resolves
 					return data;
 				} catch (error) {
 					console.log("Error loading message from backend", error)
 				}
 			},
-			getOneExercise: async (id) => {
-				try {
-					// fetching data from the backend
-					const resp = await fetch(process.env.BACKEND_URL + `/api/exercises/${id}`)
-					const data = await resp.json()
-					setStore({ exercise: data })
-					console.log("VALORES DE EXERCISES", data)
-					// console.log("VALORES DE EXERCISES", data[0]["Name"])
-					// don't forget to return something, that is how the async resolves
-					return data;
-				} catch (error) {
-					console.log("Error loading message from backend", error)
-				}
-			},
+			// getOneExercise: async (id) => {
+			// 	try {
+			// 		// fetching data from the backend
+			// 		const resp = await fetch(process.env.BACKEND_URL + `/api/exercises/${id}`)
+			// 		const data = await resp.json()
+			// 		setStore({ exercise: data })
+			// 		console.log("VALORES DE EXERCISES", data)
+			// 		// console.log("VALORES DE EXERCISES", data[0]["Name"])
+			// 		// don't forget to return something, that is how the async resolves
+			// 		return data;
+			// 	} catch (error) {
+			// 		console.log("Error loading message from backend", error)
+			// 	}
+			// },
 			getMuscleGroup: async () => {
 				try {
 					// fetching data from the backend
@@ -442,6 +394,124 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.error('Error deleting member:', error);
 				}
 			},
+
+			//Aditional Actions
+			updateExercise: (id, exerciseData) => {
+				setStore({
+					exercises: getStore().exercises.map(exercise => exercise.id === id ? { ...exercise, ...exerciseData } : exercise)
+				});
+			},
+
+			updateMuscleGroup: (id, muscleGroupData) => {
+				setStore({
+					muscleGroups: getStore().muscleGroups.map(muscleGroup => muscleGroup.id === id ? { ...muscleGroup, ...muscleGroupData } : muscleGroup)
+				});
+			},
+			// Function to fetch measurements data for a specific member
+			getMeasurementsByMemberId: async (id) => {
+				try {
+					const response = await fetch(`${process.env.BACKEND_URL}/api/members/${id}/measurements`, {
+						headers: {
+							"Authorization": `Bearer ${getStore().userToken}`,
+						},
+					});
+					const data = await response.json();
+					if (response.ok) {
+						setStore({ measurements: data });
+					} else {
+						console.error('Error fetching measurements:', data.message);
+					}
+				} catch (error) {
+					console.error("Error fetching measurements:", error);
+				}
+			},
+
+			// Function to fetch graphics data for a specific member
+			getGraphicsByMemberId: async (id) => {
+				try {
+					const response = await fetch(`${process.env.BACKEND_URL}/api/members/${id}/graphics`, {
+						headers: {
+							"Authorization": `Bearer ${getStore().userToken}`,
+						},
+					});
+					const data = await response.json();
+					if (response.ok) {
+						setStore({ graphics: data });
+					} else {
+						console.error('Error fetching graphics:', data.message);
+					}
+				} catch (error) {
+					console.error("Error fetching graphics:", error);
+				}
+			},
+
+			// Function to create a new measurement for a member
+			createMeasurement: async (memberId, measurementData) => {
+				try {
+					const response = await fetch(`${process.env.BACKEND_URL}/api/members/${memberId}/measurements`, {
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+							"Authorization": `Bearer ${getStore().userToken}`,
+						},
+						body: JSON.stringify(measurementData),
+					});
+					const data = await response.json();
+					if (response.ok) {
+						setStore({ message: "Measurement created successfully" });
+						return true;
+					} else {
+						setStore({ message: data.message });
+						return false;
+					}
+				} catch (error) {
+					console.error("Error creating measurement:", error);
+					setStore({ message: "Error creating measurement" });
+					return false;
+				}
+			},
+
+			// Function to create new graphics for a member
+			createGraphics: async (memberId, graphicsData) => {
+				try {
+					const response = await fetch(`${process.env.BACKEND_URL}/api/members/${memberId}/graphics`, {
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+							"Authorization": `Bearer ${getStore().userToken}`,
+						},
+						body: JSON.stringify(graphicsData),
+					});
+					const data = await response.json();
+					if (response.ok) {
+						setStore({ message: "Graphics created successfully" });
+						return true;
+					} else {
+						setStore({ message: data.message });
+						return false;
+					}
+				} catch (error) {
+					console.error("Error creating graphics:", error);
+					setStore({ message: "Error creating graphics" });
+					return false;
+				}
+			},
+
+			// Function to update measurements
+			updateMeasurement: (id, measurementData) => {
+				setStore({
+					measurements: getStore().measurements.map(measurement => measurement.id === id ? { ...measurement, ...measurementData } : measurement)
+				});
+			},
+
+			// Function to update graphics
+			updateGraphics: (id, graphicsData) => {
+				setStore({
+					graphics: getStore().graphics.map(graphic => graphic.id === id ? { ...graphic, ...graphicsData } : graphic)
+				});
+			},
+			 // Additional actions as needed
+
 		},	
 	};
 };

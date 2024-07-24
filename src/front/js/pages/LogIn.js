@@ -18,7 +18,7 @@ export const LogIn = () => {
       console.log("VALOR DE store.user.id ****:", store.user.id);
       console.log("VALOR DE LOCALSTORAGE despues de la condición *** ", localStorage.getItem('accessID'))
       // navigate(`/private/${store.id}`)
-      navigate("/myworkout")
+      navigate("/dashboard")
     } else {
       setError("Invalid email or password");
     }

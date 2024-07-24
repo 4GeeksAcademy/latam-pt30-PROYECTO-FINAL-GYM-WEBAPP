@@ -15,7 +15,7 @@ print("start______________________________________")
 from flask_jwt_extended import JWTManager, create_access_token, get_jwt_identity, jwt_required
 print("end______________________________________")
 from datetime import datetime
-
+from flask_cors import CORS
 
 # from models import Person
 
@@ -24,6 +24,7 @@ static_file_dir = os.path.join(os.path.dirname(
     os.path.realpath(__file__)), '../public/')
 app = Flask(__name__)
 app.url_map.strict_slashes = False
+CORS(app)
 
 # database condiguration
 db_url = os.getenv("DATABASE_URL")
@@ -48,9 +49,16 @@ setup_commands(app)
 # Add all endpoints form the API with a "api" prefix
 app.register_blueprint(api, url_prefix='/api')
 
+# Handle General Exceptions
+
+@app.errorhandler(Exception)
+def handle_general_exception(error):
+    response = jsonify({"error": str(error)})
+    response.status_code = 500
+    return response
+
 
 # Handle/serialize errors like a JSON object
-
 
 @app.errorhandler(APIException)
 def handle_invalid_usage(error):
