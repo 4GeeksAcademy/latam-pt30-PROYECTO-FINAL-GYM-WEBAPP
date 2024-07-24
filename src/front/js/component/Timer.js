@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Context } from "../store/appContext";
 
 const Timer = ({ startTimer, resetTimer }) => {
   const [time, setTime] = useState(0);
@@ -76,8 +77,8 @@ const Timer = ({ startTimer, resetTimer }) => {
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <div className="modal-body">
-                <p>Ya se ha agotado tu tiempo de descanso, empieza la siguiente serie.</p>
+              <div className="modal-body bg-ligh">
+                <p>Time is over! Go for your next set!.</p>
               </div>
             </div>
           </div>

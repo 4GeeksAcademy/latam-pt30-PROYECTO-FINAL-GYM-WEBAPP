@@ -9,9 +9,11 @@ export const Dashboard = () => {
 
     return (
         <div className="dashboard container mt-5">
-            <h1>YOUR WORKOUTS</h1>
-            <button className="btn btn-primary mb-3" onClick={() => navigate('/createEditPlan')}>Create New Workout</button>
-            {/* <ul className="list-group mb-3"> */}
+
+            <div className='d-flex justify-content-between fw-bold'>
+            <h1>YOUR WORKOUTS ! !</h1>
+            <button className="btn btn-primary mb-3" onClick={() => navigate('/createEditPlan/${id}')}>+</button>
+            </div>
                 {store.workouts && store.workouts.length > 0 && store.workouts.map((workout, index) => (
                     <MyWorkOut 
                         key={index}
@@ -20,25 +22,8 @@ export const Dashboard = () => {
                         days={workout.days}
                         index={index}
                     />
-                    // <li key={workout.id} 
-                    // className="list-group-item d-flex justify-content-between align-items-center">
-                    //     {workout.name}
-                    //     <div>
-                    //         <button className="btn btn-secondary mx-2" onClick={() => navigate(`/createEditPlan/${workout.id}`)}>Edit</button>
-                    //         <button 
-                    //             className="btn btn-danger" 
-                    //             onClick={() => {
-                    //                 if (window.confirm('Are you sure you want to delete this workout?')) {
-                    //                     actions.deleteWorkout(workout.id);
-                    //                 }
-                    //             }}
-                    //         >
-                    //             Delete
-                    //         </button>
-                    //     </div>
-                    // </li>
+                 
                 ))}
-            {/* </ul> */}
         </div>
     );
 };

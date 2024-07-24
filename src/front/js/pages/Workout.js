@@ -5,11 +5,12 @@ import { Context } from "../store/appContext";
 export const Workout = () => {
   const { store } = useContext(Context);
   const [exercise, setExercise] = useState(null);
-  const [isOpen, setIsOpen] = useState(false);
   const [completedSets, setCompletedSets] = useState([]);
   const [startTimer, setStartTimer] = useState(false);
   const [resetTimer, setResetTimer] = useState(false);
   const params = useParams();
+
+
   useEffect(() => {
     if (params.name && store.workouts.length > 0) {
       const workout = store.workouts.find(w => w.id == params.workoutId);
@@ -20,12 +21,13 @@ export const Workout = () => {
       }
     }
   }, [params.name, store.workouts]);
+
+
   if (!exercise) {
     return <div>No exercise data available. Please go back to the workouts list.</div>;
   }
-  const toggleDetails = () => {
-    setIsOpen(!isOpen);
-  };
+
+
   const toggleSetCompletion = (index) => {
     const updatedSets = [...completedSets];
     if (!updatedSets[index]) {
@@ -39,35 +41,31 @@ export const Workout = () => {
     }
     setCompletedSets(updatedSets);
   };
+
+
   return (
     <div className="container my-5">
-      <button
-        className="alert rounded-5 bg-light opacity-75 col-11"
-        type="button"
-        onClick={toggleDetails}
-        aria-expanded={isOpen}
-        aria-controls="exerciseDetails"
-      >
+      <div className="alert rounded-5 bg-light opacity-75 col-11">
         <div className="d-flex justify-content-center">
-          <h1 style={{ color: 'black' }}>{exercise.name}</h1>
+          <h1 style={{ color: 'black' }}>{exercise.name} </h1>
         </div>
-      </button>
-      {isOpen && (
+        <div className="exercise-details">
+          {exercise.reps} REPS | {exercise.sets} SETS | {exercise.description}</div>
+      </div>
         <div id="exerciseDetails" className="workout-details">
-          <p className="exercise-details">{exercise.reps} REPS | {exercise.sets} SETS</p>
           <div className="sets">
             {completedSets.map((completed, i) => (
               <div key={i} className="set-container">
-                <span className="set-number">{i + 1}</span>
-                <button onClick={() => toggleSetCompletion(i)} className={`set-btn ${completed ? 'completed' : ''}`}>
-                  {completed ? "✔" : ""}
+                <button onClick={() => toggleSetCompletion(i)} 
+                className={`set-btn ${completed ? 'completed' : ''}`}>
+                  {completed ? "" : ""}
+                 <span className="set-number d-flex justify-content-center">{i + 1}</span>  
                 </button>
               </div>
             ))}
           </div>
+            <Timer startTimer={startTimer} resetTimer={resetTimer} />
         </div>
-      )}
-      <Timer startTimer={startTimer} resetTimer={resetTimer} />
     </div>
   );
 };

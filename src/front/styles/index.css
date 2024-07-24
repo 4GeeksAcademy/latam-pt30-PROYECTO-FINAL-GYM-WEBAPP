@@ -32,13 +32,22 @@
   border-radius: 10px; /* Esquinas redondeadas */
 }
 
-/* Estilo para los detalles del ejercicio */
-.exercise-details {
-  font-size: 2.5rem; /* Tamaño más grande para el texto de repeticiones y series */
-  color: black;
-  font-weight: bold; /* Mismo grosor que el temporizador */
-  font-family: 'Arial', sans-serif; /* Asegurar la misma tipografía */
+/* Estilo del para definir los estilos para los sets complaiton*/
+/* .set-btn {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  background-color: transparent;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
+
+.set-btn.completed {
+  background-color: #ff6ec7; /* Neon pink */
+
+
+
 
 /* Contenedor para cada set, incluyendo el número y el botón */
 .set-container {
@@ -77,9 +86,9 @@
 }
 
 .set-btn.completed {
-  background-color: #dff0d8; 
-  color: #3c763d; 
+  background-color: #9ACD32; 
 }
+
 
 /* Contenedor para los botones de series para asegurar alineación y distribución */
 .sets {
@@ -141,13 +150,11 @@
   color: #FFFFFF;
 }
 
-/* Estilos para la alerta */
+/* Estilos para la alerta
 .custom-alert {
-  background-color: #333333;
+  background-color: #ffffff;
   color: #9ACD32;
   font-size: 1.5rem; /* Tamaño más grande para la alerta */
-  font-family: 'Arial', sans-serif;
-}
 
 .modal-content {
   border-radius: 10px;
@@ -175,4 +182,4 @@
 .btn-close:hover {
   color: #FFFFFF;
   background: none;
-}
+} 

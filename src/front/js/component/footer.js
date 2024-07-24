@@ -15,7 +15,7 @@ export const Footer = () => {
 	return (
 		<footer className="footer mt-auto py-3 text-center bg-black text-light">
 			<p>
-				GYM APP <i className="fa fa-dumbbell text-danger" /> TEAM
+				GYM APP <i className="fa fa-dumbbell text-danger px-1" />
 			</p>
 			<button onClick={handleLogout} className="btn btn-sm btn-outline-secondary">
 				Logout

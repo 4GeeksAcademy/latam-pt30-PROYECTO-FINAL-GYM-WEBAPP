@@ -39,7 +39,7 @@ export const CreateEditPlan = () => {
             <div className="container mt-5">
                 <h1>{id ? 'Edit Workout' : 'Create Workout'}</h1>
                 <div className="form-group">
-                    <label htmlFor="workoutName">Nombre del Plan</label>
+                    <label htmlFor="workoutName">Workout's Name</label>
                     <input
                         type="text"
                         className="form-control"
