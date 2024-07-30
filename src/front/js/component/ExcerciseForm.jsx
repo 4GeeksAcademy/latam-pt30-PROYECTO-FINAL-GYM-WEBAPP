@@ -1,71 +1,51 @@
 import React, { useState, useEffect } from 'react';
+//import { Context } from '../store/appContext';
 
 export const ExcerciseForm = ({ exercise, setExercises, index }) => {
-    const [formState, setFormState] = useState({
-        name: exercise.name,
-        reps: exercise.reps,
-        sets: exercise.sets,
-        rest_time: exercise.rest_time,
-        description: exercise.description,
-    });
+    const [formState, setFormState] = useState(exercise);
+
 
     useEffect(() => {
-        const updatedExercise = { ...formState };
         setExercises(prevExercises => {
             const newExercises = [...prevExercises];
-            newExercises[index] = updatedExercise;
+            newExercises[index] = formState;
             return newExercises;
+            
         });
     }, [formState, index, setExercises]);
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
+
+    const handleChange = ({ target: { name, value } }) => {
         setFormState(prevState => ({
             ...prevState,
             [name]: value,
         }));
     };
 
+
     return (
         <div className="exercise-form">
+            {Object.keys(formState).map(key => (
+                <input
+                    key={key}
+                    type={key === 'reps' || key === 'sets' || key === 'rest_time' ? 'number' : 'text'}
+                    name={key}
+                    placeholder={key.charAt(0).toUpperCase() + key.slice(1)}
+                    value={formState[key]}
+                    onChange={handleChange}
+                />
+            ))}
+
             <input
-                type="text"
-                name="name"
-                placeholder="Exercise Name"
-                value={formState.name}
-                onChange={handleChange}
-            />
-            <input
-                type="number"
-                name="reps"
-                placeholder="Reps"
-                value={formState.reps}
-                onChange={handleChange}
-            />
-            <input
-                type="number"
-                name="sets"
-                placeholder="Sets"
-                value={formState.sets}
-                onChange={handleChange}
-            />
-            <input
-                type="number"
-                name="rest_time"
-                placeholder="Resting Time"
-                value={formState.rest_time}
-                onChange={handleChange}
-            />
-            <input
-                type="text"
-                name="description"
-                placeholder="Description"
-                value={formState.description}
-                onChange={handleChange}
-            />
-        </div>
-    );
-};
+                            type="text"
+                            name="description"
+                            placeholder="Description"
+                            value={formState.description}
+                            onChange={handleChange}
+                        />
+                    </div>
+                );
+            };
 
 // import React, { useState, useContext } from 'react';
 // import { useNavigate, useParams } from 'react-router-dom';

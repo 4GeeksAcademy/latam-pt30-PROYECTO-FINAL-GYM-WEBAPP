@@ -3,15 +3,15 @@ import { useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext.js";
 
 export const MyWorkOut = (props) => {
-    const { store } = useContext(Context);
+    const { store, actions } = useContext(Context);
     const navigate = useNavigate();
-    const [data, setData] = useState([]);
+    //const [data, setData] = useState([]);
 
 
     const handleNavigate = (id, dayIndex, name) => {
         navigate(`/workout/${id}/day/${dayIndex}/exercise/${name}`);
     };
-
+    console.log();
     return (
         <div className="d-flex flex-column">
                 <div>
@@ -27,7 +27,11 @@ export const MyWorkOut = (props) => {
                             <div>
                                 <h1 className="d-flex justify-content-center m-4">{props.name}</h1>
                             </div>
-                            <span className="d-flex justify-content-end" onClick={() => navigate(`/createEditPlan/${props.id}`)}><i class="fa-solid fa-pen text-warning"></i></span>
+                            <span 
+                            className="d-flex justify-content-end" 
+                            onClick={() => navigate(`/createEditPlan/${props.id}`)}
+                            >
+                                <i className="fa-solid fa-pen text-warning"></i></span>
                         </div>
                     </button>
                     <div className="col-12">
@@ -47,10 +51,13 @@ export const MyWorkOut = (props) => {
                                             aria-controls={`dayCollapse-${props.index}-${dayIndex}`}
                                         >
                                             <div className="d-flex justify-content-center">
-                                                <h3>{day.day} - {day.muscle_group}</h3>
+                                                <h3>{day.day} - {day.muscle_group.map((group, indexGroup) => {
+                                                    return <span key={indexGroup}>{group.name}</span>
+                                                })}</h3>
                                             </div>
                                             <div className="d-flex justify-content-end">
-                                                <small className="text-light px-2">{props.days[props.index].exercises.length} EXERCISES</small>
+                                                <small className="text-light px-2">
+                                                    {props.days[props.index].exercises.length} EXERCISES</small>
                                             </div>
                                         </button>
                                         <div

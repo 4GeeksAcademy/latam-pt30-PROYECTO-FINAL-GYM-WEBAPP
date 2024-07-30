@@ -1,18 +1,19 @@
 import React, { useContext, useEffect } from 'react';
 import { Context } from "../store/appContext.js";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { MyWorkOut } from '../component/MyWorkOut.jsx';
 
 export const Dashboard = () => {
     const { store, actions } = useContext(Context);
     const navigate = useNavigate();
+    const { id } = useParams();
 
     return (
         <div className="dashboard container mt-5">
 
             <div className='d-flex justify-content-between fw-bold'>
             <h1>YOUR WORKOUTS ! !</h1>
-            <button className="btn btn-primary mb-3" onClick={() => navigate('/createEditPlan/${id}')}>+</button>
+            <button className="btn btn-primary mb-3" onClick={() => navigate(`/createEditPlan/${id}`)}>+</button>
             </div>
                 {store.workouts && store.workouts.length > 0 && store.workouts.map((workout, index) => (
                     <MyWorkOut 

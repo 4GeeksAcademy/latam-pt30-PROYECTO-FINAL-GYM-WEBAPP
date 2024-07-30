@@ -6,7 +6,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 			message: null,
 			isAuthenticated: false,
 			userToken: null,
-			user: {},
+			user: [],
+
+			valExercises:[],
+
 			workouts: [
 				{
 					id: "1",
@@ -14,21 +17,33 @@ const getState = ({ getStore, getActions, setStore }) => {
 					days: [
 							{
 							day: "Day 1",
-							muscle_group: "Leg",
+							muscle_group: [
+								{ name: "Leg" },
+								{ name: "Arms" }
+							],
 							exercises: [
 									{ name: "Pullups", reps: 8, sets: 4, rest_time: "20s", description: "Heavy" },
 									{ name: "Pushups", reps: 15, sets: 4, rest_time: "20s", description: "Light" },
 									{ name: "Bar", reps: 20, sets: 4, rest_time: "20s", description: "Increment weight" },
+									{ name: "Pullups", reps: 10, sets: 3, rest_time: "20s", description: "Heavy" },
+									{ name: "Pushups", reps: 20, sets: 3, rest_time: "20s", description: "Increment weight" },
+									{ name: "Bar", reps: 25, sets: 3, rest_time: "20s", description: "Light" },
+									{ name: "Peckfly", reps: 12, sets: 3, rest_time: "20s", description: "Heavy" },
 								],
 							},
 							{
 							day: "Day 2",
-							muscle_group: "Arm",
+							muscle_group: [
+								{ name: "abs" },
+								{ name: "shoulders" }
+							],
 							exercises: [
 									{ name: "Pullups", reps: 10, sets: 3, rest_time: "20s", description: "Heavy" },
 									{ name: "Pushups", reps: 20, sets: 3, rest_time: "20s", description: "Increment weight" },
 									{ name: "Bar", reps: 25, sets: 3, rest_time: "20s", description: "Light" },
 									{ name: "Peckfly", reps: 12, sets: 3, rest_time: "20s", description: "Heavy" },
+									{ name: "Pullups", reps: 10, sets: 3, rest_time: "20s", description: "Heavy" },
+									{ name: "Pushups", reps: 20, sets: 3, rest_time: "20s", description: "Increment weight" },
 								],
 							},
 						],
@@ -39,7 +54,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 						days: [
 								{
 								day: "Day 1",
-								muscle_group: "Leg",
+								muscle_group: [
+									{ name: "abs" },
+									{ name: "shoulders" }
+								],
 								exercises: [
 										{ name: "Pullups", reps: 8, sets: 4, rest_time: "20s", description: "" },
 										{ name: "Pushups", reps: 15, sets: 4, rest_time: "20s", description: "" },
@@ -48,7 +66,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 								},
 								{
 								day: "Day 2",
-								muscle_group: "Arm",
+								muscle_group: [
+									{ name: "abs" },
+									{ name: "shoulders" }
+								],
 								exercises: [
 										{ name: "Pullups", reps: 10, sets: 3, rest_time: "20s", description: "" },
 										{ name: "Pushups", reps: 20, sets: 3, rest_time: "20s", description: "" },
@@ -62,22 +83,61 @@ const getState = ({ getStore, getActions, setStore }) => {
 				],	
 		
 			muscle_groups: [],
-			exercises: [],
-			exercise: {},
-			muscle_group: {},
 			
 			
 		    // members data
-			members: [], // Para almacenar una lista de miembros
-			member: null, // Para almacenar un miembro específico
-			measurements: [], // New state for storing measurements
-            graphics: [] // New state for storing graphics
+			members: [
+				{
+					id: "1",
+					name: 'John',
+					lastname: 'Doe',
+					gender: 'male',
+					height: '180 cm',
+					weight: '75 kg',
+					birthday: '1990-01-01',
+					city: 'New York',
+					country: 'USA',
+				},
+				{
+					id: "2",
+					name: 'Jane',
+					lastname: 'Smith',
+					gender: 'female',
+					height: '165 cm',
+					weight: '60 kg',
+					birthday: '1985-05-15',
+					city: 'Los Angeles',
+					country: 'USA',
+				},
+			], 
+			
+			// Para almacenar una lista de miembros
+			body_measurements: [
+				{
+					id: "1",
+					height: "174",
+					weight: "77",
+					neck: "45",
+					relaxed_arm: "35",
+					flexed_arm: "37",
+					waist: "80",
+					calves: "32",
+					chest: "96",
+					hips: "105",
+					thighs: "50",
+					shoulders: "122"
+				}
+			],
+
+            graphics: [], // New state for storing graphics
+
+			message: {}
 		},
 
-		actions: {
-			
 
-			// *** Se adiciona Signup y login 16 de julio de 2024 9:22 a.m. Por GE
+		actions: {
+			//LOGIN , SIGN UP & LOG OUT FETCH ZONE ________________________________
+			//SignUp.js
 			postSignup: (email, password, date) => {
 				console.log(email, password, date)
 				fetch(process.env.BACKEND_URL + "/api/signup", {
@@ -97,6 +157,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 					.then(response => console.log("Success:", response))
 					.catch(error => console.error("Error:", error));
 			},
+
+			//Login.js
 			postLogin: (email, password) => {
 				console.log(email, password)
 				fetch(process.env.BACKEND_URL + "/api/login", {
@@ -110,84 +172,22 @@ const getState = ({ getStore, getActions, setStore }) => {
 				})
 					.then(res => res.json())
 					.then(data_ => localStorage.setItem("accessToken", data_.Message.token))
-					// .then(data2 => localStorage.setItem("accessId", data2.Message.id))
+					.then(data2 => localStorage.setItem("accessId", data2.Message.id))
 					.then(response => console.log("VALOR DE LOCALSTORAGE  *** ", localStorage.getItem('accessToken')))
 					.catch(error => console.error("Error:", error));
 			},
 
-			// **** Fin se adiciona Singup y login 16 de julio de 2024 9:22 a.m. Por GE
-			// Fetching exercises and muscle groups
-			getExercises: async () => {
-				try {
-					const resp = await fetch(process.env.BACKEND_URL + "/api/exercises")
-					const data = await resp.json()
-					setStore({ valExercises: data })
-					console.log("VALORES DE EXERCISES", data)
-					return data;
-				} catch (error) {
-					console.log("Error loading message from backend", error)
-				}
-			},
-			// getOneExercise: async (id) => {
-			// 	try {
-			// 		// fetching data from the backend
-			// 		const resp = await fetch(process.env.BACKEND_URL + `/api/exercises/${id}`)
-			// 		const data = await resp.json()
-			// 		setStore({ exercise: data })
-			// 		console.log("VALORES DE EXERCISES", data)
-			// 		// console.log("VALORES DE EXERCISES", data[0]["Name"])
-			// 		// don't forget to return something, that is how the async resolves
-			// 		return data;
-			// 	} catch (error) {
-			// 		console.log("Error loading message from backend", error)
-			// 	}
-			// },
-			getMuscleGroup: async () => {
-				try {
-					// fetching data from the backend
-					const resp = await fetch(process.env.BACKEND_URL + "/api/muscle-groups")
-					const data = await resp.json()
-					setStore({ valMuscleGroup: data })
-					console.log("VALORES DE MuscleGroup", data)
-					// console.log("VALORES DE EXERCISES", data[0]["Name"])
-					// don't forget to return something, that is how the async resolves
-					return data;
-				} catch (error) {
-					console.log("Error loading message from backend", error)
-				}
-			},
-			getOneMuscleGroup: async (id) => {
-				try {
-					// fetching data from the backend
-					const resp = await fetch(process.env.BACKEND_URL + `/api/muscle-groups/${id}`)
-					const data = await resp.json()
-					setStore({ MuscleGroup: data })
-					console.log("VALORES DE ONE MuscleGroup", data)
-					// console.log("VALORES DE EXERCISES", data[0]["Name"])
-					// don't forget to return something, that is how the async resolves
-					return data;
-				} catch (error) {
-					console.log("Error loading message from backend", error)
-				}
-			},
-
-
-			getUserById: async (id) => {
-				try {
-					const response = await fetch(`${process.env.BACKEND_URL}/api/user/${id}`)
-					const data = await response.json()
-					setStore({ user: data.user })
-				} catch (error) {
-					console.error(error)
-				}
-
-			},
-
+			//Footer.js
 			logOut: () => {
 				setStore({ user: null });
 			},
 
-			//EXERCISES FETCH ZONE
+			
+			
+			//EXERCISES FETCH ZONE________________________________________
+
+			//GET MUSCLE GRUOPS
+			//DayForm.js
 			getMuscleGroups: async () => {
 				try {
 					const response = await fetch(`${process.env.BACKEND_URL}/api/muscle-groups`);
@@ -198,47 +198,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 			
-			getWorkouts: async () => {
-				try {
-					const response = await fetch(`${process.env.BACKEND_URL}/api/workouts`);
-					const data = await response.json();
-					setStore({ workouts: data });
-				} catch (error) {
-					console.error("Error fetching workouts:", error);
-				}
-			},
-
-			getWorkoutById: async (id) => {
-				try {
-					const response = await fetch(`${process.env.BACKEND_URL}/api/workouts/${id}`);
-					const data = await response.json();
-					setStore({ workouts: store.workouts.map(workout => workout.id === id ? data : workout) });
-				} catch (error) {
-					console.error("Error fetching workout by ID:", error);
-				}
-			},
-
-			createWorkout: async (workout) => {
-				try {
-					const response = await fetch(`${process.env.BACKEND_URL}/api/workouts`, {
-						method: "POST",
-						headers: {
-							"Content-Type": "application/json",
-							"Authorization": `Bearer ${getStore().userToken}`
-						},
-						body: JSON.stringify(workout),
-					});
-					const data = await response.json();
-					if (response.ok) {
-						setStore({ workouts: [...getStore().workouts, data] });
-					} else {
-						console.error("Error creating workout:", data.message);
-					}
-				} catch (error) {
-					console.error("Error creating workout:", error);
-				}
-			},
-
+			//UPDATE WORKOUT
+			//CreateEditPlan.jsx
 			updateWorkout: async (id, updatedWorkout) => {
 				try {
 					const response = await fetch(`${process.env.BACKEND_URL}/api/workouts/${id}`, {
@@ -262,6 +223,31 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
+			//CREATE WORKOUT
+			//CreateEditPlan.jsx
+			createWorkout: async (workout) => {
+				try {
+					const response = await fetch(`${process.env.BACKEND_URL}/api/workouts`, {
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+							"Authorization": `Bearer ${getStore().userToken}`
+						},
+						body: JSON.stringify(workout),
+					});
+					const data = await response.json();
+					if (response.ok) {
+						setStore({ workouts: [...getStore().workouts, data] });
+					} else {
+						console.error("Error creating workout:", data.message);
+					}
+				} catch (error) {
+					console.error("Error creating workout:", error);
+				}
+			},
+			
+			//DELETE WORKOUT
+			//POSSSIBLEEEE CreateEditPlan.jsx
 			deleteWorkout: async (id) => {
 				try {
 					const response = await fetch(`${process.env.BACKEND_URL}/api/workouts/${id}`, {
@@ -281,8 +267,85 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.error("Error deleting workout:", error);
 				}
 			},
+			
+			//GET WORKOUTS
+			//POSSIBLEEEE Dashboard.js // NO SE ESTA USANDO EL TOKEN
+			getWorkouts: async () => {
+				try {
+					const response = await fetch(`${process.env.BACKEND_URL}/api/workouts`);
+					const data = await response.json();
+					setStore({ workouts: data });
+				} catch (error) {
+					console.error("Error fetching workouts:", error);
+				}
+			},
+			
+			//GET WORKOUT BY ID
+			//POSSIBLEEEE Dashboard.js // NO SE ESTA USANDO EL TOKEN
+			getWorkoutById: async (id) => {
+				try {
+					const response = await fetch(`${process.env.BACKEND_URL}/api/workouts/${id}`);
+					const data = await response.json();
+					setStore({ workouts: store.workouts.map(workout => workout.id === id ? data : workout) });
+				} catch (error) {
+					console.error("Error fetching workout by ID:", error);
+				}
+			},
 
-			//MEMBERS ZONE
+			//MEMBERS FETCH ZONE_______________________________________________________
+			
+			//CREATE MEMBER
+			// Function to create a new member
+			createMember: async (memberData) => {
+				try {
+					const response = await fetch(`${process.env.BACKEND_URL}/api/members`, {
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+							"Authorization": `Bearer ${getStore().userToken}`, // Add token for authentication
+						},
+						body: JSON.stringify(memberData),
+					});
+					const data = await response.json();
+					if (response.ok) {
+						console.log( "Member created successfully" );
+						return true;
+					} else {
+						console.error(data.message );
+						return false;
+					}
+				} catch (error) {
+					console.error("Error creating member:", error);
+					return false;
+				}
+			},
+			
+
+			//UPDATE MEMBER
+			updateMember: async (id, memberData) => {
+				try {
+					const response = await fetch(`${process.env.BACKEND_URL}/api/members/${id}`, {
+						method: "PUT",
+						headers: {
+							"Content-Type": "application/json",
+							"Authorization": `Bearer ${getStore().userToken}`, // Add token for authentication
+						},
+						body: JSON.stringify(memberData),
+					});
+					const data = await response.json();
+					if (response.ok) {
+						console.log("Member updated successfully" );
+						return true;
+					} else {
+						console.error(data.message );
+						return false;
+					}
+				} catch (error) {
+					console.error("Error updating member:", error);
+					return false;
+				}
+			},
+
 			getAllMembers: async () => {
 				try {
 					const response = await fetch(`${process.env.BACKEND_URL}/api/members`, {
@@ -299,34 +362,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 				} catch (error) {
 					console.error("Error fetching members:", error);
 				}
-
 				
-			},
-
-			// Function to create a new member
-			createMember: async (memberData) => {
-				try {
-					const response = await fetch(`${process.env.BACKEND_URL}/api/members`, {
-						method: "POST",
-						headers: {
-							"Content-Type": "application/json",
-							"Authorization": `Bearer ${getStore().userToken}`, // Add token for authentication
-						},
-						body: JSON.stringify(memberData),
-					});
-					const data = await response.json();
-					if (response.ok) {
-						setStore({ message: "Member created successfully" });
-						return true;
-					} else {
-						setStore({ message: data.message });
-						return false;
-					}
-				} catch (error) {
-					console.error("Error creating member:", error);
-					setStore({ message: "Error creating member" });
-					return false;
-				}
+				
 			},
 
 			// Function to get a member by ID
@@ -347,33 +384,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.error("Error fetching member by ID:", error);
 				}
 			},
-
-			// Function to update a member
-			updateMember: async (id, memberData) => {
-				try {
-					const response = await fetch(`${process.env.BACKEND_URL}/api/members/${id}`, {
-						method: "PUT",
-						headers: {
-							"Content-Type": "application/json",
-							"Authorization": `Bearer ${getStore().userToken}`, // Add token for authentication
-						},
-						body: JSON.stringify(memberData),
-					});
-					const data = await response.json();
-					if (response.ok) {
-						setStore({ message: "Member updated successfully" });
-						return true;
-					} else {
-						setStore({ message: data.message });
-						return false;
-					}
-				} catch (error) {
-					console.error("Error updating member:", error);
-					setStore({ message: "Error updating member" });
-					return false;
-				}
-			},
-
+			
+			
 			// Function to delete a member
 			deleteMember: async (id) => {
 				try {
@@ -394,19 +406,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.error('Error deleting member:', error);
 				}
 			},
-
-			//Aditional Actions
-			updateExercise: (id, exerciseData) => {
-				setStore({
-					exercises: getStore().exercises.map(exercise => exercise.id === id ? { ...exercise, ...exerciseData } : exercise)
-				});
-			},
-
-			updateMuscleGroup: (id, muscleGroupData) => {
-				setStore({
-					muscleGroups: getStore().muscleGroups.map(muscleGroup => muscleGroup.id === id ? { ...muscleGroup, ...muscleGroupData } : muscleGroup)
-				});
-			},
+			
+			//MEASUREMENT FETCH ZONE_______________________________________________________
+			
+			//CREATE MEASUREMENT
 			// Function to fetch measurements data for a specific member
 			getMeasurementsByMemberId: async (id) => {
 				try {
@@ -417,7 +420,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					});
 					const data = await response.json();
 					if (response.ok) {
-						setStore({ measurements: data });
+						setStore({ body_measurements: data });
 					} else {
 						console.error('Error fetching measurements:', data.message);
 					}
@@ -425,6 +428,140 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.error("Error fetching measurements:", error);
 				}
 			},
+
+			
+			// Function to create a new measurement for a member
+			createBodyMeasurement: async (memberId, measurementData) => {
+				try {
+					const response = await fetch(`${process.env.BACKEND_URL}/api/members/${memberId}/measurements`, {
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+							"Authorization": `Bearer ${getStore().userToken}`,
+						},
+						body: JSON.stringify(measurementData),
+					});
+					const data = await response.json();
+					if (response.ok) {
+						console.log( "Measurement created successfully" );
+						return true;
+					} else {
+						console.error( data.message );
+						return false;
+					}
+				} catch (error) {
+					console.error("Error creating measurement:", error);
+					return false;
+				}
+			},
+			
+			// Function to update measurements
+			updateBodyMeasurement: async (id, measurementData) => {
+				try {
+					const response = await fetch(`${process.env.BACKEND_URL}/api/measurements/${id}`, {
+						method: "PUT",
+						headers: {
+							"Content-Type": "application/json",
+							"Authorization": `Bearer ${getStore().userToken}`,
+						},
+						body: JSON.stringify(measurementData),
+					});
+					const data = await response.json();
+					if (response.ok) {
+						const updatedMeasurements = getStore().body_measurements.map(measurement => 
+							measurement.id === id ? data : measurement
+						);
+						setStore({ body_measurements: updatedMeasurements });
+						console.log( "Measurement updated successfully");
+						return true;
+					} else {
+						setStore({ message: data.message });
+						return false;
+					}
+				} catch (error) {
+					console.error("Error updating measurement:", error);
+					return false;
+				}
+			},
+
+
+
+			// **** Fin se adiciona Singup y login 16 de julio de 2024 9:22 a.m. Por GE
+			//FETCHING EXERCISES FOR PRUEBA EXERCISES
+
+			getExercises: async () => {
+				try {
+					const resp = await fetch(process.env.BACKEND_URL + "/api/exercises")
+					const data = await resp.json()
+					setStore({ valExercises: data })
+					console.log("VALORES DE EXERCISES", data)
+					return data;
+				} catch (error) {
+					console.log("Error loading message from backend", error)
+				}
+			},
+
+
+
+			// getOneExercise: async (id) => {
+			// 	try {
+			// 		// fetching data from the backend
+			// 		const resp = await fetch(process.env.BACKEND_URL + `/api/exercises/${id}`)
+			// 		const data = await resp.json()
+			// 		setStore({ exercise: data })
+			// 		console.log("VALORES DE EXERCISES", data)
+			// 		// console.log("VALORES DE EXERCISES", data[0]["Name"])
+			// 		// don't forget to return something, that is how the async resolves
+			// 		return data;
+			// 	} catch (error) {
+			// 		console.log("Error loading message from backend", error)
+			// 	}
+			// },
+
+			//COMENTED BY FM THU 25 JUL
+			// getMuscleGroups: async () => {
+			// 	try {
+			// 		// fetching data from the backend
+			// 		const resp = await fetch(process.env.BACKEND_URL + "/api/muscle-groups")
+			// 		const data = await resp.json()
+			// 		setStore({ valMuscleGroup: data })
+			// 		console.log("VALORES DE MuscleGroup", data)
+			// 		// console.log("VALORES DE EXERCISES", data[0]["Name"])
+			// 		// don't forget to return something, that is how the async resolves
+			// 		return data;
+			// 	} catch (error) {
+			// 		console.log("Error loading message from backend", error)
+			// 	}
+			// },
+			// getOneMuscleGroup: async (id) => {
+			// 	try {
+			// 		// fetching data from the backend
+			// 		const resp = await fetch(process.env.BACKEND_URL + `/api/muscle-groups/${id}`)
+			// 		const data = await resp.json()
+			// 		setStore({ MuscleGroup: data })
+			// 		console.log("VALORES DE ONE MuscleGroup", data)
+			// 		// console.log("VALORES DE EXERCISES", data[0]["Name"])
+			// 		// don't forget to return something, that is how the async resolves
+			// 		return data;
+			// 	} catch (error) {
+			// 		console.log("Error loading message from backend", error)
+			// 	}
+			// },
+
+
+			getUserById: async (id) => {
+				try {
+					const response = await fetch(`${process.env.BACKEND_URL}/api/user/${id}`)
+					const data = await response.json()
+					setStore({ user: data.user })
+				} catch (error) {
+					console.error(error)
+				}
+
+			},
+
+		
+
 
 			// Function to fetch graphics data for a specific member
 			getGraphicsByMemberId: async (id) => {
@@ -445,31 +582,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-			// Function to create a new measurement for a member
-			createMeasurement: async (memberId, measurementData) => {
-				try {
-					const response = await fetch(`${process.env.BACKEND_URL}/api/members/${memberId}/measurements`, {
-						method: "POST",
-						headers: {
-							"Content-Type": "application/json",
-							"Authorization": `Bearer ${getStore().userToken}`,
-						},
-						body: JSON.stringify(measurementData),
-					});
-					const data = await response.json();
-					if (response.ok) {
-						setStore({ message: "Measurement created successfully" });
-						return true;
-					} else {
-						setStore({ message: data.message });
-						return false;
-					}
-				} catch (error) {
-					console.error("Error creating measurement:", error);
-					setStore({ message: "Error creating measurement" });
-					return false;
-				}
-			},
 
 			// Function to create new graphics for a member
 			createGraphics: async (memberId, graphicsData) => {
@@ -497,12 +609,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-			// Function to update measurements
-			updateMeasurement: (id, measurementData) => {
-				setStore({
-					measurements: getStore().measurements.map(measurement => measurement.id === id ? { ...measurement, ...measurementData } : measurement)
-				});
-			},
 
 			// Function to update graphics
 			updateGraphics: (id, graphicsData) => {
