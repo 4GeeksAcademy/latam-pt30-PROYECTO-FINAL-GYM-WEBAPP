@@ -19,16 +19,20 @@ export const SignUp = () => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const navigate = useNavigate();
-	const [currentDate, setCurrentDate] = useState(getDate());
+	const [currentDate] = useState(getDate());
 
 	const handleSignUp = async (event) => {
 		event.preventDefault();
 		const success = await actions.postSignup(email, password, currentDate);
 		console.log(success);
+		
 		if (success) {
 			navigate("/login");
-		}
-	}
+		} else {
+            // Manejar el error, por ejemplo, mostrar un mensaje de error al usuario
+            alert("Registration failed. Please try again.");
+        }
+    };
 
 	return (
 		<div className="card text-light col-10 mx-auto my-5 p-5">

@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Member, Objective, Muscle_group, Workout_plan, Exercises
+from api.models import db, User, Member, Objective, MuscleGroup, WorkoutPlan, Exercises, BodyMeasurement
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 import app
@@ -29,11 +29,11 @@ def handle_hello():
     return jsonify(response_body), 200
 
 ##HANDLE ERRORS
-@app.errorhandler(APIException)
-def handle_api_exception(error):
-    response = jsonify(error.to_dict())
-    response.status_code = error.status_code
-    return response
+# @app.errorhandler(APIException)
+# def handle_api_exception(error):
+#     response = jsonify(error.to_dict())
+#     response.status_code = error.status_code
+#     return response
 
 
 #SignUp & Login
@@ -269,7 +269,7 @@ def delete_objective(objective_id):
 # Endpoint para obtener todos los planes de entrenamiento
 @api.route('/workout-plans', methods=['GET'])
 def get_workout_plans():
-    workout_plans = Workout_plan.query.all()
+    workout_plans = WorkoutPlan.query.all()
     serialized_workout_plans = [plan.serialize() for plan in workout_plans]
     return jsonify(serialized_workout_plans), 200
 
@@ -277,7 +277,7 @@ def get_workout_plans():
 @api.route('/workout-plans/<int:workout_id>', methods=['GET'])
 def get_workout_plan(workout_id):
     try:
-        workout_plan = Workout_plan.query.filter_by(Id_workout=workout_id).one()
+        workout_plan = WorkoutPlan.query.filter_by(Id_workout=workout_id).one()
         return jsonify(workout_plan.serialize()), 200
     except NoResultFound:
         raise APIException('Workout plan not found', status_code=404)
@@ -286,7 +286,7 @@ def get_workout_plan(workout_id):
 @api.route('/workout-plans', methods=['POST'])
 def create_workout_plan():
     data = request.json
-    new_workout_plan = Workout_plan(
+    new_workout_plan = WorkoutPlan(
         name_id=data['name_id'], 
         sets=data['sets'], 
         reps=data['reps'], 
@@ -313,7 +313,7 @@ def update_workout_plan(workout_id):
     data = request.json
 
     try:
-        workout_plan = Workout_plan.query.filter_by(id=workout_id).one()
+        workout_plan = WorkoutPlan.query.filter_by(id=workout_id).one()
         workout_plan.name_id = data.get('name_id', workout_plan.name_id)
         workout_plan.sets = data.get('sets', workout_plan.sets)
         workout_plan.reps = data.get('reps', workout_plan.reps)
@@ -334,7 +334,7 @@ def update_workout_plan(workout_id):
 @api.route('/workout-plans/<int:workout_id>', methods=['DELETE'])
 def delete_workout_plan(workout_id):
     try:
-        workout_plan = Workout_plan.query.filter_by(id=workout_id).one()
+        workout_plan = WorkoutPlan.query.filter_by(id=workout_id).one()
         db.session.delete(workout_plan)
         db.session.commit()
         return jsonify({"message": "Workout plan deleted successfully", "workout_id": workout_id}), 200
@@ -400,7 +400,7 @@ def delete_exercise(exercise_id):
 # Endpoint para obtener todos los grupos musculares
 @api.route('/muscle-groups', methods=['GET'])
 def get_muscle_groups():
-    muscle_groups = Muscle_group.query.all()
+    muscle_groups = MuscleGroup.query.all()
     serialized_muscle_groups = [group.serialize() for group in muscle_groups]
     return jsonify(serialized_muscle_groups), 200
 
@@ -408,7 +408,7 @@ def get_muscle_groups():
 @api.route('/muscle-groups/<int:group_id>', methods=['GET'])
 def get_muscle_group(group_id):
     try:
-        muscle_group = Muscle_group.query.filter_by(id=group_id).one()
+        muscle_group = MuscleGroup.query.filter_by(id=group_id).one()
         return jsonify(muscle_group.serialize()), 200
     except NoResultFound:
         raise APIException('Muscle group not found', status_code=404)
@@ -420,7 +420,7 @@ def create_muscle_group():
     if 'name' not in data:  # Validate required fields
         return jsonify({"error": "Field 'name' is required"}), 400
 
-    new_muscle_group = Muscle_group(name=data['name'])
+    new_muscle_group = MuscleGroup(name=data['name'])
 
     try:
         db.session.add(new_muscle_group)
@@ -436,7 +436,7 @@ def update_muscle_group(group_id):
     data = request.json
 
     try:
-        muscle_group = Muscle_group.query.filter_by(id=group_id).one()
+        muscle_group = MuscleGroup.query.filter_by(id=group_id).one()
         muscle_group.name = data.get('name', muscle_group.name)
 
         db.session.commit()
@@ -448,7 +448,7 @@ def update_muscle_group(group_id):
 @api.route('/muscle-groups/<int:group_id>', methods=['DELETE'])
 def delete_muscle_group(group_id):
     try:
-        muscle_group = Muscle_group.query.filter_by(id=group_id).one()
+        muscle_group = MuscleGroup.query.filter_by(id=group_id).one()
         db.session.delete(muscle_group)
         db.session.commit()
         return jsonify({"message": "Muscle group deleted successfully", "group_id": group_id}), 200
@@ -460,7 +460,7 @@ def delete_muscle_group(group_id):
 # Endpoint para obtener todas las mediciones corporales de un usuario
 @api.route('/users/<int:user_id>/body-measurements', methods=['GET'])
 def get_user_body_measurements(user_id):
-    body_measurements = BodyMeasurements.query.filter_by(user_id=user_id).all()
+    body_measurements = BodyMeasurement.query.filter_by(user_id=user_id).all()
     serialized_measurements = [measurement.serialize() for measurement in body_measurements]
     return jsonify(serialized_measurements), 200
 
@@ -468,7 +468,7 @@ def get_user_body_measurements(user_id):
 @api.route('/users/<int:user_id>/body-measurements/<int:measurement_id>', methods=['GET'])
 def get_user_body_measurement(user_id, measurement_id):
     try:
-        body_measurement = BodyMeasurements.query.filter_by(user_id=user_id, id=measurement_id).one()
+        body_measurement = BodyMeasurement.query.filter_by(user_id=user_id, id=measurement_id).one()
         return jsonify(body_measurement.serialize()), 200
     except NoResultFound:
         return jsonify({'error': 'Body measurement not found'}), 404
@@ -482,7 +482,7 @@ def create_user_body_measurement(user_id):
     if not user:
         return jsonify({'error': 'User not found'}), 404
     
-    new_measurement = BodyMeasurements(
+    new_measurement = BodyMeasurement(
         user_id=user_id,
         height=data['height'],
         weight=data['weight'],
@@ -511,7 +511,7 @@ def update_user_body_measurement(user_id, measurement_id):
     data = request.json
 
     try:
-        body_measurement = BodyMeasurements.query.filter_by(user_id=user_id, id=measurement_id).one()
+        body_measurement = BodyMeasurement.query.filter_by(user_id=user_id, id=measurement_id).one()
         body_measurement.height = data.get('height', body_measurement.height)
         body_measurement.weight = data.get('weight', body_measurement.weight)
         body_measurement.neck = data.get('neck', body_measurement.neck)
@@ -533,7 +533,7 @@ def update_user_body_measurement(user_id, measurement_id):
 @api.route('/users/<int:user_id>/body-measurements/<int:measurement_id>', methods=['DELETE'])
 def delete_user_body_measurement(user_id, measurement_id):
     try:
-        body_measurement = BodyMeasurements.query.filter_by(user_id=user_id, id=measurement_id).one()
+        body_measurement = BodyMeasurement.query.filter_by(user_id=user_id, id=measurement_id).one()
         db.session.delete(body_measurement)
         db.session.commit()
         return jsonify({"message": "Body measurement deleted successfully", "id": measurement_id}), 200

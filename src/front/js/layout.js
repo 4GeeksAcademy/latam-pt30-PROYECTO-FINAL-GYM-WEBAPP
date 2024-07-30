@@ -14,6 +14,9 @@ import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
 import { CreateEditPlan } from "./pages/CreateEditPlan.jsx";
 import { MyWorkOut } from "./component/MyWorkOut.jsx";
+import { UserDataForm } from "./component/UserDataForm.jsx";
+import { UserProfileView } from "./pages/UserProfileView.jsx";
+import { BodyMeasurementForm } from "./component/BodyMeasurementForm.jsx";
 
 //create your first component
 const Layout = () => {
@@ -32,19 +35,24 @@ const Layout = () => {
             <Route element={<SignUp />} path="/" />
             <Route element={<LogIn />} path="/login" />
             <Route element={<Dashboard />} path="/dashboard" />
-            <Route element={<CreateEditPlan />} path="/creatEditPlan/:id" />
+            <Route element={<CreateEditPlan />} path="/createEditPlan/:id" />
             <Route element={<Workout />} path="/workout/:workoutId/day/:dayId/exercise/:name" />
+            <Route element={<MyWorkOut/>} path="/MyWorkOut"/>
             <Route element={<h1>Not found!</h1>} path="*"/>
 
-            <Route element={<MyWorkOut/>} path="/MyWorkOut"/>
+
+            <Route element={<BodyMeasurementForm/>} path="/createMeasurement"/>
+            <Route element={<BodyMeasurementForm/>} path="/editMeasurement/:id"/>
+            <Route element={<UserDataForm/>} path="/userData/:id"/>
+            <Route element={<UserProfileView/>} path="/profileView/:id"/>
+            <Route element={<UserProfileView/>} path="/profileView"/>
 
             {/* <Route element={<Workout />} path="/workout/:exerciseName" />
-            <Route element={<PruebaExercises />} path="/exercises" />
             <Route element={<Exercise />} path="/exercises/:id" />
+            <Route element={<PruebaExercises />} path="/exercises" />
             <Route element={<PruebaExercises />} path="/prueba" />
             <Route element={<Exercise />} path="/prueba/:id" /> */}
 
-            <Route element={<h1>Not found!</h1>} />
           </Routes>
           <Footer />
         </ScrollToTop>

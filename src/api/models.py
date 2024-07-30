@@ -11,7 +11,7 @@ class User(db.Model):
 
     members = db.relationship('Member', backref='user', lazy=True)
     workout_plans = db.relationship('WorkoutPlan', backref='user', lazy=True)
-    body_measurements = db.relationship('BodyMeasurements', backref='user', lazy=True)
+    body_measurements = db.relationship('BodyMeasurement', backref='user', lazy=True)
 
     def __repr__(self):
         return '<User %r>' %self.email
@@ -82,6 +82,40 @@ class Objective(db.Model):
         }
 
 
+class BodyMeasurement(db.Model):
+    __tablename__ = 'body_measurement'
+
+    id = db.Column(db.Integer, primary_key=True)
+    height = db.Column(db.Float, nullable=False)
+    weight = db.Column(db.Float, nullable=False)
+    neck = db.Column(db.Float, nullable=False)
+    relaxed_arm = db.Column(db.Float, nullable=False)
+    flexed_arm = db.Column(db.Float, nullable=False)
+    waist = db.Column(db.Float, nullable=False)
+    calves = db.Column(db.Float, nullable=False)
+    chest = db.Column(db.Float, nullable=False)
+    hips = db.Column(db.Float, nullable=False)
+    thighs = db.Column(db.Float, nullable=False)
+    shoulders = db.Column(db.Float, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+    def serialize(self):
+        return {
+            'id': self.id,
+            'user_id': self.user_id,
+            'height': self.height,
+            'weight': self.weight,
+            'neck': self.neck,
+            'relaxed_arm': self.relaxed_arm,
+            'flexed_arm': self.flexed_arm,
+            'waist': self.waist,
+            'calves': self.calves,
+            'chest': self.chest,
+            'hips': self.hips,
+            'thighs': self.thighs,
+            'shoulders': self.shoulders
+        }
+    
 class WorkoutPlan(db.Model):
     __tablename__ = 'workout_plan'
     id = db.Column(db.Integer, primary_key=True)
@@ -96,6 +130,8 @@ class WorkoutPlan(db.Model):
     member_id = db.Column(db.Integer, db.ForeignKey('member.id'), nullable=False)
     exercise_id = db.Column(db.Integer, db.ForeignKey('exercises.id'), nullable=False)
     muscle_group_id = db.Column(db.Integer, db.ForeignKey('muscle_group.id'), nullable=False)
+
+    #1. Tabla que conecta work out con muscle group.
 
     def __repr__(self):
         return '<WorkoutPlan %r>' %self.id
@@ -118,7 +154,7 @@ class Exercises(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False, unique=True)
     Link_video = db.Column(db.String(50))
-    muscle_group_id = db.Column(db.Integer, db.ForeignKey('muscle_group.id'))
+    muscle_group_id = db.Column(db.Integer, db.ForeignKey('muscle_group.id'))#muscle group esta en workout no exercices
     
     def __repr__(self):
         return '<Exercises %r>' %self.Id_exercise
@@ -130,7 +166,8 @@ class Exercises(db.Model):
             "Link_video": self.Link_video
             # do not serialize the password, its a security breach
         }
-
+    
+      #2. Tabla que conecta work out con exercicio - Tablas pivote.
 
 
 class MuscleGroup(db.Model):
@@ -138,7 +175,7 @@ class MuscleGroup(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False, unique=True)
 
-    exercises = db.relationship('Exercise', backref='muscle_group', lazy=True)
+    exercises = db.relationship('Exercises', backref='muscle_group', lazy=True)
     workout_plans = db.relationship('WorkoutPlan', backref='muscle_group', lazy=True)
 
     def __repr__(self):
@@ -151,37 +188,4 @@ class MuscleGroup(db.Model):
             # do not serialize the password, its a security breach
         }
 
-class BodyMeasurements(db.Model):
-    __tablename__ = 'body_measurements'
-
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    height = db.Column(db.Float, nullable=False)
-    weight = db.Column(db.Float, nullable=False)
-    neck = db.Column(db.Float, nullable=False)
-    relaxed_arm = db.Column(db.Float, nullable=False)
-    flexed_arm = db.Column(db.Float, nullable=False)
-    waist = db.Column(db.Float, nullable=False)
-    calves = db.Column(db.Float, nullable=False)
-    chest = db.Column(db.Float, nullable=False)
-    hips = db.Column(db.Float, nullable=False)
-    thighs = db.Column(db.Float, nullable=False)
-    shoulders = db.Column(db.Float, nullable=False)
-
-    def serialize(self):
-        return {
-            'id': self.id,
-            'user_id': self.user_id,
-            'height': self.height,
-            'weight': self.weight,
-            'neck': self.neck,
-            'relaxed_arm': self.relaxed_arm,
-            'flexed_arm': self.flexed_arm,
-            'waist': self.waist,
-            'calves': self.calves,
-            'chest': self.chest,
-            'hips': self.hips,
-            'thighs': self.thighs,
-            'shoulders': self.shoulders
-        }
     
