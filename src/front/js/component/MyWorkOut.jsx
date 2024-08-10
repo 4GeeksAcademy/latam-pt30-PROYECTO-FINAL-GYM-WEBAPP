@@ -16,7 +16,7 @@ export const MyWorkOut = (props) => {
         <div className="d-flex flex-column">
                 <div>
                     <button
-                        className="alert rounded-5 text-light bg-light fw-bolder bg-dark-subtle col-11"
+                        className="alert rounded-5 border-success-subtle text-light bg-light fw-bolder bg-dark-subtle col-11"
                         type="button"
                         data-bs-toggle="collapse"
                         data-bs-target={`#collapseWidthExample-${props.id}`}
@@ -36,14 +36,14 @@ export const MyWorkOut = (props) => {
                     </button>
                     <div className="col-12">
                         <div
-                            className="collapse collapse-horizontal bg-dark-subtle"
+                            className="collapse collapse-horizontal "
                             id={`collapseWidthExample-${props.id}`}
                         >
                             <div>
                                 {props.days.map((day, dayIndex) => (
                                     <div key={dayIndex}>
                                         <button
-                                            className="alert rounded-5 bg-light text-light fw-semibold bg-body-secondary col-11"
+                                            className="alert rounded-5 text-light fw-semibold bg-body-secondary border-warning-subtle col-11"
                                             type="button"
                                             data-bs-toggle="collapse"
                                             data-bs-target={`#dayCollapse-${props.index}-${dayIndex}`}
@@ -71,7 +71,7 @@ export const MyWorkOut = (props) => {
                                                     style={{ cursor: "pointer" }}
                                                 >
                                                     <div
-                                                        className="alert rounded-5 bg-light text-dark fw-medium col-11"
+                                                        className="alert border-danger-subtle rounded-5 bg-light text-dark fw-medium col-11"
                                                         role="alert"
                                                     >
                                                         {exercise.name} - {exercise.sets} Sets x {exercise.reps} Reps

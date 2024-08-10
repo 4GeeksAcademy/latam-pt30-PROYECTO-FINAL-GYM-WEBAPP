@@ -1,15 +1,15 @@
 """
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
-from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Member, Objective, MuscleGroup, WorkoutPlan, Exercises, BodyMeasurement
+from flask import request, jsonify, url_for, Blueprint, current_app
+from api.models import db, User, Member, Objective, MuscleGroup, WorkoutPlan, Exercises, BodyMeasurement, Videos
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 import app
 import api.models
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.exc import IntegrityError
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, create_access_token
 
 
 api = Blueprint('api', __name__)
@@ -36,32 +36,77 @@ def handle_hello():
 #     return response
 
 
-#SignUp & Login
-
-# @api.route('/signup', methods=['POST'])
-# def Signup1():
-#      data = request.json
-#      respuesta = app.Signup(data)
-#      return jsonify({"Message" : respuesta}), 200
+#SIGN UP & LOG IN_____________________________________________
 
 @api.route('/signup', methods=['POST'])
 def signup():
+        #Extract data from request
+    data = request.json
+    #Verifying we are receiving all required data in the request
+    email = data.get("email")
+    password  = data.get("password")
+
+    #Returning 400 if data is not correct  
+    if not email or not password:
+        return jsonify({
+            "message": "Email and Password are Required"
+        }), 400
+    #Email Verification
+    
+    if User.query.filter_by(email=email).first():
+        return jsonify({"message": "Invalid email"}), 400
+    
+    password_hash = current_app.bcrypt.generate_password_hash(password).decode("utf-8")#Accepts all carachters
+    #We create new user
+    newUser = User(email=email, password=password_hash)
     try:
-        data = request.get_json()  # Utiliza get_json para asegurar que los datos se parsean correctamente
-        respuesta = app.Signup(data)  # Llama a tu función de registro
-        return jsonify({"Message": respuesta}), 200
-    except Exception as e:
-        return jsonify({"error": str(e)}), 400
+        db.session.add(newUser)
+        db.session.commit()
+    except Exception as error:
+        print(error)
+        db.session.rollback()
+        return jsonify({"message":"Error in server"}), 500
+    return jsonify({"message": "User created successfully"}), 201
 
 
 @api.route('/login', methods=['POST'])
-def Login1():
-     data = request.json
-     #print("Data dentro de Login1",data)
-     respuesta = app.Login(data)
-     #print(respuesta)
-     return jsonify({"Message" : respuesta}),200
+def login():
+   #Extract data from request
+    data = request.json
+    #Verifying we are receiving all required data in the request
+    email = data.get("email")
+    password = data.get("password")
 
+    #Returning 400 if data is not correct  
+    if not email or not password:
+        return jsonify({
+            "message": "Email and Password are Required"
+        }), 400
+
+    user = User.query.filter_by(email=email).first()
+    print(user)
+
+    if user is None:
+        return jsonify({
+            "message": "Email or password invalid"
+        }), 400
+    
+
+    password_is_valid = current_app.bcrypt.check_password_hash(user.password, data["password"])
+    
+    if not password_is_valid:
+        return jsonify({
+            "message": "Email or password invalid"
+        }), 400
+    
+    token = create_access_token(identity=user.id)
+    response_body={
+        "token": token,
+        "user": user.serialize()
+    }
+    return jsonify(response_body), 201
+
+#USERS______________________________________________________
 # Endpoint para obtener todos los usuarios
 @api.route('/users', methods=['GET'])
 def get_users():
@@ -79,33 +124,34 @@ def get_user(user_id):
         raise APIException('User not found', status_code=404)
 
 # Endpoint para actualizar un usuario existente por su ID
-@api.route('/users/<int:user_id>', methods=['PUT'])
-def update_user(user_id):
-    data = request.json
+# @api.route('/users/<int:user_id>', methods=['PUT'])
+# def update_user(user_id):
+#     data = request.json
 
-    try:
-        user = User.query.filter_by(id=user_id).one()
-        user.email = data.get('email', user.email)
-        user.password = data.get('password', user.password)
-        user.Creation_date = data.get('creation_date', user.creation_date)
+#     try:
+#         user = User.query.filter_by(id=user_id).one()
+#         user.email = data.get('email', user.email)
+#         user.password = data.get('password', user.password)
+#         user.Creation_date = data.get('creation_date', user.creation_date)
 
-        db.session.commit()
-        return jsonify({"message": "User updated successfully", "user_id": user.id}), 200
-    except NoResultFound:
-        raise APIException('User not found', status_code=400)
+#         db.session.commit()
+#         return jsonify({"message": "User updated successfully", "user_id": user.id}), 200
+#     except NoResultFound:
+#         raise APIException('User not found', status_code=400)
 
-# Endpoint para eliminar un usuario por su ID
-@api.route('/users/<int:user_id>', methods=['DELETE'])
-def delete_user(user_id):
-    try:
-        user = User.query.filter_by(id=user_id).one()
-        db.session.delete(user)
-        db.session.commit()
-        return jsonify({"message": "User deleted successfully", "user_id": user_id}), 200
-    except NoResultFound:
-        raise APIException('User not found', status_code=404)
+# # Endpoint para eliminar un usuario por su ID
+# @api.route('/users/<int:user_id>', methods=['DELETE'])
+# def delete_user(user_id):
+#     try:
+#         user = User.query.filter_by(id=user_id).one()
+#         db.session.delete(user)
+#         db.session.commit()
+#         return jsonify({"message": "User deleted successfully", "user_id": user_id}), 200
+#     except NoResultFound:
+#         raise APIException('User not found', status_code=404)
 
-# Endpoint para obtener todos los miembros
+#MEMBERS________________________________________________________
+# # Endpoint para obtener todos los miembros
 @api.route('/members', methods=['GET'])
 def get_members():
     members = Member.query.all()
@@ -121,34 +167,13 @@ def get_member(member_id):
     except NoResultFound:
         raise APIException('Member not found', status_code=400)
     
-# Endpoint para actualizar un miembro existente por su ID
-# @api.route('/members/<int:member_id>', methods=['PUT'])
-# def update_member(member_id):
-#     data = request.json
-
-#     try:
-#         member = Member.query.filter_by(Id_member=member_id).one()
-#         member.Name = data.get('Name', member.Name)
-#         member.Last_name = data.get('Last_name', member.Last_name)
-#         member.Gender = data.get('Gender', member.Gender)
-#         member.Height = data.get('Height', member.Height)
-#         member.Weight = data.get('Weight', member.Weight)
-#         member.Birthday = data.get('Birthday', member.Birthday)
-#         member.City = data.get('City', member.City)
-#         member.Country = data.get('Country', member.Country)
-
-#         db.session.commit()
-#         return jsonify({"message": "Member updated successfully", "member_id": member.Id_member}), 200
-#     except NoResultFound:
-#         raise APIException('Member not found', status_code=404)
-
 
 @api.route('/members', methods=['POST'])
 @jwt_required()
 def create_member():
     data = request.json
 
-    required_fields = ['name', 'last_name', 'gender', 'height', 'weight', 'birthday', 'city', 'country']
+    required_fields = ['name', 'last_name', 'gender', 'height', 'weight', 'birthday', 'city', 'country', 'user_id', 'objective_id']
     for field in required_fields:
         if field not in data:
             return jsonify({"error": f"Field '{field}' is required"}), 400
@@ -157,14 +182,14 @@ def create_member():
         return jsonify({"error": "Height and Weight must be numeric"}), 400
 
     new_member = Member(
-        name=data['Name'],
-        last_name=data['Last_name'],
-        gender=data['Gender'],
-        height=data['Height'],
-        weight=data['Weight'],
-        birthday=data['Birthday'],
-        city=data['City'],
-        country=data['Country'],
+        name=data['name'],
+        last_name=data['last_name'],
+        gender=data['gender'],
+        height=data['height'],
+        weight=data['weight'],
+        birthday=data['birthday'],
+        city=data['city'],
+        country=data['country'],
         user_id=data['user_id'],
         objective_id=data['objective_id']
     )
@@ -201,16 +226,17 @@ def update_member(member_id):
         raise APIException('Member not found', status_code=404)
 
 # Endpoint para eliminar un miembro por su ID
-@api.route('/members/<int:member_id>', methods=['DELETE'])
-def delete_member(member_id):
-    try:
-        member = Member.query.filter_by(id=member_id).one()
-        db.session.delete(member)
-        db.session.commit()
-        return jsonify({"message": "Member deleted successfully", "member_id": member_id}), 200
-    except NoResultFound:
-        raise APIException('Member not found', status_code=404)
+# @api.route('/members/<int:member_id>', methods=['DELETE'])
+# def delete_member(member_id):
+#     try:
+#         member = Member.query.filter_by(id=member_id).one()
+#         db.session.delete(member)
+#         db.session.commit()
+#         return jsonify({"message": "Member deleted successfully", "member_id": member_id}), 200
+#     except NoResultFound:
+#         raise APIException('Member not found', status_code=404)
 
+#OBJECTIVES__________________________________________________
 # Endpoint para obtener todos los objetivos
 @api.route('/objectives', methods=['GET'])
 def get_objectives():
@@ -227,45 +253,46 @@ def get_objective(objective_id):
     except NoResultFound:
         raise APIException('Objective not found', status_code=404)
 
-# Endpoint para crear un nuevo objetivo
-@api.route('/objectives', methods=['POST'])
-def create_objective():
-    data = request.json
-    new_objective = Objective(name=data['name'])
+# # Endpoint para crear un nuevo objetivo
+# @api.route('/objectives', methods=['POST'])
+# def create_objective():
+#     data = request.json
+#     new_objective = Objective(name=data['name'])
 
-    try:
-        db.session.add(new_objective)
-        db.session.commit()
-        return jsonify({"message": "Objective created successfully", "objective_id": new_objective.Id_objective}), 201
-    except IntegrityError:
-        db.session.rollback()
-        raise APIException('Error creating objective', status_code=400)
+#     try:
+#         db.session.add(new_objective)
+#         db.session.commit()
+#         return jsonify({"message": "Objective created successfully", "objective_id": new_objective.Id_objective}), 201
+#     except IntegrityError:
+#         db.session.rollback()
+#         raise APIException('Error creating objective', status_code=400)
 
-# Endpoint para actualizar un objetivo existente por su ID
-@api.route('/objectives/<int:objective_id>', methods=['PUT'])
-def update_objective(objective_id):
-    data = request.json
+# # Endpoint para actualizar un objetivo existente por su ID
+# @api.route('/objectives/<int:objective_id>', methods=['PUT'])
+# def update_objective(objective_id):
+#     data = request.json
 
-    try:
-        objective = Objective.query.filter_by(id=objective_id).one()
-        objective.name = data.get('name', objective.name)
+#     try:
+#         objective = Objective.query.filter_by(id=objective_id).one()
+#         objective.name = data.get('name', objective.name)
 
-        db.session.commit()
-        return jsonify({"message": "Objective updated successfully", "objective_id": objective.id}), 200
-    except NoResultFound:
-        raise APIException('Objective not found', status_code=404)
+#         db.session.commit()
+#         return jsonify({"message": "Objective updated successfully", "objective_id": objective.id}), 200
+#     except NoResultFound:
+#         raise APIException('Objective not found', status_code=404)
 
-# Endpoint para eliminar un objetivo por su ID
-@api.route('/objectives/<int:objective_id>', methods=['DELETE'])
-def delete_objective(objective_id):
-    try:
-        objective = Objective.query.filter_by(id=objective_id).one()
-        db.session.delete(objective)
-        db.session.commit()
-        return jsonify({"message": "Objective deleted successfully", "objective_id": objective_id}), 200
-    except NoResultFound:
-        raise APIException('Objective not found', status_code=400)
+# # Endpoint para eliminar un objetivo por su ID
+# @api.route('/objectives/<int:objective_id>', methods=['DELETE'])
+# def delete_objective(objective_id):
+#     try:
+#         objective = Objective.query.filter_by(id=objective_id).one()
+#         db.session.delete(objective)
+#         db.session.commit()
+#         return jsonify({"message": "Objective deleted successfully", "objective_id": objective_id}), 200
+#     except NoResultFound:
+#         raise APIException('Objective not found', status_code=400)
 
+#WORKOUTS___________________________________________________
 # Endpoint para obtener todos los planes de entrenamiento
 @api.route('/workout-plans', methods=['GET'])
 def get_workout_plans():
@@ -277,7 +304,7 @@ def get_workout_plans():
 @api.route('/workout-plans/<int:workout_id>', methods=['GET'])
 def get_workout_plan(workout_id):
     try:
-        workout_plan = WorkoutPlan.query.filter_by(Id_workout=workout_id).one()
+        workout_plan = WorkoutPlan.query.filter_by(id=workout_id).one()
         return jsonify(workout_plan.serialize()), 200
     except NoResultFound:
         raise APIException('Workout plan not found', status_code=404)
@@ -288,16 +315,25 @@ def create_workout_plan():
     data = request.json
     new_workout_plan = WorkoutPlan(
         name_id=data['name_id'], 
-        sets=data['sets'], 
-        reps=data['reps'], 
-        rest_time=data['rest_time'],
-        description_id=data.get('description_id'), 
+        # sets=data['sets'], 
+        # reps=data['reps'], 
+        # rest_time=data['rest_time'],
+        # description_id=data.get('description_id'), 
         training_day=data['training_day'], 
         superSet=data['super_set'],
         use_id=data['user_id'], 
         member_id=data['member_id'], 
-        exercise_id=data['exercise_id'],
-        musclegroup_id=data['muscle_group_id'])
+        # exercise_id=data['exercise_id'],
+        # musclegroup_id=data['muscle_group_id'])
+          )
+
+    for mg_id in data['muscle_group_ids']:
+        muscle_group = MuscleGroup.query.get(mg_id)
+        new_workout_plan.muscle_groups.append(muscle_group)
+
+    for ex_id in data['exercise_ids']:
+        exercise = Exercises.query.get(ex_id)
+        new_workout_plan.exercises.append(exercise)
 
     try:
         db.session.add(new_workout_plan)
@@ -315,16 +351,29 @@ def update_workout_plan(workout_id):
     try:
         workout_plan = WorkoutPlan.query.filter_by(id=workout_id).one()
         workout_plan.name_id = data.get('name_id', workout_plan.name_id)
-        workout_plan.sets = data.get('sets', workout_plan.sets)
-        workout_plan.reps = data.get('reps', workout_plan.reps)
-        workout_plan.rest_time = data.get('rest_time', workout_plan.rest_time)
-        workout_plan.description_id = data.get('description_id', workout_plan.description_id)
+        # workout_plan.sets = data.get('sets', workout_plan.sets)
+        # workout_plan.reps = data.get('reps', workout_plan.reps)
+        # workout_plan.rest_time = data.get('rest_time', workout_plan.rest_time)
+        # workout_plan.description_id = data.get('description_id', workout_plan.description_id)
         workout_plan.training_day = data.get('training_day', workout_plan.training_day)
         workout_plan.super_set = data.get('super_set', workout_plan.super_set)
         workout_plan.user_id = data.get('user_id', workout_plan.user_id)
         workout_plan.member_id = data.get('member_id', workout_plan.member_id)
-        workout_plan.exercise_id = data.get('exercise_id', workout_plan.exercise_id)
-        workout_plan.muscle_group_id = data.get('muscle_group_id', workout_plan.muscle_group_id)
+        # workout_plan.exercise_id = data.get('exercise_id', workout_plan.exercise_id)
+        # workout_plan.muscle_group_id = data.get('muscle_group_id', workout_plan.muscle_group_id)
+        
+        if 'muscle_group_ids' in data:
+            workout_plan.muscle_groups = []
+            for mg_id in data['muscle_group_ids']:
+                muscle_group = MuscleGroup.query.get(mg_id)
+                workout_plan.muscle_groups.append(muscle_group)
+        
+        if 'exercise_ids' in data:
+            workout_plan.exercises = []
+            for ex_id in data['exercise_ids']:
+                exercise = Exercises.query.get(ex_id)
+                workout_plan.exercises.append(exercise)
+
         db.session.commit()
         return jsonify({"message": "Workout plan updated successfully", "workout_id": workout_plan.id}), 200
     except NoResultFound:
@@ -341,12 +390,13 @@ def delete_workout_plan(workout_id):
     except NoResultFound:
         raise APIException('Workout plan not found', status_code=404)
 
+#EXERCISES_______________________________________________________
 # Endpoint para obtener todos los ejercicios
-@api.route('/exercises', methods=['GET'])
-def get_exercises():
-    exercises = Exercises.query.all()
-    serialized_exercises = [exercise.serialize() for exercise in exercises]
-    return jsonify(serialized_exercises), 200
+# @api.route('/exercises', methods=['GET'])
+# def get_exercises():
+#     exercises = Exercises.query.all()
+#     serialized_exercises = [exercise.serialize() for exercise in exercises]
+#     return jsonify(serialized_exercises), 200
 
 # Endpoint para obtener un ejercicio específico por su ID
 @api.route('/exercises/<int:exercise_id>', methods=['GET'])
@@ -361,7 +411,16 @@ def get_exercise(exercise_id):
 @api.route('/exercises', methods=['POST'])
 def create_exercise():
     data = request.json
-    new_exercise = Exercises(name=data['name'])
+    new_exercise = Exercises(
+        name=data['name'],
+        sets=data['sets'],
+        reps=data['reps'],
+        rest_time=data['rest_time'],
+        description_id=data.get('description_id'),
+        super_set=data.get('super_set'),
+        Link_video=data.get('Link_video'),
+        muscle_group_id=data['muscle_group_id']
+    )
 
     try:
         db.session.add(new_exercise)
@@ -378,9 +437,15 @@ def update_exercise(exercise_id):
 
     try:
         exercise = Exercises.query.filter_by(Id_exercise=exercise_id).one()
-        exercise.Name = data.get('name', exercise.name)
-        # exercise.Link_video = data.get('Link_video', exercise.Link_video)
-        # exercise.Id_musclegroup = data.get('Id_musclegroup', exercise.Id_musclegroup)
+        exercise.name = data.get('name', exercise.name)
+        exercise.sets = data.get('sets', exercise.sets)
+        exercise.reps = data.get('reps', exercise.reps)
+        exercise.rest_time = data.get('rest_time', exercise.rest_time)
+        exercise.description_id = data.get('description_id', exercise.description_id)
+        exercise.super_set = data.get('super_set', exercise.super_set)
+        exercise.Link_video = data.get('Link_video', exercise.Link_video)
+        exercise.Id_musclegroup = data.get('Id_musclegroup', exercise.Id_musclegroup)
+        
         db.session.commit()
         return jsonify({"message": "Exercise updated successfully", "exercise_id": exercise.Id_exercise}), 200
     except NoResultFound:
@@ -397,6 +462,7 @@ def delete_exercise(exercise_id):
     except NoResultFound:
         raise APIException('Exercise not found', status_code=404)
 
+#MUSCLE GROUPS___________________________________________________
 # Endpoint para obtener todos los grupos musculares
 @api.route('/muscle-groups', methods=['GET'])
 def get_muscle_groups():
@@ -456,7 +522,7 @@ def delete_muscle_group(group_id):
         raise APIException('Muscle group not found', status_code=404)
     
     
-#BODY MEASUREMENTS
+#BODY MEASUREMENTS_________________________________________
 # Endpoint para obtener todas las mediciones corporales de un usuario
 @api.route('/users/<int:user_id>/body-measurements', methods=['GET'])
 def get_user_body_measurements(user_id):
@@ -539,3 +605,20 @@ def delete_user_body_measurement(user_id, measurement_id):
         return jsonify({"message": "Body measurement deleted successfully", "id": measurement_id}), 200
     except NoResultFound:
         return jsonify({'error': 'Body measurement not found'}), 404
+    
+    #VIDEOS____________________________________________________
+# Endpoint para obtener todos los videos
+@api.route('/videos', methods=['GET'])
+def get_videos():
+    videos = Videos.query.all()
+    serialized_videos = [video.serialize() for video in videos]
+    return jsonify(serialized_videos), 200
+
+# Endpoint para obtener un video específico por su ID
+@api.route('/videos/<int:video_id>', methods=['GET'])
+def get_video(video_id):
+    try:
+        video = Videos.query.filter_by(id=video_id).one()
+        return jsonify(video.serialize()), 200
+    except NoResultFound:
+        raise APIException('Video not found', status_code=404)

@@ -11,7 +11,7 @@ export const DayForm = ({ day, setDays, index }) => {
         if (store.muscle_groups.length === 0) {
             actions.getMuscleGroups().catch(error => console.error("Failed to fetch muscle groups", error));
         }
-    }, [store.muscle_groups.length, actions]);
+    }, [store.muscle_groups.length]);
 
 
     const handleDayChange = (e) => {
@@ -20,11 +20,14 @@ export const DayForm = ({ day, setDays, index }) => {
         setDays(updatedDays);
     };
 
+    // const handleMuscleGroupChange = (e) => {
+    //     const selectedOptions = Array.from(options)
+    //     .filter(option => option.selected)
+    //     .map(option => option.value);
+    //     const { options } = e.target;
     const handleMuscleGroupChange = (e) => {
-        const selectedOptions = Array.from(options)
-        .filter(option => option.selected)
-        .map(option => option.value);
-        //const { options } = e.target;
+        const selectedOptions = Array.from(e.target.selectedOptions)
+            .map(option => option.value);
 
         if (selectedOptions.length <= 5){
             setSelectedMuscleGroup(selectedOptions);
@@ -36,41 +39,53 @@ export const DayForm = ({ day, setDays, index }) => {
 
     const handleExercisesChange = (newExercises) => {
         console.log("newExercises:", newExercises);
-        //if (Array.isArray(newExercises)) {
+        if (Array.isArray(newExercises)) {
             const updatedDays = [...setDays];
             updatedDays[index] = { ...day, exercises: Array.isArray(newExercises) ? newExercises : [] };
             setDays(updatedDays);
-       // } else {
+        } else {
             console.error("newExercises is not an array");
-       // }
+        }
     };
 
+    const addExercise = () => {
+        const newExercise = { name: "", sets: 0, reps: 0 };
+        const updatedExercises = [...(day.exercises || []), newExercise];
+        handleExercisesChange(updatedExercises);
+    };
+
+    //made retunr card
     return (
-        <div className="day-form my-3 text-light">
-            <label htmlFor={`dayName-${index}`}>Day's Name</label>
+        <div className="card-form day-form my-3 text-light">
+            <label htmlFor={`dayName-${index}`}>Day's Name </label>
             <input
                 id={`dayName-${index}`}
                 type="text"
                 placeholder="E.g., Monday"
                 value={day.day}
                 onChange={handleDayChange}
-                //className="form-control"
+                className="form-control"
             />
             <div className='my-3'>
-                <label htmlFor={`muscleGroup-${index}`}>Muscle Groups</label>
-                <select 
-                    id={`muscleGroup-${index}`}
-                    multiple
-                    value={selectedMuscleGroup} 
-                    onChange={handleMuscleGroupChange}
-                    className="form-control"
-                >
-                    {store.muscle_groups.map(group => (
-                        <option key={group.id} value={group.name}>
-                            {group.name}
-                        </option>
+                <label>Muscle Groups:</label>
+                <div className="d-flex flex-wrap">
+                    {store.muscle_groups.map((group, index) => (
+                        <div key={group.id} className="form-check form-check-inline">
+                            <input 
+                                type="checkbox" 
+                                className="btn-check" 
+                                id={`muscleGroup-${index}`} 
+                                value={group.name}
+                                checked={selectedMuscleGroup.includes(group.name)}
+                                onChange={handleMuscleGroupChange}
+                                autocomplete="off"
+                            />
+                            <label className="btn" htmlFor={`muscleGroup-${index}`}>
+                                {group.name}
+                            </label>
+                        </div>
                     ))}
-                </select>
+                </div>
                 <div id="muscleGroupHelp" className="form-text">You can select more than one muscular group per day</div>
             </div>
             {(day.exercises || []).map((exercise, exerciseIndex) => (
@@ -83,8 +98,11 @@ export const DayForm = ({ day, setDays, index }) => {
                         handleExercisesChange(updatedExercises);
                     }} 
                     index={exerciseIndex}
-                />
-            ))}
+                    />
+                ))}
+                <button 
+                className="btn btn-outline-light" 
+                onClick={addExercise}>Add Exercise</button>
         </div>
     );
 };

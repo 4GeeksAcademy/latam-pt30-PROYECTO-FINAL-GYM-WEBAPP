@@ -2,10 +2,8 @@
     General Styles used on every website (Don't Repeat Yourself)
 */
 /* Estilos base para botones de desplegable en la aplicación */
-.alert {
-  background-color: rgba(211, 211, 211, 0.7); /* Fondo gris claro con opacidad */
+/* .alert {
   color: black;
-  border: 1px solid #ccc;
   border-radius: 10px;
   opacity: 0.75;
   display: block;
@@ -13,24 +11,10 @@
   text-align: center;
   padding: 10px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-}
+} */
 
 /* Estilos específicos para los detalles del ejercicio en Workout.js */
-.workout-details {
-  background-color: rgba(211, 211, 211, 0.7); /* Cambiado a gris claro con opacidad para coincidir con el contenedor del nombre del ejercicio */
-  border: none;
-  padding: 10px 20px;
-  color: black; 
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
-  width: 100%; 
-  margin: 0; 
-  text-align: center; 
-  display: flex;
-  flex-direction: column; 
-  align-items: center; 
-  font-family: 'Arial', sans-serif; /* Asegurar la misma tipografía */
-  border-radius: 10px; /* Esquinas redondeadas */
-}
+
 
 /* Estilo del para definir los estilos para los sets complaiton*/
 /* .set-btn {
@@ -50,44 +34,17 @@
 
 
 /* Contenedor para cada set, incluyendo el número y el botón */
-.set-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 10px; /* Espacio mayor entre sets */
-}
+
 
 /* Estilo para el número del set */
-.set-number {
-  font-size: 3rem; /* Tamaño más grande para el número de set */
-  margin-right: 10px; /* Espacio entre el número y el botón */
-  color: black;
-  font-weight: bold; /* Mismo grosor que el temporizador */
-  font-family: 'Arial', sans-serif; /* Asegurar la misma tipografía */
-}
+
 
 /* Estilos para los botones de series dentro del menú desplegable */
-.set-btn {
-  background-color: #f8f9fa;
-  border: 1px solid #dee2e6;
-  color: black;
-  padding: 20px 25px; /* Aumentar padding para hacer los botones más grandes */
-  border-radius: 5px;
-  cursor: pointer;
-  width: 70px;  /* Tamaño mayor para los botones de check */
-  height: 70px; 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2.5rem; /* Tamaño más grande para el texto del botón */
-  font-weight: bold; /* Mismo grosor que el temporizador */
-  font-family: 'Arial', sans-serif; /* Asegurar la misma tipografía */
-  position: relative;
-}
 
-.set-btn.completed {
+
+/* .set-btn.completed {
   background-color: #9ACD32; 
-}
+} */
 
 
 /* Contenedor para los botones de series para asegurar alineación y distribución */
@@ -100,15 +57,15 @@
 }
 
 /* Estilos para el cronómetro */
-.timer-container {
+/* .timer-container {
   display: flex;
   justify-content: center;
   align-items: center;
   margin-top: 20px;
   width: 100%;
-}
+} */
 
-.timer {
+/* .timer {
   background-color: #333333;
   color: #9ACD32;
   display: flex;
@@ -121,20 +78,20 @@
   width: 100%;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   font-family: 'Arial', sans-serif;
-}
+} */
 
-.time {
+/* .time {
   font-size: 2em;
   font-weight: bold;
-}
+} */
 
-.buttons {
+/* .buttons {
   display: flex;
   gap: 10px;
   margin-top: 10px;
-}
+} */
 
-.pause-btn, .reset-btn {
+/* .pause-btn, .reset-btn {
   background-color: #9ACD32;
   color: #333333;
   border: none;
@@ -143,12 +100,12 @@
   cursor: pointer;
   font-size: 1rem;
   font-weight: bold;
-}
+} */
 
-.pause-btn:hover, .reset-btn:hover {
+/* .pause-btn:hover, .reset-btn:hover {
   background-color: #7CB342;
   color: #FFFFFF;
-}
+} */
 
 /* Estilos para la alerta
 .custom-alert {
@@ -156,30 +113,11 @@
   color: #9ACD32;
   font-size: 1.5rem; /* Tamaño más grande para la alerta */
 
-.modal-content {
-  border-radius: 10px;
-  padding: 20px;
-  text-align: center;
-}
 
-.modal-title {
-  font-size: 2rem; /* Tamaño del título */
-  font-weight: bold;
-}
 
-.modal-body p {
-  font-size: 1.5rem; /* Tamaño del texto de la alerta */
-}
 
-.btn-close {
-  color: #9ACD32;
-  background: none;
-  border: none;
-  font-size: 2rem; /* Tamaño más grande para el botón de cerrar */
-  cursor: pointer;
-}
 
-.btn-close:hover {
-  color: #FFFFFF;
-  background: none;
-} 
+
+
+
+

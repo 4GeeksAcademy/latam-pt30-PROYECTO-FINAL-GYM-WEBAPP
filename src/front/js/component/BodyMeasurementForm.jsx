@@ -48,11 +48,11 @@ export const BodyMeasurementForm = () => {
     };
 
     return (
-        <div className="card col-11">
+        <div className="card col-11 m-auto my-4">
             <ul className="list-group list-group-flush">
                 <li className="list-group-item">
                     <form onSubmit={handleSubmit}>
-                        <h1>BODY MEASUREMENT DATA INPUT</h1>
+                        <h1 className='p-5'>BODY MEASUREMENT DATA INPUT</h1>
                         {Object.keys(input).map((key) => (
                             <div className="mb-3" key={key}>
                                 <label htmlFor={key} className="form-label">
@@ -60,7 +60,7 @@ export const BodyMeasurementForm = () => {
                                 </label>
                                 <input
                                     type={key === 'date' ? 'date' : 'number'}
-                                    className="form-control"
+                                    className="form-control border-success"
                                     id={key}
                                     name={key}
                                     placeholder={key.replace('_', ' ').toUpperCase()}

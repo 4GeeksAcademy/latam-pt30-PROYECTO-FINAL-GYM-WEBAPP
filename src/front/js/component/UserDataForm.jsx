@@ -53,6 +53,10 @@ export const UserDataForm = () => {
                 <li className="list-group-item">
                     <form onSubmit={handleSubmit}>
                         <h1>PROFILE DATA INPUT</h1>
+                        <input type="file" 
+                        className="filepond"
+                        name="filepond"
+                        accept="image/png, image/jpeg, image/gif"/>
                         {[
                             { label: 'Name', name: 'name', type: 'text', placeholder: 'Name' },
                             { label: 'Lastname', name: 'lastname', type: 'text', placeholder: 'Lastname', helpText: 'Your last name is important for differentiation.', maxLength: 32 },
@@ -66,7 +70,7 @@ export const UserDataForm = () => {
                                 <label htmlFor={field.name} className="form-label">{field.label}</label>
                                 <input
                                     type={field.type}
-                                    className="form-control"
+                                    className="form-control border-success"
                                     id={field.name}
                                     name={field.name}
                                     placeholder={field.placeholder}
@@ -83,7 +87,7 @@ export const UserDataForm = () => {
                         <div className="mb-3">
                             <label className="form-label">Gender</label>
                             {genderOptions.map((option, index) => (
-                                <div className="form-check" key={index}>
+                                <div className="form-check border-success" key={index}>
                                     <input
                                         type="radio"
                                         className="form-check-input"

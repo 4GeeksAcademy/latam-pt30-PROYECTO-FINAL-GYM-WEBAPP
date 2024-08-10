@@ -9,11 +9,12 @@ export const Dashboard = () => {
     const { id } = useParams();
 
     return (
-        <div className="dashboard container mt-5">
+        <div className="dashboard container mt-5 ">
 
-            <div className='d-flex justify-content-between fw-bold'>
-            <h1>YOUR WORKOUTS ! !</h1>
-            <button className="btn btn-primary mb-3" onClick={() => navigate(`/createEditPlan/${id}`)}>+</button>
+            <div className='d-flex fw-bold'>
+            <button className="btn btn-outline-primary mb-5 mx-4" onClick={() => navigate(`/createEditPlan/${id}`)}>+</button>
+            <h1>MY WORKOUTS</h1>
+            <img/>  PROFILE PHOTO IMG
             </div>
                 {store.workouts && store.workouts.length > 0 && store.workouts.map((workout, index) => (
                     <MyWorkOut 

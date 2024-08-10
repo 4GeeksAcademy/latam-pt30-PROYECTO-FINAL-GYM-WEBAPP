@@ -17,6 +17,7 @@ import { MyWorkOut } from "./component/MyWorkOut.jsx";
 import { UserDataForm } from "./component/UserDataForm.jsx";
 import { UserProfileView } from "./pages/UserProfileView.jsx";
 import { BodyMeasurementForm } from "./component/BodyMeasurementForm.jsx";
+import { MemberSignup } from "./component/MemberSignup.jsx";
 
 //create your first component
 const Layout = () => {
@@ -43,15 +44,17 @@ const Layout = () => {
 
             <Route element={<BodyMeasurementForm/>} path="/createMeasurement"/>
             <Route element={<BodyMeasurementForm/>} path="/editMeasurement/:id"/>
-            <Route element={<UserDataForm/>} path="/userData/:id"/>
+            <Route element={<UserDataForm/>} path="/editUser/:id"/>
+            <Route element={<UserDataForm/>} path="/createUser"/>
             <Route element={<UserProfileView/>} path="/profileView/:id"/>
             <Route element={<UserProfileView/>} path="/profileView"/>
 
+            <Route element={<MemberSignup />} path="/memberSignup" />
             {/* <Route element={<Workout />} path="/workout/:exerciseName" />
             <Route element={<Exercise />} path="/exercises/:id" />
             <Route element={<PruebaExercises />} path="/exercises" />
-            <Route element={<PruebaExercises />} path="/prueba" />
             <Route element={<Exercise />} path="/prueba/:id" /> */}
+            <Route element={<PruebaExercises />} path="/prueba" />
 
           </Routes>
           <Footer />

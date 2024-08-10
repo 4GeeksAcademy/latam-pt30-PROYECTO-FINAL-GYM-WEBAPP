@@ -12,32 +12,32 @@ export const BodyMeasurement = () => {
     }, [id]);
 
     return (
-        <div className="card col-11">
+        <div className="card col-11 m-auto">
             <div className="d-flex justify-content-between align-items-center">
-                <h1
-                    className="mb-3"
+                <h4
+                    className="mb-3 p-3"
                     style={{ cursor: 'pointer' }}
                     data-bs-toggle="collapse"
-                    data-bs-target="#collapseExample"
+                    data-bs-target={`#collapseMeasurement${id}`}
                     aria-expanded="false"
-                    aria-controls="collapseExample"
+                    aria-controls={`collapseMeasurement${id}`}
                 >
-                    BODY MEASUREMENTS <i className="bi bi-chevron-down"></i>
-                </h1>
+                    MEASUREMENT <i className="fa-solid fa-caret-up m-2"></i>
+                </h4>
                 <span
-                    className="d-flex justify-content-end"
+                    className="d-flex justify-content-end m-3"
                     onClick={() => navigate(`/editMeasurement/${id}`)}
                 >
                     <i className="fa-solid fa-pen text-warning"></i>
                 </span>
-                <span
+                {/* <span
                         className="d-flex justify-content-end"
                         onClick={() => navigate(`/createMeasurement`)}
                     >
                         <i className="fa-solid fa-circle-plus text-success"></i>
-                </span>
+                </span> */}
             </div>
-            <div className="collapse" id="collapseExample">
+            <div className="collapse m-auto" id={`collapseMeasurement${id}`}>
                 <ul className="list-group list-group-flush">
                     {store.body_measurements.length > 0 ? (
                         store.body_measurements.map((measurement, index) => (
@@ -55,7 +55,7 @@ export const BodyMeasurement = () => {
                                 <strong>Thighs:</strong> {measurement.thighs} cm<br />
                                 <strong>Shoulders:</strong> {measurement.shoulders} cm<br />
                             </li>
-                        ))
+                       ))
                     ) : (
                         <li className="list-group-item">No measurements available.</li>
                     )}

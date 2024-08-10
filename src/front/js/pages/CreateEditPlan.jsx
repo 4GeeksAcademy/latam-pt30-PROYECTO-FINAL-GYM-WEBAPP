@@ -43,7 +43,8 @@ export const CreateEditPlan = () => {
     };
 
     return (
-            <div className="container mt-5">
+        <div >
+            <div className="card border-success m-4 p-5 text-light">
                 <h1>{id ? 'Edit Workout' : 'Create Workout'}</h1>
                 <div className="form-group">
                     <label htmlFor="workoutName">Workout's Name</label>
@@ -87,6 +88,7 @@ export const CreateEditPlan = () => {
                     </button>
                 </div>
             </div>
+        </div>
     );
 };
 

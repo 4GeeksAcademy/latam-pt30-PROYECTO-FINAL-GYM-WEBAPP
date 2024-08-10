@@ -59,29 +59,52 @@ const Timer = ({ startTimer, resetTimer }) => {
   };
 
   return (
-    <div className="timer">
-      <div className="time">{formatTime(time)}</div>
+    <div className="timer alert alert-success mt-4 col-9">
+      <h1 className="time display-1">{formatTime(time)}</h1>
       <div className="buttons">
-        <button className="pause-btn" onClick={() => setIsActive(!isActive)}>
+        <button 
+        className="pause-btn btn btn-outline-warning m-2" 
+        onClick={() => setIsActive(!isActive)}>
           {isActive ? "Pause" : "Start"}
         </button>
-        <button className="reset-btn" onClick={() => setTime(0)}>Reset</button>
+        <button 
+        className="btn btn-outline-warning m-2"
+        onClick={() => setTime(0)}>Reset</button>
       </div>
       {showAlert && (
-        <div className="modal show d-block" tabIndex="-1" role="dialog" onClick={handleBackdropClick}>
-          <div className="modal-dialog modal-dialog-centered" role="document">
-            <div className="modal-content custom-alert">
-              <div className="modal-header">
-                <h5 className="modal-title">Alerta de descanso</h5>
-                <button type="button" className="close btn-close" aria-label="Close" onClick={handleAlertClose}>
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div className="modal-body bg-ligh">
-                <p>Time is over! Go for your next set!.</p>
-              </div>
-            </div>
-          </div>
+        // <div className=" modal d-block" tabIndex="-1" role="dialog" onClick={handleBackdropClick}>
+        //   <div className="modal-dialog modal-dialog-centered" role="document">
+        //     <div className="modal-content custom-alert">
+        //       <div className="alert-warning modal-header">
+        //         <h5 className="modal-title">Alerta de descanso</h5>
+        //         <button 
+        //         type="button" 
+        //         className="close btn-close" 
+        //         aria-label="Close" 
+        //         onClick={handleAlertClose}>
+        //           <span aria-hidden="true">&times;</span>
+        //         </button>
+        //       </div>
+        //       <div className="modal-body bg-ligh">
+        //         <p>Time is over! Go for your next set!.</p>
+        //       </div>
+        //     </div>
+        //   </div>
+        // </div>
+        <div 
+        class="alert alert-warning text-light" 
+        role="alert"
+        onClick={handleBackdropClick}
+        >
+          Time is over ⏱️ Go for your next Set 💪
+          <button 
+                 type="button" 
+                 className="close btn-close" 
+                 aria-label="Close" 
+                 onClick={handleAlertClose}>
+                   <span aria-hidden="true">&times;</span>
+                 </button>
+          
         </div>
       )}
     </div>

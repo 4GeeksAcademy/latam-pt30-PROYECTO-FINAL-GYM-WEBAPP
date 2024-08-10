@@ -45,21 +45,22 @@ export const Workout = () => {
 
   return (
     <div className="container my-5">
-      <div className="alert rounded-5 bg-light opacity-75 col-11">
-        <div className="d-flex justify-content-center">
-          <h1 style={{ color: 'black' }}>{exercise.name} </h1>
+      <div className="alert rounded-5 bg-light border-danger-subtle opacity-75 col-11">
+        <div className="d-flex justify-content-center text-dark">
+          <h1> {exercise.name} </h1>
         </div>
-        <div className="exercise-details">
+        <div className="exercise-details text-dark justify-content-center">
           {exercise.reps} REPS | {exercise.sets} SETS | {exercise.description}</div>
       </div>
-        <div id="exerciseDetails" className="workout-details">
+        <div id="exerciseDetails" className="d- flex workout-details col-8">
           <div className="sets">
             {completedSets.map((completed, i) => (
               <div key={i} className="set-container">
-                <button onClick={() => toggleSetCompletion(i)} 
-                className={`set-btn ${completed ? 'completed' : ''}`}>
+                <button 
+                onClick={() => toggleSetCompletion(i)} 
+                className={`btn btn-success btn-lg ${completed ? 'completed' : ''}`}>
                   {completed ? "" : ""}
-                 <span className="set-number d-flex justify-content-center">{i + 1}</span>  
+                 <span className="set-number d-flex ">{i + 1}</span>  
                 </button>
               </div>
             ))}

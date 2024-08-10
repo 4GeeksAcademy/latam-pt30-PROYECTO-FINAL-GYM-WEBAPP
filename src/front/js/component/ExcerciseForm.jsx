@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
 //import { Context } from '../store/appContext';
+//import { useParams } from 'react-router-dom';
 
 export const ExcerciseForm = ({ exercise, setExercises, index }) => {
     const [formState, setFormState] = useState(exercise);
-
+    //const { store, actions } = useContext(Context);
 
     useEffect(() => {
         setExercises(prevExercises => {
             const newExercises = [...prevExercises];
             newExercises[index] = formState;
             return newExercises;
+
             
         });
     }, [formState, index, setExercises]);
@@ -24,26 +26,27 @@ export const ExcerciseForm = ({ exercise, setExercises, index }) => {
 
 
     return (
-        <div className="exercise-form">
-            {Object.keys(formState).map(key => (
-                <input
-                    key={key}
-                    type={key === 'reps' || key === 'sets' || key === 'rest_time' ? 'number' : 'text'}
-                    name={key}
-                    placeholder={key.charAt(0).toUpperCase() + key.slice(1)}
-                    value={formState[key]}
-                    onChange={handleChange}
-                />
-            ))}
+        
+            <div className="exercise-form">
+                {Object.keys(formState).map(key => (
+                    <input
+                        key={key}
+                        type={key === 'reps' || key === 'sets' || key === 'rest_time' ? 'number' : 'text'}
+                        name={key}
+                        placeholder={key.charAt(0).toUpperCase() + key.slice(1)}
+                        value={formState[key]}
+                        onChange={handleChange}
+                    />
+                ))}
 
-            <input
-                            type="text"
-                            name="description"
-                            placeholder="Description"
-                            value={formState.description}
-                            onChange={handleChange}
-                        />
-                    </div>
+                    <input
+                        type="text"
+                        name="description"
+                        placeholder="Description"
+                        value={formState.description}
+                        onChange={handleChange}
+                    />
+            </div>
                 );
             };
 

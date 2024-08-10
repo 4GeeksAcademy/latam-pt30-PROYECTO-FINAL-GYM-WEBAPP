@@ -25,8 +25,8 @@ export const LogIn = () => {
   };
 
   return (
-    <div className="card text-light col-10 mx-auto my-5 p-5">
-      <h1 className="d-flex justify-content-center">LOGIN</h1>
+    <div className="card border-success text-light col-10 mx-auto my-5 p-5">
+      <h1 className="d-flex justify-content-center display-3">LOGIN</h1>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label htmlFor="exampleInputEmail1" className="form-label">Email address</label>

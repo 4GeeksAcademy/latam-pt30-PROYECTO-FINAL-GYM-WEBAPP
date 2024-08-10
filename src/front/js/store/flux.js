@@ -3,89 +3,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
 			//Authentication data
-			message: null,
-			isAuthenticated: false,
-			userToken: null,
-			user: [],
+			message: null, // Mensaje de éxito o error
+			isAuthenticated: false, // Estado de autenticación del usuario
+			userToken: null, // Token JWT
+			user: [], // Información del usuario autenticado {}?
 
-			valExercises:[],
-
-			workouts: [
-				{
-					id: "1",
-					name: "Plan 1",
-					days: [
-							{
-							day: "Day 1",
-							muscle_group: [
-								{ name: "Leg" },
-								{ name: "Arms" }
-							],
-							exercises: [
-									{ name: "Pullups", reps: 8, sets: 4, rest_time: "20s", description: "Heavy" },
-									{ name: "Pushups", reps: 15, sets: 4, rest_time: "20s", description: "Light" },
-									{ name: "Bar", reps: 20, sets: 4, rest_time: "20s", description: "Increment weight" },
-									{ name: "Pullups", reps: 10, sets: 3, rest_time: "20s", description: "Heavy" },
-									{ name: "Pushups", reps: 20, sets: 3, rest_time: "20s", description: "Increment weight" },
-									{ name: "Bar", reps: 25, sets: 3, rest_time: "20s", description: "Light" },
-									{ name: "Peckfly", reps: 12, sets: 3, rest_time: "20s", description: "Heavy" },
-								],
-							},
-							{
-							day: "Day 2",
-							muscle_group: [
-								{ name: "abs" },
-								{ name: "shoulders" }
-							],
-							exercises: [
-									{ name: "Pullups", reps: 10, sets: 3, rest_time: "20s", description: "Heavy" },
-									{ name: "Pushups", reps: 20, sets: 3, rest_time: "20s", description: "Increment weight" },
-									{ name: "Bar", reps: 25, sets: 3, rest_time: "20s", description: "Light" },
-									{ name: "Peckfly", reps: 12, sets: 3, rest_time: "20s", description: "Heavy" },
-									{ name: "Pullups", reps: 10, sets: 3, rest_time: "20s", description: "Heavy" },
-									{ name: "Pushups", reps: 20, sets: 3, rest_time: "20s", description: "Increment weight" },
-								],
-							},
-						],
-					},
-					{
-						id: "2",
-						name: "Plan 2",
-						days: [
-								{
-								day: "Day 1",
-								muscle_group: [
-									{ name: "abs" },
-									{ name: "shoulders" }
-								],
-								exercises: [
-										{ name: "Pullups", reps: 8, sets: 4, rest_time: "20s", description: "" },
-										{ name: "Pushups", reps: 15, sets: 4, rest_time: "20s", description: "" },
-										{ name: "Bar", reps: 20, sets: 4, rest_time: "20s", description: "" },
-									],
-								},
-								{
-								day: "Day 2",
-								muscle_group: [
-									{ name: "abs" },
-									{ name: "shoulders" }
-								],
-								exercises: [
-										{ name: "Pullups", reps: 10, sets: 3, rest_time: "20s", description: "" },
-										{ name: "Pushups", reps: 20, sets: 3, rest_time: "20s", description: "" },
-										{ name: "Bar", reps: 25, sets: 3, rest_time: "20s", description: "" },
-										{ name: "Peckfly", reps: 12, sets: 3, rest_time: "20s", description: "" },
-									],
-								},
-							],
-						},
-
-				],	
-		
-			muscle_groups: [],
-			
-			
-		    // members data
+			//MEMBERS
 			members: [
 				{
 					id: "1",
@@ -110,8 +33,83 @@ const getState = ({ getStore, getActions, setStore }) => {
 					country: 'USA',
 				},
 			], 
-			
-			// Para almacenar una lista de miembros
+			member: {},
+
+			//WORKOUTS
+			workouts: [
+				{
+					id: "1",
+					name: "Plan 1",
+					days: [
+						{
+							day: "Day 1",
+							muscle_group: [
+								{ name: "Leg" },
+								{ name: "Arms" }
+							],
+							exercises: [
+								{ name: "Pullups", reps: 8, sets: 4, rest_time: "20s", description: "Heavy" },
+								{ name: "Pushups", reps: 15, sets: 4, rest_time: "20s", description: "Light" },
+								{ name: "Bar", reps: 20, sets: 4, rest_time: "20s", description: "Increment weight" },
+								{ name: "Pullups", reps: 10, sets: 3, rest_time: "20s", description: "Heavy" },
+								{ name: "Pushups", reps: 20, sets: 3, rest_time: "20s", description: "Increment weight" },
+								{ name: "Bar", reps: 25, sets: 3, rest_time: "20s", description: "Light" },
+								{ name: "Peckfly", reps: 12, sets: 3, rest_time: "20s", description: "Heavy" },
+							],
+						},
+						{
+							day: "Day 2",
+							muscle_group: [
+								{ name: "abs" },
+								{ name: "shoulders" }
+							],
+							exercises: [
+								{ name: "Pullups", reps: 10, sets: 3, rest_time: "20s", description: "Heavy" },
+								{ name: "Pushups", reps: 20, sets: 3, rest_time: "20s", description: "Increment weight" },
+								{ name: "Bar", reps: 25, sets: 3, rest_time: "20s", description: "Light" },
+								{ name: "Peckfly", reps: 12, sets: 3, rest_time: "20s", description: "Heavy" },
+								{ name: "Pullups", reps: 10, sets: 3, rest_time: "20s", description: "Heavy" },
+								{ name: "Pushups", reps: 20, sets: 3, rest_time: "20s", description: "Increment weight" },
+							],
+						},
+					],
+				},
+				{
+					id: "2",
+					name: "Plan 2",
+					days: [
+						{
+							day: "Day 1",
+							muscle_group: [
+								{ name: "abs" },
+								{ name: "shoulders" }
+							],
+							exercises: [
+								{ name: "Pullups", reps: 8, sets: 4, rest_time: "20s", description: "" },
+								{ name: "Pushups", reps: 15, sets: 4, rest_time: "20s", description: "" },
+								{ name: "Bar", reps: 20, sets: 4, rest_time: "20s", description: "" },
+							],
+						},
+						{
+							day: "Day 2",
+							muscle_group: [
+								{ name: "abs" },
+								{ name: "shoulders" }
+							],
+							exercises: [
+								{ name: "Pullups", reps: 10, sets: 3, rest_time: "20s", description: "" },
+								{ name: "Pushups", reps: 20, sets: 3, rest_time: "20s", description: "" },
+								{ name: "Bar", reps: 25, sets: 3, rest_time: "20s", description: "" },
+								{ name: "Peckfly", reps: 12, sets: 3, rest_time: "20s", description: "" },
+							],
+						},
+					],
+				},
+				
+			],	
+			muscle_groups: [],
+
+			//BODY MEASUREMENTS
 			body_measurements: [
 				{
 					id: "1",
@@ -126,27 +124,39 @@ const getState = ({ getStore, getActions, setStore }) => {
 					hips: "105",
 					thighs: "50",
 					shoulders: "122"
+				},
+				{
+					id: "2",
+					height: "174",
+					weight: "77",
+					neck: "45",
+					relaxed_arm: "35",
+					flexed_arm: "37",
+					waist: "80",
+					calves: "32",
+					chest: "96",
+					hips: "105",
+					thighs: "50",
+					shoulders: "122"
 				}
 			],
 
-            graphics: [], // New state for storing graphics
-
-			message: {}
+			//OTHERS
+			videos: [],
+			valExercises:[]
 		},
-
-
+		
 		actions: {
 			//LOGIN , SIGN UP & LOG OUT FETCH ZONE ________________________________
 			//SignUp.js
-			postSignup: (email, password, date) => {
-				console.log(email, password, date)
+			postSignup: (email, password) => {
+				console.log(email, password)
 				fetch(process.env.BACKEND_URL + "/api/signup", {
 					method: "POST",
-					body: JSON.stringify({ email, password, date }), // data can be `string` or {object}!
-
+					body: JSON.stringify({ email, password }), // data can be `string` or {object}!
 					headers: {
 						"Content-Type": "application/json"
-					}
+					},
 				})
 					.then(res => {
 						if (!res.ok) {
@@ -154,144 +164,67 @@ const getState = ({ getStore, getActions, setStore }) => {
 						}
 						return res.json();
 					})
-					.then(response => console.log("Success:", response))
+					.then(response => {
+						console.log("Success:", response);
+						return true
+					})
 					.catch(error => console.error("Error:", error));
 			},
+			// postSignup: async (email, password, date) => {
+			// 	try {
+			// 		const res = await fetch(process.env.BACKEND_URL + "/api/signup", {
+			// 			method: "POST",
+			// 			body: JSON.stringify({ email, password, date }),
+			// 			headers: {
+			// 				"Content-Type": "application/json"
+			// 			},
+			// 		});
+			// 		if (!res.ok) {
+			// 			throw new Error(`HTTP error! status: ${res.status}`);
+			// 		}
+			// 		const response = await res.json();
+			// 		console.log("Success:", response);
+			// 		setStore({ user: response.user, userToken: response.token });
+			// 		return true;
+			// 	} catch (error) {
+			// 		console.error("Error:", error);
+			// 		return false;
+			// 	}
+			// },
+			
 
 			//Login.js
 			postLogin: (email, password) => {
-				console.log(email, password)
+				console.log("Login credentials:", email, password)
 				fetch(process.env.BACKEND_URL + "/api/login", {
 					method: "POST",
 					body: JSON.stringify({ email, password }), // data can be `string` or {object}!
-
 					headers: {
 						"Content-Type": "application/json"
 					}
 
 				})
 					.then(res => res.json())
-					.then(data_ => localStorage.setItem("accessToken", data_.Message.token))
-					.then(data2 => localStorage.setItem("accessId", data2.Message.id))
-					.then(response => console.log("VALOR DE LOCALSTORAGE  *** ", localStorage.getItem('accessToken')))
-					.catch(error => console.error("Error:", error));
+					.then(data => {
+					if (data.token) {
+						localStorage.setItem("accessToken", data.token);
+						localStorage.setItem("accessId", data.user.id);
+						setStore({ user: data.user, userToken: data.token });
+						console.log("VALOR DE LOCALSTORAGE *** ", localStorage.getItem('accessToken'));
+					} else {
+						throw new Error('Invalid login response');
+				}
+			})
+			.catch(error => console.error("Error:", error));
+
 			},
 
 			//Footer.js
 			logOut: () => {
 				setStore({ user: null });
 			},
-
 			
 			
-			//EXERCISES FETCH ZONE________________________________________
-
-			//GET MUSCLE GRUOPS
-			//DayForm.js
-			getMuscleGroups: async () => {
-				try {
-					const response = await fetch(`${process.env.BACKEND_URL}/api/muscle-groups`);
-					const data = await response.json();
-					setStore({ muscle_groups: data });
-				} catch (error) {
-					console.error("Error fetching muscle groups:", error);
-				}
-			},
-			
-			//UPDATE WORKOUT
-			//CreateEditPlan.jsx
-			updateWorkout: async (id, updatedWorkout) => {
-				try {
-					const response = await fetch(`${process.env.BACKEND_URL}/api/workouts/${id}`, {
-						method: "PUT",
-						headers: {
-							"Content-Type": "application/json",
-							"Authorization": `Bearer ${getStore().userToken}`
-						},
-						body: JSON.stringify(updatedWorkout),
-					});
-					const data = await response.json();
-					if (response.ok) {
-						setStore({
-							workouts: getStore().workouts.map(workout => workout.id === id ? data : workout)
-						});
-					} else {
-						console.error("Error updating workout:", data.message);
-					}
-				} catch (error) {
-					console.error("Error updating workout:", error);
-				}
-			},
-
-			//CREATE WORKOUT
-			//CreateEditPlan.jsx
-			createWorkout: async (workout) => {
-				try {
-					const response = await fetch(`${process.env.BACKEND_URL}/api/workouts`, {
-						method: "POST",
-						headers: {
-							"Content-Type": "application/json",
-							"Authorization": `Bearer ${getStore().userToken}`
-						},
-						body: JSON.stringify(workout),
-					});
-					const data = await response.json();
-					if (response.ok) {
-						setStore({ workouts: [...getStore().workouts, data] });
-					} else {
-						console.error("Error creating workout:", data.message);
-					}
-				} catch (error) {
-					console.error("Error creating workout:", error);
-				}
-			},
-			
-			//DELETE WORKOUT
-			//POSSSIBLEEEE CreateEditPlan.jsx
-			deleteWorkout: async (id) => {
-				try {
-					const response = await fetch(`${process.env.BACKEND_URL}/api/workouts/${id}`, {
-						method: "DELETE",
-						headers: {
-							"Authorization": `Bearer ${getStore().userToken}`
-						},
-					});
-					if (response.ok) {
-						setStore({
-							workouts: getStore().workouts.filter(workout => workout.id !== id)
-						});
-					} else {
-						console.error("Error deleting workout");
-					}
-				} catch (error) {
-					console.error("Error deleting workout:", error);
-				}
-			},
-			
-			//GET WORKOUTS
-			//POSSIBLEEEE Dashboard.js // NO SE ESTA USANDO EL TOKEN
-			getWorkouts: async () => {
-				try {
-					const response = await fetch(`${process.env.BACKEND_URL}/api/workouts`);
-					const data = await response.json();
-					setStore({ workouts: data });
-				} catch (error) {
-					console.error("Error fetching workouts:", error);
-				}
-			},
-			
-			//GET WORKOUT BY ID
-			//POSSIBLEEEE Dashboard.js // NO SE ESTA USANDO EL TOKEN
-			getWorkoutById: async (id) => {
-				try {
-					const response = await fetch(`${process.env.BACKEND_URL}/api/workouts/${id}`);
-					const data = await response.json();
-					setStore({ workouts: store.workouts.map(workout => workout.id === id ? data : workout) });
-				} catch (error) {
-					console.error("Error fetching workout by ID:", error);
-				}
-			},
-
 			//MEMBERS FETCH ZONE_______________________________________________________
 			
 			//CREATE MEMBER
@@ -346,26 +279,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-			getAllMembers: async () => {
-				try {
-					const response = await fetch(`${process.env.BACKEND_URL}/api/members`, {
-						headers: {
-							"Authorization": `Bearer ${getStore().userToken}`, // Add token for authentication
-						}
-					});
-					const data = await response.json();
-					if (response.ok) {
-						setStore({ members: data });
-					} else {
-						console.error('Error fetching members:', data.message);
-					}
-				} catch (error) {
-					console.error("Error fetching members:", error);
-				}
-				
-				
-			},
-
 			// Function to get a member by ID
 			getMemberById: async (id) => {
 				try {
@@ -384,8 +297,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.error("Error fetching member by ID:", error);
 				}
 			},
-			
-			
+
 			// Function to delete a member
 			deleteMember: async (id) => {
 				try {
@@ -406,6 +318,131 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.error('Error deleting member:', error);
 				}
 			},
+
+			// getAllMembers: async () => {
+			// 	try {
+			// 		const response = await fetch(`${process.env.BACKEND_URL}/api/members`, {
+			// 			headers: {
+			// 				"Authorization": `Bearer ${getStore().userToken}`, // Add token for authentication
+			// 			}
+			// 		});
+			// 		const data = await response.json();
+			// 		if (response.ok) {
+			// 			setStore({ members: data });
+			// 		} else {
+			// 			console.error('Error fetching members:', data.message);
+			// 		}
+			// 	} catch (error) {
+			// 		console.error("Error fetching members:", error);
+			// 	}
+			// },
+			
+			//EXERCISES FETCH ZONE________________________________________
+
+			//GET MUSCLE GRUOPS
+			//DayForm.js
+			getMuscleGroups: async () => {
+				try {
+					const response = await fetch(`${process.env.BACKEND_URL}/api/muscle-groups`);
+					const data = await response.json();
+					setStore({ muscle_groups: data });
+				} catch (error) {
+					console.error("Error fetching muscle groups:", error);
+				}
+			},
+			
+			//GET WORKOUTS
+			//POSSIBLEEEE Dashboard.js // NO SE ESTA USANDO EL TOKEN
+			getWorkouts: async () => {
+				try {
+					const response = await fetch(`${process.env.BACKEND_URL}/api/workouts`);
+					if (!response.ok) throw new Error("Failed to fetch workouts");
+					const data = await response.json();
+					setStore({ workouts: data });
+				} catch (error) {
+					console.error("Error fetching workouts:", error);
+				}
+			},
+			
+			//UPDATE WORKOUT
+			//CreateEditPlan.jsx
+			updateWorkout: async (id, updatedWorkout) => {
+				try {
+					const response = await fetch(`${process.env.BACKEND_URL}/api/workouts/${id}`, {
+						method: "PUT",
+						headers: {
+							"Content-Type": "application/json",
+							"Authorization": `Bearer ${getStore().userToken}`
+						},
+						body: JSON.stringify(updatedWorkout),
+					});
+					if (!response.ok) throw new Error("Failed to update workout");
+                    const data = await response.json();
+                    const store = getStore();
+                    const updatedWorkouts = store.workouts.map(workout => {
+                        if (workout.id === id) {
+                            return { ...workout, ...data };
+                        }
+                        return workout;
+                    });
+                    setStore({ workouts: updatedWorkouts });
+				} catch (error) {
+					console.error("Error updating workout:", error);
+				}
+			},
+
+			//CREATE WORKOUT
+			//CreateEditPlan.jsx
+			createWorkout: async (workout) => {
+				try {
+					const response = await fetch(`${process.env.BACKEND_URL}/api/workouts`, {
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+							"Authorization": `Bearer ${getStore().userToken}`
+						},
+						body: JSON.stringify(workout),
+					});
+					if (!response.ok) throw new Error("Failed to add workout");
+                    const data = await response.json();
+                    const store = getStore();
+                    setStore({ workouts: [...store.workouts, data] });
+				} catch (error) {
+					console.error("Error creating workout:", error);
+				}
+			},
+			
+			//DELETE WORKOUT
+			//POSSSIBLEEEE CreateEditPlan.jsx
+			deleteWorkout: async (id) => {
+				try {
+					const response = await fetch(`${process.env.BACKEND_URL}/api/workouts/${id}`, {
+						method: "DELETE",
+					});
+					if (!response.ok) throw new Error("Failed to delete workout");
+                    const store = getStore();
+                    const updatedWorkouts = store.workouts.filter(workout => workout.id !== id);
+                    setStore({ workouts: updatedWorkouts });
+				} catch (error) {
+					console.error("Error deleting workout:", error);
+				}
+			},
+			
+			
+			//GET WORKOUT BY ID
+			//POSSIBLEEEE Dashboard.js // NO SE ESTA USANDO EL TOKEN
+			getWorkoutById: async (id) => {
+				try {
+					const response = await fetch(`${process.env.BACKEND_URL}/api/workouts/${id}`);
+					const data = await response.json();
+					setStore({ workouts: store.workouts.map(workout => workout.id === id ? data : workout) });
+				} catch (error) {
+					console.error("Error fetching workout by ID:", error);
+				}
+			},
+
+			
+			
 			
 			//MEASUREMENT FETCH ZONE_______________________________________________________
 			
@@ -503,66 +540,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 
 
-			// getOneExercise: async (id) => {
-			// 	try {
-			// 		// fetching data from the backend
-			// 		const resp = await fetch(process.env.BACKEND_URL + `/api/exercises/${id}`)
-			// 		const data = await resp.json()
-			// 		setStore({ exercise: data })
-			// 		console.log("VALORES DE EXERCISES", data)
-			// 		// console.log("VALORES DE EXERCISES", data[0]["Name"])
-			// 		// don't forget to return something, that is how the async resolves
-			// 		return data;
-			// 	} catch (error) {
-			// 		console.log("Error loading message from backend", error)
-			// 	}
-			// },
-
-			//COMENTED BY FM THU 25 JUL
-			// getMuscleGroups: async () => {
-			// 	try {
-			// 		// fetching data from the backend
-			// 		const resp = await fetch(process.env.BACKEND_URL + "/api/muscle-groups")
-			// 		const data = await resp.json()
-			// 		setStore({ valMuscleGroup: data })
-			// 		console.log("VALORES DE MuscleGroup", data)
-			// 		// console.log("VALORES DE EXERCISES", data[0]["Name"])
-			// 		// don't forget to return something, that is how the async resolves
-			// 		return data;
-			// 	} catch (error) {
-			// 		console.log("Error loading message from backend", error)
-			// 	}
-			// },
-			// getOneMuscleGroup: async (id) => {
-			// 	try {
-			// 		// fetching data from the backend
-			// 		const resp = await fetch(process.env.BACKEND_URL + `/api/muscle-groups/${id}`)
-			// 		const data = await resp.json()
-			// 		setStore({ MuscleGroup: data })
-			// 		console.log("VALORES DE ONE MuscleGroup", data)
-			// 		// console.log("VALORES DE EXERCISES", data[0]["Name"])
-			// 		// don't forget to return something, that is how the async resolves
-			// 		return data;
-			// 	} catch (error) {
-			// 		console.log("Error loading message from backend", error)
-			// 	}
-			// },
-
-
-			getUserById: async (id) => {
-				try {
-					const response = await fetch(`${process.env.BACKEND_URL}/api/user/${id}`)
-					const data = await response.json()
-					setStore({ user: data.user })
-				} catch (error) {
-					console.error(error)
-				}
-
-			},
-
 		
-
-
+			//GRAPHICS___________________________________________
 			// Function to fetch graphics data for a specific member
 			getGraphicsByMemberId: async (id) => {
 				try {
@@ -616,8 +595,17 @@ const getState = ({ getStore, getActions, setStore }) => {
 					graphics: getStore().graphics.map(graphic => graphic.id === id ? { ...graphic, ...graphicsData } : graphic)
 				});
 			},
-			 // Additional actions as needed
-
+			 // VIDEOS____________________________________
+			 getVideos: async () => {
+                try {
+                    const response = await fetch(`${process.env.BACKEND_URL}/api/videos`);
+                    const data = await response.json();
+                    setStore({ videos: data });
+                } catch (error) {
+                    console.error("Error fetching videos:", error);
+                }
+            },
+            // Otras funciones aquí...
 		},	
 	};
 };
