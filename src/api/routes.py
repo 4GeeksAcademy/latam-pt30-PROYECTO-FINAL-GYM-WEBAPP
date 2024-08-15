@@ -9,7 +9,7 @@ import app
 import api.models
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.exc import IntegrityError
-from flask_jwt_extended import jwt_required, create_access_token
+from flask_jwt_extended import jwt_required, create_access_token, get_jwt_identity
 
 
 api = Blueprint('api', __name__)
@@ -93,7 +93,7 @@ def login():
     
 
     password_is_valid = current_app.bcrypt.check_password_hash(user.password, data["password"])
-    
+    print(password_is_valid)
     if not password_is_valid:
         return jsonify({
             "message": "Email or password invalid"
@@ -105,6 +105,13 @@ def login():
         "user": user.serialize()
     }
     return jsonify(response_body), 201
+
+@api.route('/current_user', methods=['GET'])
+@jwt_required()
+def get_current_user():
+    user_id= get_jwt_identity()
+    current_user=User.query.get(user_id)
+    return jsonify(current_user.serialize()), 200
 
 #USERS______________________________________________________
 # Endpoint para obtener todos los usuarios

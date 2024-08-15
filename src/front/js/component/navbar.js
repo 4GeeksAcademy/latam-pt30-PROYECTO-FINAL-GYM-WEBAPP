@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useContext}  from "react";
 import { Link } from "react-router-dom";
+import { Context } from "../store/appContext";
 import logo from "/src/front/img/gymapp_logo.jpeg"
 
 
 export const Navbar = ({ MemberSignup }) => {
+	const { store } = useContext(Context)
+
 	return (
 		<nav className="navbar border-bottom border-body navbar-dark justify-content-between text-light shadow-lg">
 			<div className="container ">
@@ -24,9 +27,11 @@ export const Navbar = ({ MemberSignup }) => {
 						aria-controls="offcanvasExample"
 						>MEMBER
 					</button>
-					<Link to="/login">
-						<button className="btn btn-outline-success">LOGIN</button>
-					</Link>
+					{!store.user ? (
+						<Link to="/login">
+							<button className="btn btn-outline-success">LOGIN</button>
+						</Link>
+					) : null}
 				</div>
 			</div>
 			{MemberSignup && <MemberSignup />}
@@ -34,3 +39,4 @@ export const Navbar = ({ MemberSignup }) => {
 	);
 };
 
+// cndicion ternarion cuansdo store.user - current -  user esta vacion me muestra el boton. si tengo usariio ya esta logeado no se muestra.

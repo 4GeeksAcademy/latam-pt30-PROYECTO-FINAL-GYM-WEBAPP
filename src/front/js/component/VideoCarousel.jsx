@@ -4,9 +4,9 @@ import { Context } from '../store/appContext';
 export const VideoCarousel = () => {
     const { store, actions } = useContext(Context);
 
-    // useEffect(() => {
-    //     actions.getVideos();
-    // }, []);
+    useEffect(() => {
+        actions.getVideos();
+    }, []);
 
     return (
         <div id="carouselExampleCaptions" className="carousel slide" data-bs-ride="carousel">
@@ -26,11 +26,19 @@ export const VideoCarousel = () => {
             <div className="carousel-inner">
                 {store.videos.map((video, index) => (
                     <div key={index} className={`carousel-item ${index === 0 ? "active" : ""}`}>
-                        <iframe
+                        {/* <iframe
                             src={video.link}
                             title={video.title}
                             className="d-block w-100"
-                        ></iframe>
+                            referrerpolicy="strict-origin-when-cross-origin"
+                        ></iframe> */}
+                        <iframe 
+                        // width="923" 
+                        // height="519" 
+                        src={video.link} 
+                        title={video.title} 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                         <div className="carousel-caption d-none d-md-block">
                             <h5>{video.title}</h5>
                             <p>Some representative placeholder content for the slide.</p>

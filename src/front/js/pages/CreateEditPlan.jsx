@@ -14,11 +14,11 @@ export const CreateEditPlan = () => {
     const [days, setDays] = useState(existingWorkout ? existingWorkout.days : []);
 
     useEffect(() => {
-        if (store.muscle_groups.lenght === 0){
+        if (store.muscle_groups.length === 0){
              actions.getMuscleGroups();
         }
 
-    }, [store.muscle_groups.length, actions]);
+    }, [store.muscle_groups]);
 
     const addDay = () => {
         setDays([...days, { day: '', muscle_groups: [], exercises: [] }]);
@@ -57,7 +57,7 @@ export const CreateEditPlan = () => {
                         onChange={(e) => setWorkoutName(e.target.value)}
                     />
                 </div>
-                {days.map((day, index) => (
+                {days && days.length > 0 && days.map((day, index) => (
                     <DayForm 
                         key={index} 
                         day={day} 

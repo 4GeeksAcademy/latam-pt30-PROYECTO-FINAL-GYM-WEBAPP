@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 //import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
@@ -12,6 +12,8 @@ export const SignUp = () => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const navigate = useNavigate();
+	const [images, setImages] = useState([]);
+	const [randomImage, setRandomImage] = useState(null);
 
 	const handleSignUp = async (event) => {
 		event.preventDefault();
@@ -26,21 +28,40 @@ export const SignUp = () => {
         }
     };
 
+	
+
 	// Array of image URLs
-	const imageUrls = Array.from({ length: 19 }, (_, i) => require(`../../img/${i + 1}.webp`));
+
+	const imageUrls = Array.from({ length: 19 }, async (_, i) => await import(`../../img/${i + 1}.webp`));
+			console.log(imageUrls);
 	
 	// Select a random image
-	const randomImage = imageUrls[Math.floor(Math.random() * imageUrls.length)];
+	// const randomImage = imageUrls[Math.floor(Math.random() * imageUrls.length)];
 
-
-
+	useEffect(() => {
+		const getImages = async () => {
+		  const imageUrls = await Promise.all(
+			Array.from({ length: 19 }, (_, i) => import(`../../img/${i + 1}.webp`))
+		  );
+		  
+		  console.log(imageUrls); // This will show all the image URLs
+	
+		  // Select a random image
+		  const randomImage = imageUrls[Math.floor(Math.random() * imageUrls.length)];
+		  setRandomImage(randomImage.default); // Update state with the selected image
+		};
+	
+		getImages();
+	  }, []);
+	  console.log(randomImage);
+	  
 	return (
 		<>	
 			<div className="alert alert-danger text-light col-10 mx-auto my-5 p-5" style={{ backgroundImage: `url(${randomImage})`, backgroundSize: 'cover' }}>
 				<form onSubmit={handleSignUp}>
 					<fieldset>
 						<legend className="d-flex justify-content-center display-3 "> SIGN UP </legend>
-						<div className="card bg-opacity-10 p-4 m-3">
+						<div className="card bg-opacity-10 p-4 m-3 border-danger-subtle">
 							<h3>GYM APP <i className="fa fa-dumbbell text-danger px-1 mx-2"/></h3>
 							<h4>Input your workouts and display them ⬇︎</h4>
 							<h5>⏱️ Click between sets do not rest more than needed.</h5>
@@ -53,7 +74,7 @@ export const SignUp = () => {
 							<input
 								type="Email"
 								id="EmailInput"
-								className="form-control"
+								className="form-control border-danger-subtle"
 								placeholder="Email"
 								value={email}
 								onChange={(e) => setEmail(e.target.value)}
@@ -65,7 +86,7 @@ export const SignUp = () => {
 							<input
 								type="password"
 								id="PasswordInput"
-								className="form-control"
+								className="form-control border-danger-subtle"
 								placeholder=" Password"
 								value={password}
 								onChange={(e) => setPassword(e.target.value)}

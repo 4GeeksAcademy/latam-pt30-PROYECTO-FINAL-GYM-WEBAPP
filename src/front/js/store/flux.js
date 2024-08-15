@@ -6,7 +6,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			message: null, // Mensaje de éxito o error
 			isAuthenticated: false, // Estado de autenticación del usuario
 			userToken: null, // Token JWT
-			user: [], // Información del usuario autenticado {}?
+			user: {}, // Información del usuario autenticado
 
 			//MEMBERS
 			members: [
@@ -217,6 +217,19 @@ const getState = ({ getStore, getActions, setStore }) => {
 			})
 			.catch(error => console.error("Error:", error));
 
+			},
+
+			//Get current User
+			getCurrentUser: async () => {
+				let response= await fetch(process.env.BACKEND_URL + "/api/current_user", {
+					headers: {
+						Authorization: "Bearer" + localStorage.getItem("accessToken")
+					}
+				})
+				let data = await response.json()
+				if (response.ok){
+					setStore({user:data})
+				}
 			},
 
 			//Footer.js
