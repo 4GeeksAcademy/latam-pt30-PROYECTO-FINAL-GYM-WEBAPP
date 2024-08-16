@@ -18,6 +18,7 @@ import { UserDataForm } from "./component/UserDataForm.jsx";
 import { UserProfileView } from "./pages/UserProfileView.jsx";
 import { BodyMeasurementForm } from "./component/BodyMeasurementForm.jsx";
 import { MemberSignup } from "./component/MemberSignup.jsx";
+import EditPlan from "./pages/EditPlan.jsx";
 
 //create your first component
 const Layout = () => {
@@ -36,7 +37,7 @@ const Layout = () => {
             <Route element={<SignUp />} path="/" />
             <Route element={<LogIn />} path="/login" />
             <Route element={<Dashboard />} path="/dashboard" />
-            <Route element={<CreateEditPlan />} path="/createEditPlan/:id" />
+            <Route element={<EditPlan />} path="/edit-plan/:id" />
             <Route element={<Workout />} path="/workout/:workoutId/day/:dayId/exercise/:name" />
             <Route element={<MyWorkOut/>} path="/MyWorkOut"/>
             <Route element={<h1>Not found!</h1>} path="*"/>

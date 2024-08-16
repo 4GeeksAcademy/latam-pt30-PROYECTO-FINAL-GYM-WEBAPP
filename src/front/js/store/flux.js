@@ -32,7 +32,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					city: 'Los Angeles',
 					country: 'USA',
 				},
-			], 
+			],
 			member: {},
 
 			//WORKOUTS
@@ -105,8 +105,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 						},
 					],
 				},
-				
-			],	
+
+			],
 			muscle_groups: [],
 
 			//BODY MEASUREMENTS
@@ -143,9 +143,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			//OTHERS
 			videos: [],
-			valExercises:[]
+			valExercises: []
 		},
-		
+
 		actions: {
 			//LOGIN , SIGN UP & LOG OUT FETCH ZONE ________________________________
 			//SignUp.js
@@ -191,7 +191,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			// 		return false;
 			// 	}
 			// },
-			
+
 
 			//Login.js
 			postLogin: (email, password) => {
@@ -206,29 +206,29 @@ const getState = ({ getStore, getActions, setStore }) => {
 				})
 					.then(res => res.json())
 					.then(data => {
-					if (data.token) {
-						localStorage.setItem("accessToken", data.token);
-						localStorage.setItem("accessId", data.user.id);
-						setStore({ user: data.user, userToken: data.token });
-						console.log("VALOR DE LOCALSTORAGE *** ", localStorage.getItem('accessToken'));
-					} else {
-						throw new Error('Invalid login response');
-				}
-			})
-			.catch(error => console.error("Error:", error));
+						if (data.token) {
+							localStorage.setItem("accessToken", data.token);
+							localStorage.setItem("accessId", data.user.id);
+							setStore({ user: data.user, userToken: data.token });
+							console.log("VALOR DE LOCALSTORAGE *** ", localStorage.getItem('accessToken'));
+						} else {
+							throw new Error('Invalid login response');
+						}
+					})
+					.catch(error => console.error("Error:", error));
 
 			},
 
 			//Get current User
 			getCurrentUser: async () => {
-				let response= await fetch(process.env.BACKEND_URL + "/api/current_user", {
+				let response = await fetch(process.env.BACKEND_URL + "/api/current_user", {
 					headers: {
 						Authorization: "Bearer" + localStorage.getItem("accessToken")
 					}
 				})
 				let data = await response.json()
-				if (response.ok){
-					setStore({user:data})
+				if (response.ok) {
+					setStore({ user: data })
 				}
 			},
 
@@ -236,10 +236,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 			logOut: () => {
 				setStore({ user: null });
 			},
-			
-			
+
+
 			//MEMBERS FETCH ZONE_______________________________________________________
-			
+
 			//CREATE MEMBER
 			// Function to create a new member
 			createMember: async (memberData) => {
@@ -254,10 +254,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 					});
 					const data = await response.json();
 					if (response.ok) {
-						console.log( "Member created successfully" );
+						console.log("Member created successfully");
 						return true;
 					} else {
-						console.error(data.message );
+						console.error(data.message);
 						return false;
 					}
 				} catch (error) {
@@ -265,7 +265,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					return false;
 				}
 			},
-			
+
 
 			//UPDATE MEMBER
 			updateMember: async (id, memberData) => {
@@ -280,10 +280,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 					});
 					const data = await response.json();
 					if (response.ok) {
-						console.log("Member updated successfully" );
+						console.log("Member updated successfully");
 						return true;
 					} else {
-						console.error(data.message );
+						console.error(data.message);
 						return false;
 					}
 				} catch (error) {
@@ -349,7 +349,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			// 		console.error("Error fetching members:", error);
 			// 	}
 			// },
-			
+
 			//EXERCISES FETCH ZONE________________________________________
 
 			//GET MUSCLE GRUOPS
@@ -363,7 +363,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.error("Error fetching muscle groups:", error);
 				}
 			},
-			
+
 			//GET WORKOUTS
 			//POSSIBLEEEE Dashboard.js // NO SE ESTA USANDO EL TOKEN
 			getWorkouts: async () => {
@@ -376,7 +376,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.error("Error fetching workouts:", error);
 				}
 			},
-			
+
 			//UPDATE WORKOUT
 			//CreateEditPlan.jsx
 			updateWorkout: async (id, updatedWorkout) => {
@@ -390,15 +390,15 @@ const getState = ({ getStore, getActions, setStore }) => {
 						body: JSON.stringify(updatedWorkout),
 					});
 					if (!response.ok) throw new Error("Failed to update workout");
-                    const data = await response.json();
-                    const store = getStore();
-                    const updatedWorkouts = store.workouts.map(workout => {
-                        if (workout.id === id) {
-                            return { ...workout, ...data };
-                        }
-                        return workout;
-                    });
-                    setStore({ workouts: updatedWorkouts });
+					const data = await response.json();
+					const store = getStore();
+					const updatedWorkouts = store.workouts.map(workout => {
+						if (workout.id === id) {
+							return { ...workout, ...data };
+						}
+						return workout;
+					});
+					setStore({ workouts: updatedWorkouts });
 				} catch (error) {
 					console.error("Error updating workout:", error);
 				}
@@ -417,14 +417,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 						body: JSON.stringify(workout),
 					});
 					if (!response.ok) throw new Error("Failed to add workout");
-                    const data = await response.json();
-                    const store = getStore();
-                    setStore({ workouts: [...store.workouts, data] });
+					const data = await response.json();
+					const store = getStore();
+					setStore({ workouts: [...store.workouts, data] });
 				} catch (error) {
 					console.error("Error creating workout:", error);
 				}
 			},
-			
+
 			//DELETE WORKOUT
 			//POSSSIBLEEEE CreateEditPlan.jsx
 			deleteWorkout: async (id) => {
@@ -433,15 +433,15 @@ const getState = ({ getStore, getActions, setStore }) => {
 						method: "DELETE",
 					});
 					if (!response.ok) throw new Error("Failed to delete workout");
-                    const store = getStore();
-                    const updatedWorkouts = store.workouts.filter(workout => workout.id !== id);
-                    setStore({ workouts: updatedWorkouts });
+					const store = getStore();
+					const updatedWorkouts = store.workouts.filter(workout => workout.id !== id);
+					setStore({ workouts: updatedWorkouts });
 				} catch (error) {
 					console.error("Error deleting workout:", error);
 				}
 			},
-			
-			
+
+
 			//GET WORKOUT BY ID
 			//POSSIBLEEEE Dashboard.js // NO SE ESTA USANDO EL TOKEN
 			getWorkoutById: async (id) => {
@@ -454,11 +454,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-			
-			
-			
+
+
+
 			//MEASUREMENT FETCH ZONE_______________________________________________________
-			
+
 			//CREATE MEASUREMENT
 			// Function to fetch measurements data for a specific member
 			getMeasurementsByMemberId: async (id) => {
@@ -479,7 +479,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-			
+
 			// Function to create a new measurement for a member
 			createBodyMeasurement: async (memberId, measurementData) => {
 				try {
@@ -493,10 +493,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 					});
 					const data = await response.json();
 					if (response.ok) {
-						console.log( "Measurement created successfully" );
+						console.log("Measurement created successfully");
 						return true;
 					} else {
-						console.error( data.message );
+						console.error(data.message);
 						return false;
 					}
 				} catch (error) {
@@ -504,7 +504,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					return false;
 				}
 			},
-			
+
 			// Function to update measurements
 			updateBodyMeasurement: async (id, measurementData) => {
 				try {
@@ -518,11 +518,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 					});
 					const data = await response.json();
 					if (response.ok) {
-						const updatedMeasurements = getStore().body_measurements.map(measurement => 
+						const updatedMeasurements = getStore().body_measurements.map(measurement =>
 							measurement.id === id ? data : measurement
 						);
 						setStore({ body_measurements: updatedMeasurements });
-						console.log( "Measurement updated successfully");
+						console.log("Measurement updated successfully");
 						return true;
 					} else {
 						setStore({ message: data.message });
@@ -553,7 +553,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 
 
-		
+
 			//GRAPHICS___________________________________________
 			// Function to fetch graphics data for a specific member
 			getGraphicsByMemberId: async (id) => {
@@ -608,21 +608,21 @@ const getState = ({ getStore, getActions, setStore }) => {
 					graphics: getStore().graphics.map(graphic => graphic.id === id ? { ...graphic, ...graphicsData } : graphic)
 				});
 			},
-			 // VIDEOS____________________________________
-			 getVideos: async () => {
-                try {
-                    const response = await fetch(`${process.env.BACKEND_URL}/api/videos`);
-                    const data = await response.json();
-                    setStore({ videos: data });
-                } catch (error) {
-                    console.error("Error fetching videos:", error);
-                }
-            },
-            // Otras funciones aquí...
-		},	
+			// VIDEOS____________________________________
+			getVideos: async () => {
+				try {
+					const response = await fetch(`${process.env.BACKEND_URL}/api/videos`);
+					const data = await response.json();
+					setStore({ videos: data });
+				} catch (error) {
+					console.error("Error fetching videos:", error);
+				}
+			},
+			// Otras funciones aquí...
+		},
 	};
 };
 
-		
+
 
 export default getState;
