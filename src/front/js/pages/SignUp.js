@@ -93,7 +93,7 @@ export const SignUp = () => {
 								required
 							/>
 						</div>
-						<button type="submit" className="btn btn-primary">Submit</button>
+						<button type="submit" className="btn btn-success">Submit</button>
 					</fieldset>
 				</form>
 			</div>

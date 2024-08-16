@@ -19,6 +19,9 @@ export const UserProfileView = () => {
         <div>
             <div className="card border-primary-subtle col-11 mx-auto p-3 my-3">
                 <div className="d-flex justify-content-between align-items-center">
+                    {/* <div class="card" style="width: 18rem;">
+                        <img src="..." className="card-img-top" alt="..."/>
+                    </div> */}
                     <h1
                     className="mb-3" 
                     style={{ cursor: 'pointer' }}
