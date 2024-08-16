@@ -7,18 +7,32 @@ export const CreateEditPlan = () => {
     const { store, actions } = useContext(Context);
     const { id } = useParams();
     const navigate = useNavigate();
+
+
+    const [workout, setWorkout] = useState({})
+
+
+
     // Find the existing workout by id if it exists
-    const existingWorkout = store.workouts.find(workout => workout.id === id);
+    const existingWorkout = () => {
+        const searchWorkout = store.workouts.find(workout => workout.id === id);
+        console.log(searchWorkout)
+        setWorkout(searchWorkout)
+
+    }
+
+
+
     // Initialize state with existing workout data if editing, or empty if creating new
-    const [workoutName, setWorkoutName] = useState(existingWorkout ? existingWorkout.name : '');
-    const [days, setDays] = useState(existingWorkout ? existingWorkout.days : []);
+    // const [workoutName, setWorkoutName] = useState(existingWorkout ? existingWorkout.name : '');
+    // const [days, setDays] = useState(existingWorkout ? existingWorkout.days : []);
 
-    useEffect(() => {
-        if (store.muscle_groups.length === 0){
-             actions.getMuscleGroups();
-        }
+    // useEffect(() => {
+    //     if (store.muscle_groups.length === 0) {
+    //         actions.getMuscleGroups();
+    //     }
 
-    }, [store.muscle_groups]);
+    // }, [store.muscle_groups]);
 
     const addDay = () => {
         setDays([...days, { day: '', muscle_groups: [], exercises: [] }]);
@@ -42,53 +56,74 @@ export const CreateEditPlan = () => {
         navigate('/dashboard');
     };
 
+
+
+    useEffect(() => {
+        existingWorkout()
+    }, [])
+
     return (
-        <div >
-            <div className="card border-success m-4 p-5 text-light">
-                <h1>{id ? 'Edit Workout' : 'Create Workout'}</h1>
-                <div className="form-group">
-                    <label htmlFor="workoutName">Workout's Name</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="workoutName"
-                        placeholder="Eje: Hypertrophy Workout"
-                        value={workoutName}
-                        onChange={(e) => setWorkoutName(e.target.value)}
-                    />
-                </div>
-                {days && days.length > 0 && days.map((day, index) => (
-                    <DayForm 
-                        key={index} 
-                        day={day} 
-                        setDays={(updatedDays) => {
-                            const newDays = [...days];
-                            newDays[index] = updatedDays[index];
-                            setDays(newDays);
-                        }}
-                        index={index}
-                    />
-                ))}
-                <button 
-                className="btn btn-primary mt-3" 
-                onClick={addDay}>Add a Day
-                </button>
-                    {/* <div>
-                        <button 
-                        key={`add-exercise-${index}`} 
-                        className="btn btn-secondary mt-2" 
-                        onClick={() => addExercise(index)}>
-                            Add Exercises to Day {index + 1}
-                        </button>
-                    </div> */}
-                <div>
-                    <button 
-                    className="btn btn-success mt-4" 
-                    onClick={handleSave}>Save Workout
-                    </button>
-                </div>
+        <div className="card border-success m-4 p-5 text-light">
+            <h1>{id ? 'Edit Workout' : 'Create Workout'}</h1>
+
+            <div className="form-group">
+                <label htmlFor="workoutName">Workout's Name</label>
+                <input
+                    type="text"
+                    className="form-control"
+                    id="workoutName"
+                    placeholder="Eje: Hypertrophy Workout"
+                    value={workout.name}
+                // onChange={(e) => setWorkoutName(e.target.value)}
+                />
             </div>
         </div>
+
+        /* <div className="card border-success m-4 p-5 text-light">
+                    <h1>{id ? 'Edit Workout' : 'Create Workout'}</h1>
+                    <div className="form-group">
+                        <label htmlFor="workoutName">Workout's Name</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            id="workoutName"
+                            placeholder="Eje: Hypertrophy Workout"
+                            // value={workoutName}
+                            // onChange={(e) => setWorkoutName(e.target.value)}
+                        />
+                    </div>
+                    {days && days.length > 0 && days.map((day, index) => (
+                        <DayForm
+                            key={index}
+                            day={day}
+                            setDays={(updatedDays) => {
+                                const newDays = [...days];
+                                newDays[index] = updatedDays[index];
+                                setDays(newDays);
+                            }}
+                            index={index}
+                        />
+                    ))}
+                    <button
+                        className="btn btn-primary mt-3"
+                        onClick={addDay}>Add a Day
+                    </button>
+                    {/* <div>
+                            <button 
+                            key={`add-exercise-${index}`} 
+                            className="btn btn-secondary mt-2" 
+                            onClick={() => addExercise(index)}>
+                                Add Exercises to Day {index + 1}
+                            </button>
+                        </div> 
+                <div>
+                    <button
+                        className="btn btn-success mt-4"
+                        onClick={handleSave}>Save Workout
+                    </button>
+                </div>
+        </div> */
+
     );
 };
 
@@ -111,7 +146,7 @@ export const CreateEditPlan = () => {
 
 //     const addDay = () => {
 //         setDays([...days, { day: '', muscle_group: '', exercises: [] }]);
-//     };
+//     };null
 
 //     const addExercise = (index) => {
 //         const updatedDays = [...days];

@@ -12,20 +12,20 @@ export const Dashboard = () => {
         <div className="dashboard container mt-5 ">
 
             <div className='d-flex fw-bold'>
-            <button className="btn btn-outline-primary mb-5 mx-4" onClick={() => navigate(`/createEditPlan/${id}`)}>+</button>
-            <h1>MY WORKOUTS</h1>
-            <img/>  PROFILE PHOTO IMG
+                <button className="btn btn-outline-primary mb-5 mx-4" onClick={() => navigate(`/createEditPlan/${id}`)}>+</button>
+                <h1>MY WORKOUTS</h1>
+                <img />  PROFILE PHOTO IMG
             </div>
-                {store.workouts && store.workouts.length > 0 && store.workouts.map((workout, index) => (
-                    <MyWorkOut 
-                        key={index}
-                        id={workout.id}
-                        name={workout.name}
-                        days={workout.days}
-                        index={index}
-                    />
-                 
-                ))}
+            {store.workouts && store.workouts.length > 0 && store.workouts.map((workout, index) => (
+                <MyWorkOut
+                    key={index}
+                    id={workout.id}
+                    name={workout.name}
+                    days={workout.days}
+                    index={index}
+                />
+
+            ))}
         </div>
     );
 };
