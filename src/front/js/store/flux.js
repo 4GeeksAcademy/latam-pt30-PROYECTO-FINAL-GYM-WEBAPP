@@ -6,7 +6,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			message: null, // Mensaje de éxito o error
 			isAuthenticated: false, // Estado de autenticación del usuario
 			userToken: null, // Token JWT
-			user: {}, // Información del usuario autenticado
+			user: {}, // Información del usuario 
+			memberProfileImage:"",
 
 			//MEMBERS
 			members: [
@@ -149,49 +150,21 @@ const getState = ({ getStore, getActions, setStore }) => {
 		actions: {
 			//LOGIN , SIGN UP & LOG OUT FETCH ZONE ________________________________
 			//SignUp.js
-			postSignup: (email, password) => {
-				console.log(email, password)
-				fetch(process.env.BACKEND_URL + "/api/signup", {
-					method: "POST",
-					body: JSON.stringify({ email, password }), // data can be `string` or {object}!
-					headers: {
-						"Content-Type": "application/json"
-					},
-				})
-					.then(res => {
-						if (!res.ok) {
-							throw new Error(`HTTP error! status: ${res.status}`);
-						}
-						return res.json();
+			postSignup: async (email, password) => {
+				try {
+					await fetch(process.env.BACKEND_URL + "/api/signup", {
+						method: "POST",
+						body: JSON.stringify({ email, password }), // data can be `string` or {object}!
+						headers: {
+							"Content-Type": "application/json"
+						},
 					})
-					.then(response => {
-						console.log("Success:", response);
-						return true
-					})
-					.catch(error => console.error("Error:", error));
+					return true
+				} catch (error) {
+					console.log(error);
+					return false
+				}
 			},
-			// postSignup: async (email, password, date) => {
-			// 	try {
-			// 		const res = await fetch(process.env.BACKEND_URL + "/api/signup", {
-			// 			method: "POST",
-			// 			body: JSON.stringify({ email, password, date }),
-			// 			headers: {
-			// 				"Content-Type": "application/json"
-			// 			},
-			// 		});
-			// 		if (!res.ok) {
-			// 			throw new Error(`HTTP error! status: ${res.status}`);
-			// 		}
-			// 		const response = await res.json();
-			// 		console.log("Success:", response);
-			// 		setStore({ user: response.user, userToken: response.token });
-			// 		return true;
-			// 	} catch (error) {
-			// 		console.error("Error:", error);
-			// 		return false;
-			// 	}
-			// },
-
 
 			//Login.js
 			postLogin: (email, password) => {
@@ -212,11 +185,38 @@ const getState = ({ getStore, getActions, setStore }) => {
 							setStore({ user: data.user, userToken: data.token });
 							console.log("VALOR DE LOCALSTORAGE *** ", localStorage.getItem('accessToken'));
 						} else {
+							alert("Invalid user or password")
 							throw new Error('Invalid login response');
 						}
 					})
 					.catch(error => console.error("Error:", error));
 
+			},
+
+			//image ukpload
+
+			imageUpload: async (image) => {
+				const body = new FormData()
+				body.append("image", image)
+				let response = await fetch(process.env.BACKEND_URL + "/api/image_upload", {
+					method:"POST",
+					body:body
+				})
+				console.log(response);
+				
+				const data = await response.json()
+				console.log(data.secure_url);
+				
+				if (response.ok) {
+					const imageUrl = data.secure_url;
+					setStore({memberProfileImage: imageUrl})
+					//console.log(data);
+					return data
+				}
+				else {
+					console.error("Error uploading image:", data);
+					return null;
+				}
 			},
 
 			//Get current User
@@ -237,14 +237,35 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({ user: null });
 			},
 
-
-			//MEMBERS FETCH ZONE_______________________________________________________
-
-			//CREATE MEMBER
-			// Function to create a new member
-			createMember: async (memberData) => {
+			//UPDATE USER
+			updateUser: async (id, userData) => {
 				try {
-					const response = await fetch(`${process.env.BACKEND_URL}/api/members`, {
+					const response = await fetch(`${process.env.BACKEND_URL}/api/updateProfile/${id}`, {
+						method: "PUT",
+						headers: {
+							"Content-Type": "application/json",
+							"Authorization": `Bearer ${getStore().userToken}`, // Add token for authentication
+						},
+						body: JSON.stringify(userData),
+					});
+					const data = await response.json();
+					if (response.ok) {
+						console.log("User updated successfully");
+						return true;
+					} else {
+						console.error(data.message);
+						return false;
+					}
+				} catch (error) {
+					console.error("Error updating user:", error);
+					return false;
+				}
+			},
+
+			// Function to create a new user profile
+			createUser: async (memberData) => {
+				try {
+					const response = await fetch(`${process.env.BACKEND_URL}/api/createProfile/<int:user_id>`, {
 						method: "POST",
 						headers: {
 							"Content-Type": "application/json",
@@ -265,32 +286,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 					return false;
 				}
 			},
+			//MEMBERS FETCH ZONE_______________________________________________________
+
+			//CREATE MEMBER
 
 
-			//UPDATE MEMBER
-			updateMember: async (id, memberData) => {
-				try {
-					const response = await fetch(`${process.env.BACKEND_URL}/api/members/${id}`, {
-						method: "PUT",
-						headers: {
-							"Content-Type": "application/json",
-							"Authorization": `Bearer ${getStore().userToken}`, // Add token for authentication
-						},
-						body: JSON.stringify(memberData),
-					});
-					const data = await response.json();
-					if (response.ok) {
-						console.log("Member updated successfully");
-						return true;
-					} else {
-						console.error(data.message);
-						return false;
-					}
-				} catch (error) {
-					console.error("Error updating member:", error);
-					return false;
-				}
-			},
 
 			// Function to get a member by ID
 			getMemberById: async (id) => {

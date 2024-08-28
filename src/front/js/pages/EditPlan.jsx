@@ -1,12 +1,11 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { Context } from '../store/appContext.js';
 import { DayForm } from '../component/DayForm.jsx';
 
 const EditPlan = () => {
     const { store, actions } = useContext(Context);
     const { id } = useParams();
-
     const [workout, setWorkout] = useState({})
 
 
@@ -30,24 +29,31 @@ const EditPlan = () => {
     return (
         <div className="card border-success m-4 p-5 text-light">
             <h1> Edit Workout</h1>
-
             <div className="form-group">
                 <label htmlFor="workoutName">Workout's Name</label>
                 <input
                     type="text"
                     className="form-control"
                     id="workoutName"
+                    name="name"
                     placeholder="Eje: Hypertrophy Workout"
                     value={workout.name}
-                // onChange={(e) => setWorkoutName(e.target.value)}
+                    onChange={(e) => setWorkout(e.target.value)}
                 />
             </div>
             {
-                workout.days?.map((item, index) => (
+                workout.days?.map((day, index) => (
                     <DayForm
-                        key={item.id}
-                        days={item}
+                        key={index}
+                        days={day}
+                        index={index}
                         nature="edit"
+                        setDays={(updatedDays) => {
+                            const newDays = [...workout.days];
+                            newDays[index] = updatedDays[index];
+                            setWorkout({ ...workout, days: newDay });
+                            Navigate("/Dashboard")    
+                        }}
                     />
                 ))
             }

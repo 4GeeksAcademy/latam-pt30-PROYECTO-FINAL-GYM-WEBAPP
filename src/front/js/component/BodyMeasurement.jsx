@@ -12,7 +12,7 @@ export const BodyMeasurement = () => {
     }, [id]);
 
     return (
-        <div className="card col-11 m-auto">
+        <>
             <div className="d-flex justify-content-between align-items-center">
                 <h4
                     className="mb-3 p-3"
@@ -61,6 +61,6 @@ export const BodyMeasurement = () => {
                     )}
                 </ul>
             </div>
-        </div>
+        </>
     );
 };

@@ -17,10 +17,10 @@ export const SignUp = () => {
 
 	const handleSignUp = async (event) => {
 		event.preventDefault();
-		const success = await actions.postSignup(email, password);
-		console.log(success);
+		const resp = await actions.postSignup(email, password);
+		console.log(resp);
 		
-		if (success) {
+		if (resp) {
 			navigate("/login");
 		} else {
             // Manejar el error, por ejemplo, mostrar un mensaje de error al usuario
@@ -33,7 +33,7 @@ export const SignUp = () => {
 	// Array of image URLs
 
 	const imageUrls = Array.from({ length: 19 }, async (_, i) => await import(`../../img/${i + 1}.webp`));
-			console.log(imageUrls);
+			//console.log(imageUrls);
 	
 	// Select a random image
 	// const randomImage = imageUrls[Math.floor(Math.random() * imageUrls.length)];

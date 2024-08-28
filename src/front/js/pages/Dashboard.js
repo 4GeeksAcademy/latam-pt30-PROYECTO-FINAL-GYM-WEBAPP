@@ -7,14 +7,23 @@ export const Dashboard = () => {
     const { store, actions } = useContext(Context);
     const navigate = useNavigate();
     const { id } = useParams();
+    const image = store.memberProfileImage;
 
     return (
-        <div className="dashboard container mt-5 ">
-
-            <div className='d-flex fw-bold'>
+        <div className="dashboard container mt-5">
+            <div className='d-flex fw-bold justify-content-between'>
+                {image && (
+                    <img 
+                    className="d-block mb-2 rounded-circle" 
+                    width={60}
+                    height={60}
+                    src={image} 
+                    alt="ProfileImage"
+                />
+                )}
+                <h1 className=' align-item-center'>MY WORKOUTS</h1>
                 <button className="btn btn-outline-primary mb-5 mx-4" onClick={() => navigate(`/createEditPlan/${id}`)}>+</button>
-                <h1>MY WORKOUTS</h1>
-                <img />  PROFILE PHOTO IMG
+                {/* <img />  PROFILE PHOTO IMG */}
             </div>
             {store.workouts && store.workouts.length > 0 && store.workouts.map((workout, index) => (
                 <MyWorkOut

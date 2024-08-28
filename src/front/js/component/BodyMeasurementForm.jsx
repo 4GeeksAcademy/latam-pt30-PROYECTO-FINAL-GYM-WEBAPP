@@ -52,7 +52,15 @@ export const BodyMeasurementForm = () => {
             <ul className="list-group list-group-flush">
                 <li className="list-group-item">
                     <form onSubmit={handleSubmit}>
-                        <h1 className='p-5'>BODY MEASUREMENT DATA INPUT</h1>
+                        <div className='d-flex justify-content-between'>
+                            <span
+                                className="m-3"
+                                onClick={() => navigate(`/profileView/${id}`)}
+                            >
+                                <i className="fa-solid fa-circle-chevron-left fs-1"></i>
+                            </span>
+                            <h1 className='p-5'>ADD BODY MEASUREMENTS</h1>
+                        </div>
                         {Object.keys(input).map((key) => (
                             <div className="mb-3" key={key}>
                                 <label htmlFor={key} className="form-label">
@@ -74,6 +82,7 @@ export const BodyMeasurementForm = () => {
                                 </div>
                             </div>
                         ))}
+
                         <button type="submit" className="btn btn-primary">
                             {id ? 'Update' : 'Submit'}
                         </button>

@@ -8,7 +8,9 @@ export const MemberSignup = () => {
     email: '',
     password: '',
     confirmPassword: '',
+    image: ''
   });
+  //const [image, setImage] = useState("")
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -20,45 +22,37 @@ export const MemberSignup = () => {
       alert('Passwords do not match');
       return;
     }
-    actions.postSignup(formData.email, formData.password);
+    actions.postSignup(formData.email, formData.password, formData.image);
   };
+
+  const handleUploadImage = async (e) => {
+    const response = await actions.imageUpload(e.target.files[0])
+    if (response){
+      console.log(response);
+      setFormData({ ...formData, image: response.secure_url })
+    }
+   //imageUpload[index] = {image: e.target.files[0]} 
+  }
 
   return (
     <>
-      {/* <Link 
-        className="btn btn-primary" 
-        data-bs-toggle="offcanvas" 
-        href="#offcanvasExample" 
-        role="button" 
-        aria-controls="offcanvasExample">
-        Link with href
-      </Link>
-      <button 
-        className="btn btn-primary" 
-        type="button" 
-        data-bs-toggle="offcanvas" 
-        data-bs-target="#offcanvasExample" 
-        aria-controls="offcanvasExample">
-        Button with data-bs-target
-      </button> */}
-      
       <div 
         className="offcanvas offcanvas-start" 
         tabIndex="-1" 
         id="offcanvasExample" 
         aria-labelledby="offcanvasExampleLabel">
-        <div className="offcanvas-header">
-          <h5 className="offcanvas-title" id="offcanvasExampleLabel">Offcanvas</h5>
+        <div className="offcanvas-header alert alert-primary">
+          <h1 className="offcanvas-title text-light" id="offcanvasExampleLabel">Member SignUp</h1>
           <button 
             type="button" 
             className="btn-close" 
             data-bs-dismiss="offcanvas" 
             aria-label="Close"></button>
         </div>
-        <div className="offcanvas-body">
-          <div>
-            Some text as placeholder. In real life you can have the elements you have chosen. Like, text, images, lists, etc.
-          </div>
+        <div className="offcanvas-body alert alert-primary text-light">
+          <h2>
+            You are about to go to the next step and Track your improvements 🤳
+          </h2>
           {/* <div className="dropdown mt-3">
             <button 
               className="btn btn-secondary dropdown-toggle" 
@@ -72,12 +66,27 @@ export const MemberSignup = () => {
               <li><a className="dropdown-item" href="#">Something else here</a></li>
             </ul>
           </div> */}
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} className="">
             <div className="mb-3">
+              <label htmlFor="uploadImage" className="form-label mt-3">Profile Picture</label>
+              <img 
+                className="d-block mb-2 rounded-circle" 
+                width={80}
+                src={formData.image} 
+              />
+              <input 
+                type="file" 
+                className="filepond mb-3 border-warning-subtle"
+                id="uploadImage"
+                name="filepond"
+                value={formData.member_image}
+                onChange={handleUploadImage}
+                accept="image/png, image/jpeg, image/gif"
+              />
               <label htmlFor="formEmail" className="form-label">Email address</label>
               <input
                 type="email"
-                className="form-control"
+                className="form-control border-warning-subtle"
                 id="formEmail"
                 name="email"
                 value={formData.email}
@@ -89,7 +98,7 @@ export const MemberSignup = () => {
               <label htmlFor="formPassword" className="form-label">Password</label>
               <input
                 type="password"
-                className="form-control"
+                className="form-control border-warning-subtle"
                 id="formPassword"
                 name="password"
                 value={formData.password}
@@ -101,7 +110,7 @@ export const MemberSignup = () => {
               <label htmlFor="formConfirmPassword" className="form-label">Confirm Password</label>
               <input
                 type="password"
-                className="form-control"
+                className="form-control border-warning-subtle"
                 id="formConfirmPassword"
                 name="confirmPassword"
                 value={formData.confirmPassword}
@@ -109,7 +118,7 @@ export const MemberSignup = () => {
                 required
               />
             </div>
-            <button type="submit" className="btn btn-primary">Member Sign Up</button>
+            <button type="submit" className="btn btn-outline-warning">Member Sign Up</button>
           </form>
         </div>
       </div>

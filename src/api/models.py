@@ -7,11 +7,24 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(80), unique=False, nullable=False)
+    image_url = db.Column(db.String(130), unique=False, nullable=True)
+    name  = db.Column(db.String(60), nullable=True) 
+    last_name  = db.Column(db.String(60), nullable=True)
+    gender  = db.Column(db.String(10), nullable=True)
+    height  = db.Column(db.Float, nullable=True) 
+    weight = db.Column(db.Float, nullable=True) 
+    birthday = db.Column(db.String(10), nullable=True) 
+    city = db.Column(db.String(30), nullable=True) 
+    country = db.Column(db.String(30), nullable=True)
     creation_date = db.Column(db.String(80), unique=False, nullable=False, default=datetime.now())
     is_active= db.Column(db.Boolean, nullable=False, default=True) #When email validation change to True. 
     members = db.relationship('Member', backref='user', lazy=True)
     workout_plans = db.relationship('WorkoutPlan', backref='user', lazy=True)
     body_measurements = db.relationship('BodyMeasurement', backref='user', lazy=True)
+
+    __table_args__ = (
+        CheckConstraint(gender.in_(['male', 'female', 'other']), name='check_gender'),
+    )
 
     def __repr__(self):
         return '<User %r>' %self.email
@@ -20,6 +33,15 @@ class User(db.Model):
         return {
             "id": self.id,
             "email": self.email,
+            "image_url": self.email,
+            "name": self.name,
+            "last_name": self.last_name,
+            "gender": self.gender,
+            "height": self.height,
+            "weight": self.weight,
+            "birthday": self.birthday,
+            "city": self.city,
+            "country": self.country,
             "creation_date": self.creation_date,
             "is_active": self.is_active
             # do not serialize the password, its a security breach
@@ -29,20 +51,11 @@ class User(db.Model):
 class Member(db.Model):
     __tablename__ = 'member'    
     id = db.Column(db.Integer, primary_key=True)
-    name  = db.Column(db.String(60), nullable=False) 
-    last_name  = db.Column(db.String(60), nullable=False)
-    gender  = db.Column(db.String(10), nullable=False)
-    height  = db.Column(db.Float, nullable=False) 
-    weight = db.Column(db.Float, nullable=False) 
-    birthday = db.Column(db.String(10), nullable=False) 
-    city = db.Column(db.String(30), nullable=False) 
-    country = db.Column(db.String(30), nullable=False)
+    
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     objective_id = db.Column(db.Integer, db.ForeignKey('objective.id'), nullable=False)
 
-    __table_args__ = (
-        CheckConstraint(gender.in_(['male', 'female', 'other']), name='check_gender'),
-    )
+ 
 
     workout_plans = db.relationship('WorkoutPlan', backref='member', lazy=True)
 
@@ -51,15 +64,8 @@ class Member(db.Model):
 
     def serialize(self):
         return {
-            "id": self.id,
-            "name": self.name,
-            "last_name": self.last_name,
-            "gender": self.gender,
-            "height": self.height,
-            "weight": self.weight,
-            "birthday": self.birthday,
-            "city": self.city,
-            "country": self.country
+            "id": self.id
+            
             # do not serialize the password, its a security breach
         }  
 
@@ -81,7 +87,10 @@ class Objective(db.Model):
             "name": self.name
             # do not serialize the password, its a security breach
         }
-
+member_objectives = db.Table('member_objectives',
+    db.Column('member_id', db.Integer, db.ForeignKey('member.id'), primary_key=True),
+    db.Column('objective_id', db.Integer, db.ForeignKey('objective.id'), primary_key=True)
+)
 
 class BodyMeasurement(db.Model):
     __tablename__ = 'body_measurement'

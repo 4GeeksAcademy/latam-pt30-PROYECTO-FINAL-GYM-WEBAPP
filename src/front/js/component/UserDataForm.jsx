@@ -7,7 +7,7 @@ export const UserDataForm = () => {
     const { store, actions } = useContext(Context);
     const { id } = useParams();
     const navigate = useNavigate();
-    const { input, setInput} = useState({
+    const initialValues = {
         name: '',
         lastname: '',
         gender: '',
@@ -15,32 +15,45 @@ export const UserDataForm = () => {
         weight: '',
         birthday: '',
         city: '',
-        country: ''
-    });
-
-
+        country: '',
+        image: ""
+    }
+    const [ values, setValues ] = useState(initialValues);
 
     useEffect(() => {
         if (id) {
             const member = store.members.find(member => member.id.toString() === id);
             if (member) 
-                setInput(member);
+                setValues(member);
         }
     }, [id, store.members]);
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
-        setInput({
-            ...input,
+        setValues({
+            ...values,
             [name]: value
         });
     };
 
+    const handleImageChange = async (e) => {
+        console.log(values.image);
+        console.log(e.target.files[0]);
+        
+        const response = await actions.imageUpload(e.target.files[0]);
+        // console.log(response);
+        
+        if (response) {
+            setValues({ ...values, image: response.secure_url });
+            store.memberProfileImage(response)
+        }
+    };
+
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const action = id ? actions.updateMember : actions.createMember;
-        const success = await action(input);
-        if (success) {
+        const sucess = actions.updateUser() ;
+        //const success = await action(input);
+        if (sucess) {
             navigate(`/profileView/${id}`); // Replace with the path where you want to navigate after successful submit
         }
     };
@@ -48,15 +61,35 @@ export const UserDataForm = () => {
     const genderOptions = ["Male", "Female", "Other"]; 
 
     return (
-        <div className="card col-11">
+        <div className="card col-11 m-4 mb-5">
             <ul className="list-group list-group-flush">
                 <li className="list-group-item">
                     <form onSubmit={handleSubmit}>
-                        <h1>PROFILE DATA INPUT</h1>
-                        <input type="file" 
-                        className="filepond"
-                        name="filepond"
-                        accept="image/png, image/jpeg, image/gif"/>
+                            <span
+                                className="m-3"
+                                onClick={() => navigate(`/profileView/${id}`)}
+                            >
+                                <i className="fa-solid fa-circle-chevron-left fs-1"></i>
+                            </span>
+                        <h1>PROFILE INFO</h1>
+                        <label htmlFor="uploadImage" className="form-label mt-3">Profile Picture</label>
+                        {values.image && (
+                            <img 
+                                src={values.image} 
+                                alt="ProfileImage"
+                                className="d-block mb-2 rounded-circle" 
+                                width={80}
+                            />
+                        )}
+                        <input 
+                            type="file" 
+                            className="filepond mb-3 border-warning-subtle"
+                            id="uploadImage"
+                            name="image"
+                            value={values.image}
+                            onChange={handleImageChange}
+                            accept="image/png, image/jpeg, image/gif"
+                        />
                         {[
                             { label: 'Name', name: 'name', type: 'text', placeholder: 'Name' },
                             { label: 'Lastname', name: 'lastname', type: 'text', placeholder: 'Lastname', helpText: 'Your last name is important for differentiation.', maxLength: 32 },
@@ -76,7 +109,7 @@ export const UserDataForm = () => {
                                     placeholder={field.placeholder}
                                     aria-describedby={field.name + 'Help'}
                                     onChange={handleInputChange}
-                                    value={input[field.name]}
+                                    value={values.name}
                                     required
                                     maxLength={field.maxLength}
                                 />
@@ -96,7 +129,7 @@ export const UserDataForm = () => {
                                         aria-describedby="genderHelp"
                                         value={option}
                                         onChange={handleInputChange}
-                                        checked={input.gender === option}
+                                        //checked={input.gender === option}
                                     />
                                     <label className="form-check-label" htmlFor={option.toLowerCase()}>{option}</label>
                                 </div>

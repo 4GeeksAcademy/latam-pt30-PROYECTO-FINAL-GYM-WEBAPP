@@ -1,10 +1,11 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
+import { MemberSignup } from "./MemberSignup.jsx";
 import logo from "/src/front/img/gymapp_logo.jpeg"
 
 
-export const Navbar = ({ MemberSignup }) => {
+export const Navbar = () => {
 	const { store } = useContext(Context)
 
 	return (
@@ -39,7 +40,7 @@ export const Navbar = ({ MemberSignup }) => {
 					) : null} */}
 				</div>
 			</div>
-			{MemberSignup && <MemberSignup />}
+			<MemberSignup />
 		</nav>
 	);
 };

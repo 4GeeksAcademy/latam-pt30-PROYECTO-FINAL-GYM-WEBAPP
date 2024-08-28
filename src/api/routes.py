@@ -5,18 +5,26 @@ from flask import request, jsonify, url_for, Blueprint, current_app
 from api.models import db, User, Member, Objective, MuscleGroup, WorkoutPlan, Exercises, BodyMeasurement, Videos
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
-import app
+import os
 import api.models
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.exc import IntegrityError
 from flask_jwt_extended import jwt_required, create_access_token, get_jwt_identity
-
+import cloudinary, cloudinary.uploader
 
 api = Blueprint('api', __name__)
 
 
 # Allow CORS requests to this API
 CORS(api)
+
+#Cloudinary
+
+cloudinary.config(
+    cloud_name=os.getenv('CLOUDINARY_CLOUD_NAME'),
+    api_key=os.getenv('CLOUDINARY_API_KEY'),
+    api_secret=os.getenv('CLOUDINARY_API_SECRET')
+)
 
 
 @api.route('/hello', methods=['POST', 'GET'])
@@ -36,7 +44,7 @@ def handle_hello():
 #     return response
 
 
-#SIGN UP & LOG IN_____________________________________________
+#SIGN UP _____________________________________________
 
 @api.route('/signup', methods=['POST'])
 def signup():
@@ -45,6 +53,18 @@ def signup():
     #Verifying we are receiving all required data in the request
     email = data.get("email")
     password  = data.get("password")
+    # image_url = data.get("image", None)
+    # name = data.get('name', None)
+    # last_name = data.get('last_name', None)
+    # gender=data.get('gender', None)
+    # #height=data.get('height', None)
+    # weight=data.get('weight', None)
+    # birthday=data.get('birthday', None)
+    # city=data.get('city', None)
+    # country=data.get('country', None)
+    # #user_id=data.get('user_id', None)
+    # #objective_id=data.get('objective_id', None)
+
 
     #Returning 400 if data is not correct  
     if not email or not password:
@@ -58,7 +78,24 @@ def signup():
     
     password_hash = current_app.bcrypt.generate_password_hash(password).decode("utf-8")#Accepts all carachters
     #We create new user
-    newUser = User(email=email, password=password_hash)
+    newUser = User(
+        email=email, 
+        password=password_hash, 
+        # image_url=image_url,
+        # name=name,
+        # last_name=last_name,
+        # gender=gender,
+        # #height=height,
+        # weight=weight,
+        # birthday=birthday,
+        # city=city,
+        # country=country,
+        # #user_id=user_id,
+        # #objective_id=objective_id
+        )
+    #if not isinstance(data['height'], (int, float)) or not isinstance(data['weight'], (int, float)):
+     #   return jsonify({"error": "Height and Weight must be numeric"}), 400
+    
     try:
         db.session.add(newUser)
         db.session.commit()
@@ -68,6 +105,15 @@ def signup():
         return jsonify({"message":"Error in server"}), 500
     return jsonify({"message": "User created successfully"}), 201
 
+#IMAGE UPLOAD   ________________________________________
+
+@api.route('/image_upload', methods=['POST'])
+def upload_image():
+    file = request.files["image"]
+    result= cloudinary.uploader.upload(file)
+    return result, 200
+
+#LOG IN_____________________________________________
 
 @api.route('/login', methods=['POST'])
 def login():
@@ -95,6 +141,7 @@ def login():
     password_is_valid = current_app.bcrypt.check_password_hash(user.password, data["password"])
     print(password_is_valid)
     if not password_is_valid:
+        print("password does not match")
         return jsonify({
             "message": "Email or password invalid"
         }), 400
@@ -130,32 +177,32 @@ def get_user(user_id):
     except NoResultFound:
         raise APIException('User not found', status_code=404)
 
-# Endpoint para actualizar un usuario existente por su ID
-# @api.route('/users/<int:user_id>', methods=['PUT'])
-# def update_user(user_id):
-#     data = request.json
+# Endpoint para actualizar un user existente por su ID
+@api.route('/updateProfile/<int:user_id>', methods=['PUT'])
+def update_userProfile(user_id):
+    data = request.json
 
-#     try:
-#         user = User.query.filter_by(id=user_id).one()
-#         user.email = data.get('email', user.email)
-#         user.password = data.get('password', user.password)
-#         user.Creation_date = data.get('creation_date', user.creation_date)
+    try:
+        user = User.query.filter_by(id=user_id).first()
+        user.email = user.email
+        user.password = user.password
+        user.image_url = data.get('image_url', user.image_url)
+        user.name = data.get('name', user.name)
+        user.last_name = data.get('last_name', user.last_name)
+        user.gender = data.get('gender', user.gender)
+        user.height = data.get('height', user.height)
+        user.weight = data.get('weight', user.weight)
+        user.birthday = data.get('birthday', user.birthday)
+        user.city = data.get('city', user.city)
+        user.country = data.get('country', user.country)
+        user.user_id = data.get('user_id', user.user_id)
+        user.objective_id = data.get('objective_id', user.objective_id)
 
-#         db.session.commit()
-#         return jsonify({"message": "User updated successfully", "user_id": user.id}), 200
-#     except NoResultFound:
-#         raise APIException('User not found', status_code=400)
+        db.session.commit()
+        return jsonify({"message": "Member updated successfully", "user_id": user.id}), 200
+    except NoResultFound:
+        raise APIException('Member not found', status_code=404)
 
-# # Endpoint para eliminar un usuario por su ID
-# @api.route('/users/<int:user_id>', methods=['DELETE'])
-# def delete_user(user_id):
-#     try:
-#         user = User.query.filter_by(id=user_id).one()
-#         db.session.delete(user)
-#         db.session.commit()
-#         return jsonify({"message": "User deleted successfully", "user_id": user_id}), 200
-#     except NoResultFound:
-#         raise APIException('User not found', status_code=404)
 
 #MEMBERS________________________________________________________
 # # Endpoint para obtener todos los miembros
@@ -174,66 +221,44 @@ def get_member(member_id):
     except NoResultFound:
         raise APIException('Member not found', status_code=400)
     
+# Endpoint para crear un user profile específico por su ID
+# @api.route('/createProfile/<int:user_id>', methods=['POST'])
+# @jwt_required()
+# def create_userProfile():
+#     data = request.json
 
-@api.route('/members', methods=['POST'])
-@jwt_required()
-def create_member():
-    data = request.json
+#     required_fields = ['name', 'last_name', 'gender', 'height', 'weight', 'birthday', 'city', 'country', 'user_id', 'objective_id']
+#     for field in required_fields:
+#         if field not in data:
+#             return jsonify({"error": f"Field '{field}' is required"}), 400
 
-    required_fields = ['name', 'last_name', 'gender', 'height', 'weight', 'birthday', 'city', 'country', 'user_id', 'objective_id']
-    for field in required_fields:
-        if field not in data:
-            return jsonify({"error": f"Field '{field}' is required"}), 400
+#     if not isinstance(data['height'], (int, float)) or not isinstance(data['weight'], (int, float)):
+#         return jsonify({"error": "Height and Weight must be numeric"}), 400
 
-    if not isinstance(data['height'], (int, float)) or not isinstance(data['weight'], (int, float)):
-        return jsonify({"error": "Height and Weight must be numeric"}), 400
+#     new_member = Member(
+#         name=data['name'],
+#         last_name=data['last_name'],
+#         gender=data['gender'],
+#         height=data['height'],
+#         weight=data['weight'],
+#         birthday=data['birthday'],
+#         city=data['city'],
+#         country=data['country'],
+#         user_id=data['user_id'],
+#         objective_id=data['objective_id']
+#     )
 
-    new_member = Member(
-        name=data['name'],
-        last_name=data['last_name'],
-        gender=data['gender'],
-        height=data['height'],
-        weight=data['weight'],
-        birthday=data['birthday'],
-        city=data['city'],
-        country=data['country'],
-        user_id=data['user_id'],
-        objective_id=data['objective_id']
-    )
+#     try:
+#         db.session.add(new_member)
+#         db.session.commit()
+#         return jsonify({"message": "Member created successfully", "member_id": new_member.id}), 201
+#     except IntegrityError:
+#         db.session.rollback()
+#         return jsonify({"error": "Error creating member, possibly due to duplicate entry"}), 400
 
-    try:
-        db.session.add(new_member)
-        db.session.commit()
-        return jsonify({"message": "Member created successfully", "member_id": new_member.id}), 201
-    except IntegrityError:
-        db.session.rollback()
-        return jsonify({"error": "Error creating member, possibly due to duplicate entry"}), 400
-
-# Endpoint para actualizar un miembro existente por su ID
-@api.route('/members/<int:member_id>', methods=['PUT'])
-def update_member(member_id):
-    data = request.json
-
-    try:
-        member = Member.query.filter_by(id=member_id).one()
-        member.name = data.get('name', member.name)
-        member.last_name = data.get('last_name', member.last_name)
-        member.gender = data.get('gender', member.gender)
-        member.height = data.get('height', member.height)
-        member.weight = data.get('weight', member.weight)
-        member.birthday = data.get('birthday', member.birthday)
-        member.city = data.get('city', member.city)
-        member.country = data.get('country', member.country)
-        member.user_id = data.get('user_id', member.user_id)
-        member.objective_id = data.get('objective_id', member.objective_id)
-
-        db.session.commit()
-        return jsonify({"message": "Member updated successfully", "member_id": member.id}), 200
-    except NoResultFound:
-        raise APIException('Member not found', status_code=404)
 
 # Endpoint para eliminar un miembro por su ID
-# @api.route('/members/<int:member_id>', methods=['DELETE'])
+# @api.route('/member/<int:member_id>', methods=['DELETE'])
 # def delete_member(member_id):
 #     try:
 #         member = Member.query.filter_by(id=member_id).one()

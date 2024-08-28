@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Context } from '../store/appContext.js';
 import { DayForm } from "../component/DayForm.jsx";
 
-export const CreateEditPlan = () => {
+export const CreatePlan = () => {
     const { store, actions } = useContext(Context);
     const { id } = useParams();
     const navigate = useNavigate();
@@ -14,12 +14,12 @@ export const CreateEditPlan = () => {
 
 
     // Find the existing workout by id if it exists
-    const existingWorkout = () => {
-        const searchWorkout = store.workouts.find(workout => workout.id === id);
-        console.log(searchWorkout)
-        setWorkout(searchWorkout)
+    // const existingWorkout = () => {
+    //     const searchWorkout = store.workouts.find(workout => workout.id === id);
+    //     console.log(searchWorkout)
+    //     setWorkout(searchWorkout)
 
-    }
+    // }
 
 
 
@@ -45,14 +45,7 @@ export const CreateEditPlan = () => {
     // };
 
     const handleSave = async () => {
-        const newWorkout = { id: id ? parseInt(id) : undefined, name: workoutName, days };
-        if (id) {
-            // Update existing plan
-            await actions.updateWorkout(id, newWorkout);
-        } else {
-            // Create new plan
-            await actions.createWorkout(newWorkout);
-        }
+        let newWorkout = actions.createWorkout(newWorkout);
         navigate('/dashboard');
     };
 
@@ -64,7 +57,7 @@ export const CreateEditPlan = () => {
 
     return (
         <div className="card border-success m-4 p-5 text-light">
-            <h1>{id ? 'Edit Workout' : 'Create Workout'}</h1>
+            <h1>Create Workout</h1>
 
             <div className="form-group">
                 <label htmlFor="workoutName">Workout's Name</label>
@@ -74,9 +67,21 @@ export const CreateEditPlan = () => {
                     id="workoutName"
                     placeholder="Eje: Hypertrophy Workout"
                     value={workout.name}
-                // onChange={(e) => setWorkoutName(e.target.value)}
+                    onChange={(e) => setWorkout(e.target.value)}
                 />
             </div>
+            {/* {days && days.length > 0 && days.map((day, index) => (
+                        <DayForm
+                            key={index}
+                            day={day}
+                            setDays={(updatedDays) => {
+                                const newDays = [...days];
+                                newDays[index] = updatedDays[index];
+                                setDays(newDays);
+                            }}
+                            index={index}
+                        />
+                    ))} */}
         </div>
 
         /* <div className="card border-success m-4 p-5 text-light">

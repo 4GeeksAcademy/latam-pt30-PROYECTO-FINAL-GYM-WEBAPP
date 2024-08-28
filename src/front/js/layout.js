@@ -12,7 +12,7 @@ import { PruebaExercises } from "./pages/PruebaExercises"; // Nueva importación
 import { Exercise } from "./pages/Exercise"; // Nueva importación por GE
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
-import { CreateEditPlan } from "./pages/CreateEditPlan.jsx";
+import { CreatePlan } from "./pages/CreatePlan.jsx";
 import { MyWorkOut } from "./component/MyWorkOut.jsx";
 import { UserDataForm } from "./component/UserDataForm.jsx";
 import { UserProfileView } from "./pages/UserProfileView.jsx";
@@ -38,6 +38,7 @@ const Layout = () => {
             <Route element={<LogIn />} path="/login" />
             <Route element={<Dashboard />} path="/dashboard" />
             <Route element={<EditPlan />} path="/edit-plan/:id" />
+            <Route element={<CreatePlan />} path="/create-plan" />
             <Route element={<Workout />} path="/workout/:workoutId/day/:dayId/exercise/:name" />
             <Route element={<MyWorkOut/>} path="/MyWorkOut"/>
             <Route element={<h1>Not found!</h1>} path="*"/>
