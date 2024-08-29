@@ -9,24 +9,24 @@ export const UserDataForm = () => {
     const navigate = useNavigate();
     const initialValues = {
         name: '',
-        lastname: '',
+        last_name: '',
         gender: '',
         height: '',
         weight: '',
         birthday: '',
         city: '',
         country: '',
-        image: ""
+        image_url: ""
     }
     const [ values, setValues ] = useState(initialValues);
 
     useEffect(() => {
-        if (id) {
-            const member = store.members.find(member => member.id.toString() === id);
-            if (member) 
-                setValues(member);
+        if (id && store.user.email) {
+            // const member = store.user.find(member => member.id.toString() === id);
+            // if (member)
+            setValues(store.user);
         }
-    }, [id, store.members]);
+    }, [id, store.user]);
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -44,14 +44,13 @@ export const UserDataForm = () => {
         // console.log(response);
         
         if (response) {
-            setValues({ ...values, image: response.secure_url });
-            store.memberProfileImage(response)
+            setValues({ ...values, image_url: response.secure_url });
         }
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const sucess = actions.updateUser() ;
+        const sucess = actions.updateUser(store.user.id, values) ;
         //const success = await action(input);
         if (sucess) {
             navigate(`/profileView/${id}`); // Replace with the path where you want to navigate after successful submit
@@ -59,9 +58,11 @@ export const UserDataForm = () => {
     };
 
     const genderOptions = ["Male", "Female", "Other"]; 
+    console.log(store.user);
+    
 
     return (
-        <div className="card col-11 m-4 mb-5">
+        <div className="card col-11 m-4 pb-5">
             <ul className="list-group list-group-flush">
                 <li className="list-group-item">
                     <form onSubmit={handleSubmit}>
@@ -73,9 +74,9 @@ export const UserDataForm = () => {
                             </span>
                         <h1>PROFILE INFO</h1>
                         <label htmlFor="uploadImage" className="form-label mt-3">Profile Picture</label>
-                        {values.image && (
+                        {values.image_url && (
                             <img 
-                                src={values.image} 
+                                src={values.image_url} 
                                 alt="ProfileImage"
                                 className="d-block mb-2 rounded-circle" 
                                 width={80}
@@ -86,13 +87,13 @@ export const UserDataForm = () => {
                             className="filepond mb-3 border-warning-subtle"
                             id="uploadImage"
                             name="image"
-                            value={values.image}
+                            //value={values.image}
                             onChange={handleImageChange}
                             accept="image/png, image/jpeg, image/gif"
                         />
                         {[
                             { label: 'Name', name: 'name', type: 'text', placeholder: 'Name' },
-                            { label: 'Lastname', name: 'lastname', type: 'text', placeholder: 'Lastname', helpText: 'Your last name is important for differentiation.', maxLength: 32 },
+                            { label: 'Lastname', name: 'last_name', type: 'text', placeholder: 'Lastname', helpText: 'Your last name is important for differentiation.', maxLength: 32 },
                             { label: 'Height', name: 'height', type: 'text', placeholder: 'Height', helpText: 'Your height in centimeters.' },
                             { label: 'Weight', name: 'weight', type: 'text', placeholder: 'Weight', helpText: 'Your weight in kilograms.' },
                             { label: 'Birthday', name: 'birthday', type: 'date', helpText: 'Your birthdate.' },
@@ -109,7 +110,7 @@ export const UserDataForm = () => {
                                     placeholder={field.placeholder}
                                     aria-describedby={field.name + 'Help'}
                                     onChange={handleInputChange}
-                                    value={values.name}
+                                    value={values[field.name]}
                                     required
                                     maxLength={field.maxLength}
                                 />
@@ -129,7 +130,7 @@ export const UserDataForm = () => {
                                         aria-describedby="genderHelp"
                                         value={option}
                                         onChange={handleInputChange}
-                                        //checked={input.gender === option}
+                                        checked={values.gender === option}
                                     />
                                     <label className="form-check-label" htmlFor={option.toLowerCase()}>{option}</label>
                                 </div>
@@ -137,7 +138,7 @@ export const UserDataForm = () => {
                             <div id="genderHelp" className="form-text">Please select other if you do not identify with the enlisted or prefer not to answer.</div>
                         </div>
 
-                        <button type="submit" className="btn btn-primary">
+                        <button type="submit" className="btn btn-primary mb-5">
                             {id ? 'Update' : 'Submit'}
                         </button>
                     </form>

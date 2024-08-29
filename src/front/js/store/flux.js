@@ -14,7 +14,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				{
 					id: "1",
 					name: 'John',
-					lastname: 'Doe',
+					last_name: 'Doe',
 					gender: 'male',
 					height: '180 cm',
 					weight: '75 kg',
@@ -25,7 +25,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				{
 					id: "2",
 					name: 'Jane',
-					lastname: 'Smith',
+					last_name: 'Smith',
 					gender: 'female',
 					height: '165 cm',
 					weight: '60 kg',
@@ -223,7 +223,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			getCurrentUser: async () => {
 				let response = await fetch(process.env.BACKEND_URL + "/api/current_user", {
 					headers: {
-						Authorization: "Bearer" + localStorage.getItem("accessToken")
+						Authorization: "Bearer " + localStorage.getItem("accessToken")
 					}
 				})
 				let data = await response.json()
@@ -238,7 +238,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			//UPDATE USER
-			updateUser: async (id, userData) => {
+			updateUser: async (id, values) => {
 				try {
 					const response = await fetch(`${process.env.BACKEND_URL}/api/updateProfile/${id}`, {
 						method: "PUT",
@@ -246,7 +246,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 							"Content-Type": "application/json",
 							"Authorization": `Bearer ${getStore().userToken}`, // Add token for authentication
 						},
-						body: JSON.stringify(userData),
+						body: JSON.stringify(values),
 					});
 					const data = await response.json();
 					if (response.ok) {
@@ -286,12 +286,117 @@ const getState = ({ getStore, getActions, setStore }) => {
 					return false;
 				}
 			},
+
+
+			
+			
+			//EXERCISES FETCH ZONE________________________________________
+			
+			//GET MUSCLE GRUOPS
+			//DayForm.js
+			getMuscleGroups: async () => {
+				try {
+					const response = await fetch(`${process.env.BACKEND_URL}/api/muscle-groups`);
+					const data = await response.json();
+					setStore({ muscle_groups: data });
+				} catch (error) {
+					console.error("Error fetching muscle groups:", error);
+				}
+			},
+			
+			//GET WORKOUTS
+			//POSSIBLEEEE Dashboard.js // NO SE ESTA USANDO EL TOKEN
+			getWorkouts: async () => {
+				try {
+					const response = await fetch(`${process.env.BACKEND_URL}/api/workouts`);
+					if (!response.ok) throw new Error("Failed to fetch workouts");
+					const data = await response.json();
+					setStore({ workouts: data });
+				} catch (error) {
+					console.error("Error fetching workouts:", error);
+				}
+			},
+			
+			//UPDATE WORKOUT
+			//CreateEditPlan.jsx
+			updateWorkout: async (id, updatedWorkout) => {
+				try {
+					const response = await fetch(`${process.env.BACKEND_URL}/api/workouts/${id}`, {
+						method: "PUT",
+						headers: {
+							"Content-Type": "application/json",
+							"Authorization": `Bearer ${getStore().userToken}`
+						},
+						body: JSON.stringify(updatedWorkout),
+					});
+					if (!response.ok) throw new Error("Failed to update workout");
+					const data = await response.json();
+					const store = getStore();
+					const updatedWorkouts = store.workouts.map(workout => {
+						if (workout.id === id) {
+							return { ...workout, ...data };
+						}
+						return workout;
+					});
+					setStore({ workouts: updatedWorkouts });
+				} catch (error) {
+					console.error("Error updating workout:", error);
+				}
+			},
+			
+			//CREATE WORKOUT
+			//CreateEditPlan.jsx
+			createWorkout: async (workout) => {
+				try {
+					const response = await fetch(`${process.env.BACKEND_URL}/api/workouts`, {
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+							"Authorization": `Bearer ${getStore().userToken}`
+						},
+						body: JSON.stringify(workout),
+					});
+					if (!response.ok) throw new Error("Failed to add workout");
+					const data = await response.json();
+					const store = getStore();
+					setStore({ workouts: [...store.workouts, data] });
+				} catch (error) {
+					console.error("Error creating workout:", error);
+				}
+			},
+			
+			//DELETE WORKOUT
+			//POSSSIBLEEEE CreateEditPlan.jsx
+			deleteWorkout: async (id) => {
+				try {
+					const response = await fetch(`${process.env.BACKEND_URL}/api/workouts/${id}`, {
+						method: "DELETE",
+					});
+					if (!response.ok) throw new Error("Failed to delete workout");
+					const store = getStore();
+					const updatedWorkouts = store.workouts.filter(workout => workout.id !== id);
+					setStore({ workouts: updatedWorkouts });
+				} catch (error) {
+					console.error("Error deleting workout:", error);
+				}
+			},
+			
+			
+			//GET WORKOUT BY ID
+			//POSSIBLEEEE Dashboard.js // NO SE ESTA USANDO EL TOKEN
+			getWorkoutById: async (id) => {
+				try {
+					const response = await fetch(`${process.env.BACKEND_URL}/api/workouts/${id}`);
+					const data = await response.json();
+					setStore({ workouts: store.workouts.map(workout => workout.id === id ? data : workout) });
+				} catch (error) {
+					console.error("Error fetching workout by ID:", error);
+				}
+			},
+			
+			
 			//MEMBERS FETCH ZONE_______________________________________________________
-
 			//CREATE MEMBER
-
-
-
 			// Function to get a member by ID
 			getMemberById: async (id) => {
 				try {
@@ -349,116 +454,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 			// 		console.error("Error fetching members:", error);
 			// 	}
 			// },
-
-			//EXERCISES FETCH ZONE________________________________________
-
-			//GET MUSCLE GRUOPS
-			//DayForm.js
-			getMuscleGroups: async () => {
-				try {
-					const response = await fetch(`${process.env.BACKEND_URL}/api/muscle-groups`);
-					const data = await response.json();
-					setStore({ muscle_groups: data });
-				} catch (error) {
-					console.error("Error fetching muscle groups:", error);
-				}
-			},
-
-			//GET WORKOUTS
-			//POSSIBLEEEE Dashboard.js // NO SE ESTA USANDO EL TOKEN
-			getWorkouts: async () => {
-				try {
-					const response = await fetch(`${process.env.BACKEND_URL}/api/workouts`);
-					if (!response.ok) throw new Error("Failed to fetch workouts");
-					const data = await response.json();
-					setStore({ workouts: data });
-				} catch (error) {
-					console.error("Error fetching workouts:", error);
-				}
-			},
-
-			//UPDATE WORKOUT
-			//CreateEditPlan.jsx
-			updateWorkout: async (id, updatedWorkout) => {
-				try {
-					const response = await fetch(`${process.env.BACKEND_URL}/api/workouts/${id}`, {
-						method: "PUT",
-						headers: {
-							"Content-Type": "application/json",
-							"Authorization": `Bearer ${getStore().userToken}`
-						},
-						body: JSON.stringify(updatedWorkout),
-					});
-					if (!response.ok) throw new Error("Failed to update workout");
-					const data = await response.json();
-					const store = getStore();
-					const updatedWorkouts = store.workouts.map(workout => {
-						if (workout.id === id) {
-							return { ...workout, ...data };
-						}
-						return workout;
-					});
-					setStore({ workouts: updatedWorkouts });
-				} catch (error) {
-					console.error("Error updating workout:", error);
-				}
-			},
-
-			//CREATE WORKOUT
-			//CreateEditPlan.jsx
-			createWorkout: async (workout) => {
-				try {
-					const response = await fetch(`${process.env.BACKEND_URL}/api/workouts`, {
-						method: "POST",
-						headers: {
-							"Content-Type": "application/json",
-							"Authorization": `Bearer ${getStore().userToken}`
-						},
-						body: JSON.stringify(workout),
-					});
-					if (!response.ok) throw new Error("Failed to add workout");
-					const data = await response.json();
-					const store = getStore();
-					setStore({ workouts: [...store.workouts, data] });
-				} catch (error) {
-					console.error("Error creating workout:", error);
-				}
-			},
-
-			//DELETE WORKOUT
-			//POSSSIBLEEEE CreateEditPlan.jsx
-			deleteWorkout: async (id) => {
-				try {
-					const response = await fetch(`${process.env.BACKEND_URL}/api/workouts/${id}`, {
-						method: "DELETE",
-					});
-					if (!response.ok) throw new Error("Failed to delete workout");
-					const store = getStore();
-					const updatedWorkouts = store.workouts.filter(workout => workout.id !== id);
-					setStore({ workouts: updatedWorkouts });
-				} catch (error) {
-					console.error("Error deleting workout:", error);
-				}
-			},
-
-
-			//GET WORKOUT BY ID
-			//POSSIBLEEEE Dashboard.js // NO SE ESTA USANDO EL TOKEN
-			getWorkoutById: async (id) => {
-				try {
-					const response = await fetch(`${process.env.BACKEND_URL}/api/workouts/${id}`);
-					const data = await response.json();
-					setStore({ workouts: store.workouts.map(workout => workout.id === id ? data : workout) });
-				} catch (error) {
-					console.error("Error fetching workout by ID:", error);
-				}
-			},
-
-
-
-
+			
+			
 			//MEASUREMENT FETCH ZONE_______________________________________________________
-
+			
 			//CREATE MEASUREMENT
 			// Function to fetch measurements data for a specific member
 			getMeasurementsByMemberId: async (id) => {

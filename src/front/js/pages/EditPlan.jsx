@@ -7,24 +7,26 @@ const EditPlan = () => {
     const { store, actions } = useContext(Context);
     const { id } = useParams();
     const [workout, setWorkout] = useState({})
-
+    const navigate = useNavigate();
 
 
     // Find the existing workout by id if it exists
-    const existingWorkout = () => {
-        const searchWorkout = store.workouts.find(workout => workout.id === id);
-
-        setWorkout(searchWorkout)
-
-    }
-
+    useEffect(() => {
+        const existingWorkout = store.workouts.find(workout => workout.id === id);
+        setWorkout(existingWorkout);
+    }, [store.workouts, id]);
     console.log(workout.days)
 
+    const handleWorkoutNameChange = (e) => {
+        setWorkout({ ...workout, name: e.target.value });
+    };
 
-    useEffect(() => {
-        existingWorkout()
-    }, [])
+    const handleSave = () => {
+        actions.updateWorkout(workout);
+        navigate("/Dashboard")
+    };
 
+    if (!workout) return <div>Loading...</div>;
 
     return (
         <div className="card border-success m-4 p-5 text-light">
@@ -38,40 +40,97 @@ const EditPlan = () => {
                     name="name"
                     placeholder="Eje: Hypertrophy Workout"
                     value={workout.name}
-                    onChange={(e) => setWorkout(e.target.value)}
+                    onChange={handleWorkoutNameChange}
                 />
             </div>
-            {
-                workout.days?.map((day, index) => (
+            {workout.days?.map((day, index) => (
                     <DayForm
                         key={index}
                         days={day}
-                        index={index}
-                        nature="edit"
-                        setDays={(updatedDays) => {
-                            const newDays = [...workout.days];
-                            newDays[index] = updatedDays[index];
-                            setWorkout({ ...workout, days: newDay });
-                            Navigate("/Dashboard")    
-                        }}
+                        onSave={(updatedDay) => handleDayUpdate(updatedDay, index)}
                     />
-                ))
-            }
-            {/* {days && days.length > 0 && days.map((day, index) => (
-                <DayForm
-                    key={index}
-                    day={day}
-                    setDays={(updatedDays) => {
-                        const newDays = [...days];
-                        newDays[index] = updatedDays[index];
-                        setDays(newDays);
-                    }}
-                    index={index}
-                />
-            ))} */}
+                ))}
+                <button className="btn btn-primary mt-3" onClick={handleSave}>Save Workout</button>
         </div>
-    )
-}
+    );
+};
 
 
 export default EditPlan
+
+
+
+//Working basic edit plan
+
+// const EditPlan = () => {
+//     const { store, actions } = useContext(Context);
+//     const { id } = useParams();
+//     const [workout, setWorkout] = useState({})
+//     const navigate = useNavigate();
+
+
+//     // Find the existing workout by id if it exists
+//     const existingWorkout = () => {
+//         const searchWorkout = store.workouts.find(workout => workout.id === id);
+
+//         setWorkout(searchWorkout)
+
+//     }
+
+//     console.log(workout.days)
+
+
+//     useEffect(() => {
+//         existingWorkout()
+//     }, [])
+
+
+//     return (
+//         <div className="card border-success m-4 p-5 text-light">
+//             <h1> Edit Workout</h1>
+//             <div className="form-group">
+//                 <label htmlFor="workoutName">Workout's Name</label>
+//                 <input
+//                     type="text"
+//                     className="form-control"
+//                     id="workoutName"
+//                     name="name"
+//                     placeholder="Eje: Hypertrophy Workout"
+//                     value={workout.name}
+//                     onChange={(e) => setWorkout(e.target.value)}
+//                 />
+//             </div>
+//             {
+//                 workout.days?.map((day, index) => (
+//                     <DayForm
+//                         key={index}
+//                         days={day}
+//                         index={index}
+//                         nature="edit"
+//                         setDays={(updatedDays) => {
+//                             const newDays = [...workout.days];
+//                             newDays[index] = updatedDays[index];
+//                             setWorkout({ ...workout, days: newDay });
+//                             navigate("/Dashboard")    
+//                         }}
+//                     />
+//                 ))
+//             }
+//             {/* {days && days.length > 0 && days.map((day, index) => (
+//                 <DayForm
+//                     key={index}
+//                     day={day}
+//                     setDays={(updatedDays) => {
+//                         const newDays = [...days];
+//                         newDays[index] = updatedDays[index];
+//                         setDays(newDays);
+//                     }}
+//                     index={index}
+//                 />
+//             ))} */}
+//         </div>
+//     )
+// }
+
+
+// export default EditPlan

@@ -7,8 +7,7 @@ export const MemberSignup = () => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
-    confirmPassword: '',
-    image: ''
+    confirmPassword: ''
   });
   //const [image, setImage] = useState("")
 
@@ -22,17 +21,16 @@ export const MemberSignup = () => {
       alert('Passwords do not match');
       return;
     }
-    actions.postSignup(formData.email, formData.password, formData.image);
+    actions.postSignup(formData.email, formData.password);
   };
 
-  const handleUploadImage = async (e) => {
-    const response = await actions.imageUpload(e.target.files[0])
-    if (response){
-      console.log(response);
-      setFormData({ ...formData, image: response.secure_url })
-    }
-   //imageUpload[index] = {image: e.target.files[0]} 
-  }
+  // const handleUploadImage = async (e) => {
+  //   const response = await actions.imageUpload(e.target.files[0])
+  //   if (response){
+  //     console.log(response);
+  //     setFormData({ ...formData, image: response.secure_url })
+  //   }
+  // }
 
   return (
     <>
@@ -68,7 +66,7 @@ export const MemberSignup = () => {
           </div> */}
           <form onSubmit={handleSubmit} className="">
             <div className="mb-3">
-              <label htmlFor="uploadImage" className="form-label mt-3">Profile Picture</label>
+              {/* <label htmlFor="uploadImage" className="form-label mt-3">Profile Picture</label>
               <img 
                 className="d-block mb-2 rounded-circle" 
                 width={80}
@@ -78,12 +76,12 @@ export const MemberSignup = () => {
                 type="file" 
                 className="filepond mb-3 border-warning-subtle"
                 id="uploadImage"
-                name="filepond"
+                name="memberImage"
                 value={formData.member_image}
                 onChange={handleUploadImage}
                 accept="image/png, image/jpeg, image/gif"
-              />
-              <label htmlFor="formEmail" className="form-label">Email address</label>
+              /> */}
+              <label htmlFor="formEmail" className="form-label mt-4">Email address</label>
               <input
                 type="email"
                 className="form-control border-warning-subtle"

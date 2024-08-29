@@ -29,7 +29,7 @@ export const Navbar = () => {
 					>MEMBER
 					</button>
 					{
-						!store.userToken && <Link to="/login">
+						!store.user && <Link to="/login">
 							<button className="btn btn-outline-success">LOGIN</button>
 						</Link>
 					}

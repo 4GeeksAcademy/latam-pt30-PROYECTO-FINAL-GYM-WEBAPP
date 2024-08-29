@@ -1,111 +1,184 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { ExcerciseForm } from './ExcerciseForm.jsx';
-import { Context } from '../store/appContext';
+import React, { useState } from 'react';
 
-export const DayForm = ({ days, setDays, index, nature }) => {
-    console.log(days);
-    const { store, actions } = useContext(Context);
-    // const [selectedMuscleGroup, setSelectedMuscleGroup] = useState(day.muscle_group || []);
+export const DayForm = ({ day, setDay, muscleGroups }) => {
+    // Initialize form state with provided day data or defaults
+    const [formState, setFormState] = useState(day || { name: '', muscle_group: []});
 
-    // useEffect(() => {
-    //     if (store.muscle_groups.length === 0) {
-    //         actions.getMuscleGroups().catch(error => console.error("Failed to fetch muscle groups", error));
-    //     }
-    // }, [store.muscle_groups.length]);
+    // Handle input changes
+    const handleChange = ({ tarjet: {name, value} }) => {
+        setFormState(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+    };
 
+    // Handle muscle group selection
+    const handleMuscleGroupChange = (selectedGroups) => {
+        setFormState(prevState => ({
+            ...prevState,
+            muscle_group: selectedGroups,
+        }));
+    };
 
-    // const handleDayChange = (e) => {
-    //     const updatedDays = [...setDays];
-    //     updatedDays[index] = { ...day, day: e.target.value };
-    //     setDays(updatedDays);
-    // };
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        onSave(formState); // Pass the updated day back to parent
+    };
 
-    // // const handleMuscleGroupChange = (e) => {
-    // //     const selectedOptions = Array.from(options)
-    // //     .filter(option => option.selected)
-    // //     .map(option => option.value);
-    // //     const { options } = e.target;
-    // const handleMuscleGroupChange = (e) => {
-    //     const selectedOptions = Array.from(e.target.selectedOptions)
-    //         .map(option => option.value);
-
-    //     if (selectedOptions.length <= 5){
-    //         setSelectedMuscleGroup(selectedOptions);
-    //         const updatedDays = [...setDays];
-    //         updatedDays[index] = { ...day, muscle_group: selectedOptions };
-    //         setDays(updatedDays);
-    //     }
-    // };
-
-    // const handleExercisesChange = (newExercises) => {
-    //     console.log("newExercises:", newExercises);
-    //     if (Array.isArray(newExercises)) {
-    //         const updatedDays = [...setDays];
-    //         updatedDays[index] = { ...day, exercises: Array.isArray(newExercises) ? newExercises : [] };
-    //         setDays(updatedDays);
-    //     } else {
-    //         console.error("newExercises is not an array");
-    //     }
-    // };
-
-    // const addExercise = () => {
-    //     const newExercise = { name: "", sets: 0, reps: 0 };
-    //     const updatedExercises = [...(day.exercises || []), newExercise];
-    //     handleExercisesChange(updatedExercises);
-    // };
-
-    //made retunr card
     return (
-        // <div className="card-form day-form my-3 text-light">
-        //     <label htmlFor={`dayName-${index}`}>Day's Name </label>
-        //     <input
-        //         id={`dayName-${index}`}
-        //         type="text"
-        //         placeholder="E.g., Monday"
-        //         value={day.day}
-        //         onChange={handleDayChange}
-        //         className="form-control"
-        //     />
-        <div className='my-3'>
-            <label>Muscle Groups:</label>
-            <div className="d-flex flex-wrap">
-                {store.muscle_groups.map((group, index) => (
-                    <div key={group.id} className="form-check form-check-inline">
-                        <input
-                            type="checkbox"
-                            className="btn-check"
-                            id={`muscleGroup-${index}`}
-                            value={group.name}
-                            // checked={selectedMuscleGroup.includes(group.name)}
-                            // onChange={handleMuscleGroupChange}
-                            autocomplete="off"
-                        />
-                        <label className="btn" htmlFor={`muscleGroup-${index}`}>
-                            {group.name}
-                        </label>
-                    </div>
-                ))}
+        <form className="day-form p-3" onSubmit={handleSubmit}>
+            <div className="form-group">
+                <input
+                    type="text"
+                    className="form-control"
+                    name="name"
+                    placeholder="Day Name"
+                    value={formState.name}
+                    onChange={handleChange}
+                />
             </div>
-        //         <div id="muscleGroupHelp" className="form-text">You can select more than one muscular group per day</div>
-        //     </div>
-        //     {(day.exercises || []).map((exercise, exerciseIndex) => (
-        //         <ExcerciseForm
-        //             key={exerciseIndex}
-        //             exercise={exercise}
-        //             setExercises={(updatedExercise) => {
-        //                 const updatedExercises = [...(day.exercise)];
-        //                 updatedExercises[exerciseIndex] = updatedExercise;
-        //                 handleExercisesChange(updatedExercises);
-        //             }}
-        //             index={exerciseIndex}
-        //         />
-        //     ))}
-        //     <button
-        //         className="btn btn-outline-light"
-        //         onClick={addExercise}>Add Exercise</button>
-        // </div>
+            <div className='my-3'>
+                <label>Muscle Groups:</label>
+                {/* <div className="d-flex flex-wrap">
+                    {muscleGroups.map((group, index) => (
+                        <div key={group.id} className="form-check form-check-inline">
+                            <input
+                                type="checkbox"
+                                className="btn-check"
+                                id={`muscleGroup-${index}`}
+                                value={group.name}
+                                // checked={selectedMuscleGroup.includes(group.name)}
+                                onChange={handleMuscleGroupChange}
+                                autocomplete="off"
+                            />
+                            <label className="btn" htmlFor={`muscleGroup-${index}`}>
+                                {group.name}
+                            </label>
+                        </div>
+                    ))}
+                </div> */}
+                <div id="muscleGroupHelp" className="form-text">You can select more than one muscular group per day</div>
+             </div>
+        </form>    
     );
 };
+
+
+
+
+
+
+
+
+
+// import React, { useState, useEffect, useContext } from 'react';
+// import { ExcerciseForm } from './ExcerciseForm.jsx';
+// import { Context } from '../store/appContext';
+
+// export const DayForm = ({ days, setDays, index, nature }) => {
+//     console.log(days);
+//     const { store, actions } = useContext(Context);
+//     // const [selectedMuscleGroup, setSelectedMuscleGroup] = useState(day.muscle_group || []);
+
+//     // useEffect(() => {
+//     //     if (store.muscle_groups.length === 0) {
+//     //         actions.getMuscleGroups().catch(error => console.error("Failed to fetch muscle groups", error));
+//     //     }
+//     // }, [store.muscle_groups.length]);
+
+
+//     // const handleDayChange = (e) => {
+//     //     const updatedDays = [...setDays];
+//     //     updatedDays[index] = { ...day, day: e.target.value };
+//     //     setDays(updatedDays);
+//     // };
+
+//     // // const handleMuscleGroupChange = (e) => {
+//     // //     const selectedOptions = Array.from(options)
+//     // //     .filter(option => option.selected)
+//     // //     .map(option => option.value);
+//     // //     const { options } = e.target;
+//     // const handleMuscleGroupChange = (e) => {
+//     //     const selectedOptions = Array.from(e.target.selectedOptions)
+//     //         .map(option => option.value);
+
+//     //     if (selectedOptions.length <= 5){
+//     //         setSelectedMuscleGroup(selectedOptions);
+//     //         const updatedDays = [...setDays];
+//     //         updatedDays[index] = { ...day, muscle_group: selectedOptions };
+//     //         setDays(updatedDays);
+//     //     }
+//     // };
+
+//     // const handleExercisesChange = (newExercises) => {
+//     //     console.log("newExercises:", newExercises);
+//     //     if (Array.isArray(newExercises)) {
+//     //         const updatedDays = [...setDays];
+//     //         updatedDays[index] = { ...day, exercises: Array.isArray(newExercises) ? newExercises : [] };
+//     //         setDays(updatedDays);
+//     //     } else {
+//     //         console.error("newExercises is not an array");
+//     //     }
+//     // };
+
+//     // const addExercise = () => {
+//     //     const newExercise = { name: "", sets: 0, reps: 0 };
+//     //     const updatedExercises = [...(day.exercises || []), newExercise];
+//     //     handleExercisesChange(updatedExercises);
+//     // };
+
+//     //made retunr card
+//     return (
+//         // <div className="card-form day-form my-3 text-light">
+//         //     <label htmlFor={`dayName-${index}`}>Day's Name </label>
+//         //     <input
+//         //         id={`dayName-${index}`}
+//         //         type="text"
+//         //         placeholder="E.g., Monday"
+//         //         value={day.day}
+//         //         onChange={handleDayChange}
+//         //         className="form-control"
+//         //     />
+//         <div className='my-3'>
+//             <label>Muscle Groups:</label>
+//             <div className="d-flex flex-wrap">
+//                 {store.muscle_groups.map((group, index) => (
+//                     <div key={group.id} className="form-check form-check-inline">
+//                         <input
+//                             type="checkbox"
+//                             className="btn-check"
+//                             id={`muscleGroup-${index}`}
+//                             value={group.name}
+//                             // checked={selectedMuscleGroup.includes(group.name)}
+//                             // onChange={handleMuscleGroupChange}
+//                             autocomplete="off"
+//                         />
+//                         <label className="btn" htmlFor={`muscleGroup-${index}`}>
+//                             {group.name}
+//                         </label>
+//                     </div>
+//                 ))}
+//             </div>
+//         //         <div id="muscleGroupHelp" className="form-text">You can select more than one muscular group per day</div>
+//         //     </div>
+//         //     {(day.exercises || []).map((exercise, exerciseIndex) => (
+//         //         <ExcerciseForm
+//         //             key={exerciseIndex}
+//         //             exercise={exercise}
+//         //             setExercises={(updatedExercise) => {
+//         //                 const updatedExercises = [...(day.exercise)];
+//         //                 updatedExercises[exerciseIndex] = updatedExercise;
+//         //                 handleExercisesChange(updatedExercises);
+//         //             }}
+//         //             index={exerciseIndex}
+//         //         />
+//         //     ))}
+//         //     <button
+//         //         className="btn btn-outline-light"
+//         //         onClick={addExercise}>Add Exercise</button>
+//         // </div>
+//     );
+// };
 
 
 // import React, { useState, useEffect, useContext } from 'react';

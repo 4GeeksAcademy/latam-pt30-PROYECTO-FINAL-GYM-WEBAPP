@@ -182,26 +182,24 @@ def get_user(user_id):
 def update_userProfile(user_id):
     data = request.json
 
-    try:
-        user = User.query.filter_by(id=user_id).first()
-        user.email = user.email
-        user.password = user.password
-        user.image_url = data.get('image_url', user.image_url)
-        user.name = data.get('name', user.name)
-        user.last_name = data.get('last_name', user.last_name)
-        user.gender = data.get('gender', user.gender)
-        user.height = data.get('height', user.height)
-        user.weight = data.get('weight', user.weight)
-        user.birthday = data.get('birthday', user.birthday)
-        user.city = data.get('city', user.city)
-        user.country = data.get('country', user.country)
-        user.user_id = data.get('user_id', user.user_id)
-        user.objective_id = data.get('objective_id', user.objective_id)
+    #try:
+    user = User.query.filter_by(id=user_id).first()
+    user.email = user.email
+    user.password = user.password
+    user.image_url = data.get('image_url', user.image_url)
+    user.name = data.get('name', user.name)
+    user.last_name = data.get('last_name', user.last_name)
+    user.gender = data.get('gender', user.gender)
+    user.height = data.get('height', user.height)
+    user.weight = data.get('weight', user.weight)
+    user.birthday = data.get('birthday', user.birthday)
+    user.city = data.get('city', user.city)
+    user.country = data.get('country', user.country)
 
-        db.session.commit()
-        return jsonify({"message": "Member updated successfully", "user_id": user.id}), 200
-    except NoResultFound:
-        raise APIException('Member not found', status_code=404)
+    db.session.commit()
+    return jsonify({"message": "Member updated successfully", "user_id": user.id}), 200
+    # except NoResultFound:
+    #     raise APIException('Member not found', status_code=404)
 
 
 #MEMBERS________________________________________________________
