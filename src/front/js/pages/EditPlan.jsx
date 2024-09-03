@@ -6,23 +6,28 @@ import { DayForm } from '../component/DayForm.jsx';
 const EditPlan = () => {
     const { store, actions } = useContext(Context);
     const { id } = useParams();
-    const [workout, setWorkout] = useState({})
+    const [workout, setWorkout] = useState({});
+    const [muscles, setMuscles] = useState({})
     const navigate = useNavigate();
 
 
     // Find the existing workout by id if it exists
     useEffect(() => {
         const existingWorkout = store.workouts.find(workout => workout.id === id);
+        //const planInStore = store.workouts
+        const muscleGroups = store.muscle_groups
         setWorkout(existingWorkout);
+       // setWorkout(planInStore)
+        setMuscles(muscleGroups)
     }, [store.workouts, id]);
-    console.log(workout.days)
+    console.log(workout.name)
 
     const handleWorkoutNameChange = (e) => {
-        setWorkout({ ...workout, name: e.target.value });
+        setWorkout({ ...workout, name: e.target.value || workout.name });
     };
 
     const handleSave = () => {
-        actions.updateWorkout(workout);
+        actions.updateWorkout(workout.id, workout);
         navigate("/Dashboard")
     };
 
@@ -43,11 +48,12 @@ const EditPlan = () => {
                     onChange={handleWorkoutNameChange}
                 />
             </div>
-            {workout.days?.map((day, index) => (
+            {workout?.days?.map((day, index) => (
                     <DayForm
                         key={index}
-                        days={day}
-                        onSave={(updatedDay) => handleDayUpdate(updatedDay, index)}
+                        day={day}
+                        muscles={muscles}
+                        onSave={(updatedDay) => handleSave(updatedDay, index)}
                     />
                 ))}
                 <button className="btn btn-primary mt-3" onClick={handleSave}>Save Workout</button>

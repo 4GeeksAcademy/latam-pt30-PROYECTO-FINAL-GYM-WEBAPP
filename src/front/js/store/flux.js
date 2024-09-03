@@ -86,9 +86,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 								{ name: "shoulders" }
 							],
 							exercises: [
-								{ name: "Pullups", reps: 8, sets: 4, rest_time: "20s", description: "" },
-								{ name: "Pushups", reps: 15, sets: 4, rest_time: "20s", description: "" },
-								{ name: "Bar", reps: 20, sets: 4, rest_time: "20s", description: "" },
+								{ name: "Pullups", reps: 8, sets: 4, rest_time: "20s", description: "", super_set:"" },
+								{ name: "Pushups", reps: 15, sets: 4, rest_time: "20s", description: "", super_set:""  },
+								{ name: "Bar", reps: 20, sets: 4, rest_time: "20s", description: "", super_set:""  },
 							],
 						},
 						{
@@ -98,17 +98,33 @@ const getState = ({ getStore, getActions, setStore }) => {
 								{ name: "shoulders" }
 							],
 							exercises: [
-								{ name: "Pullups", reps: 10, sets: 3, rest_time: "20s", description: "" },
-								{ name: "Pushups", reps: 20, sets: 3, rest_time: "20s", description: "" },
-								{ name: "Bar", reps: 25, sets: 3, rest_time: "20s", description: "" },
-								{ name: "Peckfly", reps: 12, sets: 3, rest_time: "20s", description: "" },
+								{ name: "Pullups", reps: 10, sets: 3, rest_time: "20s", description: "", super_set:""  },
+								{ name: "Pushups", reps: 20, sets: 3, rest_time: "20s", description: "", super_set:""  },
+								{ name: "Bar", reps: 25, sets: 3, rest_time: "20s", description: "", super_set:""  },
+								{ name: "Peckfly", reps: 12, sets: 3, rest_time: "20s", description: "", super_set:""  },
 							],
 						},
 					],
 				},
 
 			],
-			muscle_groups: [],
+			muscle_groups: [
+				{id: "1", name: "Chest"},
+				{id: "2", name: "Back"},
+				{id: "3", name: "Quads"},
+				{id: "4", name: "Biceps"},
+				{id: "5", name: "Triceps"},
+				{id: "6", name: "Forearms"},
+				{id: "7", name: "Shoulders"},
+				{id: "8", name: "Trapeze"},
+				{id: "9", name: "Hamstrings"},
+				{id: "10", name: "Glutes"},
+				{id: "11", name: "ABS"},
+				{id: "12", name: "Forearm muscles"},
+				{id: "13", name: "Neck muscles"},
+				{id: "14", name: "Calf"},
+			
+			],
 
 			//BODY MEASUREMENTS
 			body_measurements: [

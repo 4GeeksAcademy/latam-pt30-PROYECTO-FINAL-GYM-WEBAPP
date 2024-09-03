@@ -129,13 +129,13 @@ class BodyMeasurement(db.Model):
 class WorkoutPlan(db.Model):
     __tablename__ = 'workout_plan'
     id = db.Column(db.Integer, primary_key=True)
-    name_id = db.Column(db.String(50), nullable=False)
-    # sets = db.Column(db.String(50), nullable=False)
-    # reps = db.Column(db.Integer, nullable=False)
-    # rest_time = db.Column(db.String(50), nullable=False)
-    # description_id = db.Column(db.String(255))
+    name = db.Column(db.String(50), nullable=False)
+    sets = db.Column(db.String(50), nullable=False)
+    reps = db.Column(db.Integer, nullable=False)
+    rest_time = db.Column(db.String(50), nullable=False)
+    description_id = db.Column(db.String(255))
     training_day = db.Column(db.Integer)
-    # super_set = db.Column(db.Integer)
+    super_set = db.Column(db.Integer)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     member_id = db.Column(db.Integer, db.ForeignKey('member.id'), nullable=False)
 
@@ -150,13 +150,13 @@ class WorkoutPlan(db.Model):
     def serialize(self):
         return {
             "id": self.id,
-            "name_id": self.name_id,
-            # "sets": self.sets,
-            # "reps": self.reps,
-            # "rest_time": self.rest_time,
-            # "description_id": self.description_id,
+            "name": self.name,
+            "sets": self.sets,
+            "reps": self.reps,
+            "rest_time": self.rest_time,
+            "description_id": self.description_id,
             "training_day": self.training_day,
-            # "super_set": self.super_set
+            "super_set": self.super_set,
             "user_id": self.user_id,
             "member_id": self.member_id,
             "muscle_group_id": self.muscle_group_id,
@@ -164,11 +164,28 @@ class WorkoutPlan(db.Model):
             # do not serialize the password, its a security breach
         }  
     
-          # Pivot table for WorkoutPlan and Exercises
-workout_plan_exercises = db.Table('workout_plan_exercises',
+          # Pivot table for WorkoutPlan and Exercises - agregar al endpoint!!!
+workout_plan_days = db.Table('workout_plan_days',
     db.Column('workout_plan_id', db.Integer, db.ForeignKey('workout_plan.id'), primary_key=True),
-    db.Column('exercise_id', db.Integer, db.ForeignKey('exercises.id'), primary_key=True)
+    db.Column('day_id', db.Integer, db.ForeignKey('day.id'), primary_key=True),
+    db.Column('exercise_id', db.Integer,db.ForeignKey('exercise.id'), primary_key=True )
 )
+
+
+class Day(db.Model):
+    __tablename__ = 'day'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False)
+
+    def __repr__(self):
+        return '<Day %r>' %self.id
+    
+    def serialize(self):
+        return {
+            "id": self.id,
+            "name": self.name
+        }
+    
 
 class Exercises(db.Model):
     __tablename__ = 'exercises'
@@ -206,7 +223,7 @@ workout_plan_muscle_group = db.Table('workout_plan_muscle_group',
     db.Column('workout_plan_id', db.Integer, db.ForeignKey('workout_plan.id'), primary_key=True),
     db.Column('muscle_group_id', db.Integer, db.ForeignKey('muscle_group.id'), primary_key=True)
 )
-
+#Tabla pivote conecta days con exercises
 class MuscleGroup(db.Model):
     __tablename__ = 'muscle_group'
     id = db.Column(db.Integer, primary_key=True)

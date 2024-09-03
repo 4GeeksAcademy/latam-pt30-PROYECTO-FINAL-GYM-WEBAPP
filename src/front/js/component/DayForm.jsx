@@ -1,8 +1,14 @@
 import React, { useState } from 'react';
+import { ExcerciseForm } from './ExcerciseForm.jsx';
+//import { Context } from '../store/appContext.js';
 
-export const DayForm = ({ day, setDay, muscleGroups }) => {
+
+export const DayForm = ({ day, muscles, onSave }) => {
     // Initialize form state with provided day data or defaults
     const [formState, setFormState] = useState(day || { name: '', muscle_group: []});
+
+    const [selectedMuscleGroups, setSelectedMuscleGroups] = useState(muscles || []);
+    const [exercises, setExercises] = useState(day?.exercises || []);
 
     // Handle input changes
     const handleChange = ({ tarjet: {name, value} }) => {
@@ -13,11 +19,17 @@ export const DayForm = ({ day, setDay, muscleGroups }) => {
     };
 
     // Handle muscle group selection
-    const handleMuscleGroupChange = (selectedGroups) => {
-        setFormState(prevState => ({
-            ...prevState,
-            muscle_group: selectedGroups,
-        }));
+    const handleMuscleGroupChange = (e) => {
+        const { value, checked } = e.target;
+        if (checked) {
+            setSelectedMuscleGroups([...selectedMuscleGroups, value]);
+        } else {
+            setSelectedMuscleGroups(selectedMuscleGroups.filter(group => group !== value));
+        }
+    };
+
+    const handleAddExercise = () => {
+        setExercises([...exercises, { name: '', reps: '', sets: '', rest_time: '', description: '', super_set:'' }]);
     };
 
     const handleSubmit = (e) => {
@@ -25,40 +37,66 @@ export const DayForm = ({ day, setDay, muscleGroups }) => {
         onSave(formState); // Pass the updated day back to parent
     };
 
+    const handleSave = () => {
+        onSave({ ...day, muscleGroups: selectedMuscleGroups, exercises });
+    };
+
+    console.log(muscles);
+    
+    console.log(day);
+    
     return (
         <form className="day-form p-3" onSubmit={handleSubmit}>
+            <h5>Day: </h5>
             <div className="form-group">
                 <input
                     type="text"
                     className="form-control"
                     name="name"
                     placeholder="Day Name"
-                    value={formState.name}
+                    value={formState.day}
                     onChange={handleChange}
                 />
             </div>
-            <div className='my-3'>
-                <label>Muscle Groups:</label>
-                {/* <div className="d-flex flex-wrap">
-                    {muscleGroups.map((group, index) => (
-                        <div key={group.id} className="form-check form-check-inline">
-                            <input
-                                type="checkbox"
-                                className="btn-check"
-                                id={`muscleGroup-${index}`}
-                                value={group.name}
-                                // checked={selectedMuscleGroup.includes(group.name)}
-                                onChange={handleMuscleGroupChange}
-                                autocomplete="off"
-                            />
-                            <label className="btn" htmlFor={`muscleGroup-${index}`}>
-                                {group.name}
-                            </label>
-                        </div>
+            <div className="day-form">
+                <div className='my-3'>
+                    <h5>Muscle Groups:</h5>
+                    <div className="d-flex flex-wrap">
+                        {muscles.map((group, index) => (
+                            <div key={group.index} className="form-check form-check-inline">
+                                <input
+                                    type="checkbox"
+                                    className="btn-check"
+                                    id={`muscleGroup-${index}`}
+                                    value={group.name}
+                                    checked={selectedMuscleGroups.includes(group.name)}
+                                    onChange={handleMuscleGroupChange}
+                                    autoComplete="off"
+                                />
+                                <label className="btn" htmlFor={`muscleGroup-${index}`}>
+                                    {group.name}
+                                </label>
+                            </div>
+                        ))}
+                    </div>
+                    <div id="muscleGroupHelp" className="form-text">You can select more than one muscular group per day</div>
+                </div>
+                {/* <button className="btn btn-outline-primary mt-3" onClick={handleSave}>Save Day</button> */}
+                <div className="exercises-section">
+                    <h4>Exercises</h4>
+                    {day?.exercises?.map((exercise, index) => (
+                        <ExcerciseForm
+                            key={index}
+                            exercise={exercise}
+                            setExercises={setExercises}
+                            index={index}
+                        />
                     ))}
-                </div> */}
-                <div id="muscleGroupHelp" className="form-text">You can select more than one muscular group per day</div>
-             </div>
+                    <button className="btn btn-secondary mt-2" onClick={handleAddExercise}>Add Exercise</button>
+                </div>
+
+                <button className="btn btn-secondary mt-3" onClick={handleSave}>Save Day</button>
+            </div>
         </form>    
     );
 };

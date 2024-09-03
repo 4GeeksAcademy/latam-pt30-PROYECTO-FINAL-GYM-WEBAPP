@@ -57,7 +57,7 @@ export const SignUp = () => {
 	  
 	return (
 		<>	
-			<div className="alert alert-danger text-light col-10 mx-auto my-5 p-5" style={{ backgroundImage: `url(${randomImage})`, backgroundSize: 'cover' }}>
+			<div className="alert alert-danger text-light col-10 mx-auto my-5 pb-5" style={{ backgroundImage: `url(${randomImage})`, backgroundSize: 'cover' }}>
 				<form onSubmit={handleSignUp}>
 					<fieldset>
 						<legend className="d-flex justify-content-center display-3 "> SIGN UP </legend>
@@ -118,9 +118,11 @@ export const SignUp = () => {
 
 					</div>	
 				</div>		
-				<div>
+				<div className="mb-5 p-5 pt-0" >
 					<h4>Check Out Our Video Library...</h4>
-					<VideoCarousel/>		
+					<VideoCarousel
+					className="mb-5"
+					/>		
 				</div>
 			</div>
 		</>

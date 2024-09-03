@@ -344,17 +344,17 @@ def get_workout_plan(workout_id):
 def create_workout_plan():
     data = request.json
     new_workout_plan = WorkoutPlan(
-        name_id=data['name_id'], 
-        # sets=data['sets'], 
-        # reps=data['reps'], 
-        # rest_time=data['rest_time'],
-        # description_id=data.get('description_id'), 
+        name=data['name'], 
+        sets=data['sets'], 
+        reps=data['reps'], 
+        rest_time=data['rest_time'],
+        description_id=data.get('description_id'), 
         training_day=data['training_day'], 
         superSet=data['super_set'],
         use_id=data['user_id'], 
         member_id=data['member_id'], 
-        # exercise_id=data['exercise_id'],
-        # musclegroup_id=data['muscle_group_id'])
+        exercise_id=data['exercise_id'],
+        musclegroup_id=data['muscle_group_id']
           )
 
     for mg_id in data['muscle_group_ids']:
@@ -368,7 +368,7 @@ def create_workout_plan():
     try:
         db.session.add(new_workout_plan)
         db.session.commit()
-        return jsonify({"message": "Workout plan created successfully", "workout_id": new_workout_plan.Id_workout}), 201
+        return jsonify({"message": "Workout plan created successfully", "workout_id": new_workout_plan.workout_id}), 201
     except IntegrityError:
         db.session.rollback()
         raise APIException('Error creating workout plan', status_code=400)
@@ -380,17 +380,17 @@ def update_workout_plan(workout_id):
 
     try:
         workout_plan = WorkoutPlan.query.filter_by(id=workout_id).one()
-        workout_plan.name_id = data.get('name_id', workout_plan.name_id)
-        # workout_plan.sets = data.get('sets', workout_plan.sets)
-        # workout_plan.reps = data.get('reps', workout_plan.reps)
-        # workout_plan.rest_time = data.get('rest_time', workout_plan.rest_time)
-        # workout_plan.description_id = data.get('description_id', workout_plan.description_id)
+        workout_plan.name = data.get('name', workout_plan.name)
+        workout_plan.sets = data.get('sets', workout_plan.sets)
+        workout_plan.reps = data.get('reps', workout_plan.reps)
+        workout_plan.rest_time = data.get('rest_time', workout_plan.rest_time)
+        workout_plan.description_id = data.get('description_id', workout_plan.description_id)
         workout_plan.training_day = data.get('training_day', workout_plan.training_day)
         workout_plan.super_set = data.get('super_set', workout_plan.super_set)
         workout_plan.user_id = data.get('user_id', workout_plan.user_id)
         workout_plan.member_id = data.get('member_id', workout_plan.member_id)
-        # workout_plan.exercise_id = data.get('exercise_id', workout_plan.exercise_id)
-        # workout_plan.muscle_group_id = data.get('muscle_group_id', workout_plan.muscle_group_id)
+        #workout_plan.exercise_id = data.get('exercise_id', workout_plan.exercise_id)
+        workout_plan.muscle_group_id = data.get('muscle_group_id', workout_plan.muscle_group_id)
         
         if 'muscle_group_ids' in data:
             workout_plan.muscle_groups = []

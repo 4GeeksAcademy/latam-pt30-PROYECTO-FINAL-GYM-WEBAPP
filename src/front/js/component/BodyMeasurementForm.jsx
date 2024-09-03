@@ -48,7 +48,7 @@ export const BodyMeasurementForm = () => {
     };
 
     return (
-        <div className="card col-11 m-auto my-4">
+        <div className="card col-11 m-auto m-4 mb-5 pb-5">
             <ul className="list-group list-group-flush">
                 <li className="list-group-item">
                     <form onSubmit={handleSubmit}>
@@ -83,7 +83,7 @@ export const BodyMeasurementForm = () => {
                             </div>
                         ))}
 
-                        <button type="submit" className="btn btn-primary">
+                        <button type="submit" className="btn btn-primary mb-5">
                             {id ? 'Update' : 'Submit'}
                         </button>
                     </form>

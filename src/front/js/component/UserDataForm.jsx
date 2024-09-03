@@ -62,7 +62,7 @@ export const UserDataForm = () => {
     
 
     return (
-        <div className="card col-11 m-4 pb-5">
+        <div className="card col-11 m-4 mb-5 pb-5">
             <ul className="list-group list-group-flush">
                 <li className="list-group-item">
                     <form onSubmit={handleSubmit}>

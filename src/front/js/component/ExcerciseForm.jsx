@@ -43,7 +43,7 @@ export const ExcerciseForm = ({ exercise, setExercises, index }) => {
                         type="text"
                         name="description"
                         placeholder="Description"
-                        value={formState.description}
+                        value={formState?.description}
                         onChange={handleChange}
                     />
             </div>
