@@ -8,6 +8,7 @@ const EditPlan = () => {
     const { id } = useParams();
     const [workout, setWorkout] = useState({});
     const [muscles, setMuscles] = useState({})
+    
     const navigate = useNavigate();
 
 
@@ -34,13 +35,19 @@ const EditPlan = () => {
     if (!workout) return <div>Loading...</div>;
 
     return (
-        <div className="card border-success m-4 p-5 text-light">
+        <div className="card border-success m-4 p-5 text-light mb-5 pb-5">
+            <span
+                className="p-3"
+                onClick={() => navigate(`/dashboard`)}
+                >
+                    <i className="fa-solid fa-circle-chevron-left fs-1"></i>
+            </span>
             <h1> Edit Workout</h1>
             <div className="form-group">
                 <label htmlFor="workoutName">Workout's Name</label>
                 <input
                     type="text"
-                    className="form-control"
+                    className="form-control border-primary-subtle"
                     id="workoutName"
                     name="name"
                     placeholder="Eje: Hypertrophy Workout"
@@ -56,7 +63,7 @@ const EditPlan = () => {
                         onSave={(updatedDay) => handleSave(updatedDay, index)}
                     />
                 ))}
-                <button className="btn btn-primary mt-3" onClick={handleSave}>Save Workout</button>
+                <button className="btn btn-primary mt-3 mb-5" onClick={handleSave}>Save Workout</button>
         </div>
     );
 };

@@ -27,25 +27,31 @@ export const ExcerciseForm = ({ exercise, setExercises, index }) => {
 
     return (
         
-            <div className="exercise-form">
+            <div className="exercise-form border border-success-subtle rounded p-3 mb-3">
                 {Object.keys(formState).map(key => (
-                    <input
-                        key={key}
-                        type={key === 'reps' || key === 'sets' || key === 'rest_time' ? 'number' : 'text'}
-                        name={key}
-                        placeholder={key.charAt(0).toUpperCase() + key.slice(1)}
-                        value={formState[key]}
-                        onChange={handleChange}
-                    />
+                    <div className="form-group" key={key}>
+                        <label htmlFor={key} className="form-label">{key.charAt(0).toUpperCase() + key.slice(1)}</label>
+                        <input
+                            key={key}
+                            type={key === 'reps' || key === 'sets' || key === 'rest_time' ? 'number' : 'text'}
+                            className="form-control"
+                            name={key}
+                            placeholder={key.charAt(0).toUpperCase() + key.slice(1)}
+                            value={formState[key]}
+                            onChange={handleChange}
+                        />
+                    </div>
                 ))}
-
+                <div id="exercisesHelp" className="form-text">You can still edit before Saving Day</div>
+                    {/* <label htmlFor="description">Description</label>
                     <input
                         type="text"
+                        className="form-control"
                         name="description"
                         placeholder="Description"
                         value={formState?.description}
                         onChange={handleChange}
-                    />
+                    /> */}
             </div>
                 );
             };

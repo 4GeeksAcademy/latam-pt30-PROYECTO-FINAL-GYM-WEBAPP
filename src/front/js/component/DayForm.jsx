@@ -51,7 +51,7 @@ export const DayForm = ({ day, muscles, onSave }) => {
             <div className="form-group">
                 <input
                     type="text"
-                    className="form-control"
+                    className="form-control border-warning-subtle"
                     name="name"
                     placeholder="Day Name"
                     value={formState.day}
@@ -62,7 +62,7 @@ export const DayForm = ({ day, muscles, onSave }) => {
                 <div className='my-3'>
                     <h5>Muscle Groups:</h5>
                     <div className="d-flex flex-wrap">
-                        {muscles.map((group, index) => (
+                        {muscles && muscles.map((group, index) => (
                             <div key={group.index} className="form-check form-check-inline">
                                 <input
                                     type="checkbox"
@@ -92,10 +92,10 @@ export const DayForm = ({ day, muscles, onSave }) => {
                             index={index}
                         />
                     ))}
-                    <button className="btn btn-secondary mt-2" onClick={handleAddExercise}>Add Exercise</button>
+                    <button className="btn btn-outline-success mt-2" onClick={handleAddExercise}>Add Exercise</button>
                 </div>
 
-                <button className="btn btn-secondary mt-3" onClick={handleSave}>Save Day</button>
+                <button className="btn btn-outline-warning mt-3" onClick={handleSave}>Save Day</button>
             </div>
         </form>    
     );

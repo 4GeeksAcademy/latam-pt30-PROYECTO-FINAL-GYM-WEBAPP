@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Timer from "../component/Timer";
 import { Context } from "../store/appContext";
 export const Workout = () => {
@@ -9,6 +9,7 @@ export const Workout = () => {
   const [startTimer, setStartTimer] = useState(false);
   const [resetTimer, setResetTimer] = useState(false);
   const params = useParams();
+  const navigate = useNavigate();
 
 
   useEffect(() => {
@@ -45,6 +46,12 @@ export const Workout = () => {
 
   return (
     <div className="container my-5">
+      <span
+          className="p-3 mb-3"
+          onClick={() => navigate(`/dashboard`)}
+          >
+              <i className="fa-solid fa-circle-chevron-left fs-1"></i>
+      </span>
       <div className="alert rounded-5 bg-light border-danger-subtle opacity-75 col-11">
         <div className="d-flex justify-content-center text-dark">
           <h1> {exercise.name} </h1>

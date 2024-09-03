@@ -49,13 +49,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 								{ name: "Arms" }
 							],
 							exercises: [
-								{ name: "Pullups", reps: 8, sets: 4, rest_time: "20s", description: "Heavy" },
-								{ name: "Pushups", reps: 15, sets: 4, rest_time: "20s", description: "Light" },
-								{ name: "Bar", reps: 20, sets: 4, rest_time: "20s", description: "Increment weight" },
-								{ name: "Pullups", reps: 10, sets: 3, rest_time: "20s", description: "Heavy" },
-								{ name: "Pushups", reps: 20, sets: 3, rest_time: "20s", description: "Increment weight" },
-								{ name: "Bar", reps: 25, sets: 3, rest_time: "20s", description: "Light" },
-								{ name: "Peckfly", reps: 12, sets: 3, rest_time: "20s", description: "Heavy" },
+								{ name: "Pullups", reps: 8, sets: 4, rest_time: "20s", description: "Heavy", super_set:"" },
+								{ name: "Pushups", reps: 15, sets: 4, rest_time: "20s", description: "Light", super_set:"" },
+								{ name: "Bar", reps: 20, sets: 4, rest_time: "20s", description: "Increment weight", super_set:"" },
+								{ name: "Pullups", reps: 10, sets: 3, rest_time: "20s", description: "Heavy", super_set:"" },
+								{ name: "Pushups", reps: 20, sets: 3, rest_time: "20s", description: "Increment weight", super_set:"" },
+								{ name: "Bar", reps: 25, sets: 3, rest_time: "20s", description: "Light", super_set:"" },
+								{ name: "Peckfly", reps: 12, sets: 3, rest_time: "20s", description: "Heavy", super_set:"" },
 							],
 						},
 						{
@@ -65,12 +65,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 								{ name: "shoulders" }
 							],
 							exercises: [
-								{ name: "Pullups", reps: 10, sets: 3, rest_time: "20s", description: "Heavy" },
-								{ name: "Pushups", reps: 20, sets: 3, rest_time: "20s", description: "Increment weight" },
-								{ name: "Bar", reps: 25, sets: 3, rest_time: "20s", description: "Light" },
-								{ name: "Peckfly", reps: 12, sets: 3, rest_time: "20s", description: "Heavy" },
-								{ name: "Pullups", reps: 10, sets: 3, rest_time: "20s", description: "Heavy" },
-								{ name: "Pushups", reps: 20, sets: 3, rest_time: "20s", description: "Increment weight" },
+								{ name: "Pullups", reps: 10, sets: 3, rest_time: "20s", description: "Heavy", super_set:"" },
+								{ name: "Pushups", reps: 20, sets: 3, rest_time: "20s", description: "Increment weight", super_set:"" },
+								{ name: "Bar", reps: 25, sets: 3, rest_time: "20s", description: "Light", super_set:"" },
+								{ name: "Peckfly", reps: 12, sets: 3, rest_time: "20s", description: "Heavy", super_set:"" },
+								{ name: "Pullups", reps: 10, sets: 3, rest_time: "20s", description: "Heavy", super_set:"" },
+								{ name: "Pushups", reps: 20, sets: 3, rest_time: "20s", description: "Increment weight", super_set:"" },
 							],
 						},
 					],
@@ -123,7 +123,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 				{id: "12", name: "Forearm muscles"},
 				{id: "13", name: "Neck muscles"},
 				{id: "14", name: "Calf"},
-			
 			],
 
 			//BODY MEASUREMENTS

@@ -7,11 +7,22 @@ export const CreatePlan = () => {
     const { store, actions } = useContext(Context);
     const { id } = useParams();
     const navigate = useNavigate();
-
+    const [day, setDay] = useState(
+        {
+            day: "",
+            muscle_group: [
+                { name: "" },
+                { name: "" }
+            ],
+            exercises: [
+                { name: "", reps: "", sets: "", rest_time: "", description: "", super_set:"" },
+            ],
+        },
+    );
 
     const [workout, setWorkout] = useState({})
 
-
+    let defaultExercise = { name: "", reps: "", sets: "", rest_time: "", description: "", super_set:"" }
 
     // Find the existing workout by id if it exists
     // const existingWorkout = () => {
@@ -52,7 +63,7 @@ export const CreatePlan = () => {
 
 
     useEffect(() => {
-        existingWorkout()
+        //existingWorkout()
     }, [])
 
     return (
@@ -70,18 +81,19 @@ export const CreatePlan = () => {
                     onChange={(e) => setWorkout(e.target.value)}
                 />
             </div>
-            {/* {days && days.length > 0 && days.map((day, index) => (
-                        <DayForm
-                            key={index}
-                            day={day}
-                            setDays={(updatedDays) => {
-                                const newDays = [...days];
-                                newDays[index] = updatedDays[index];
-                                setDays(newDays);
-                            }}
-                            index={index}
-                        />
-                    ))} */}
+                <DayForm
+                    day={day}
+                    muscles={store.muscle_groups}
+                    onSave={()=>setDay({
+                        ...day, exercises: [
+                            ...day.exercises, defaultExercise]
+                    })}
+                    setDays={(updatedDays) => {
+                        // const newDays = [...days];
+                        // newDays[index] = updatedDays[index];
+                        // setDays(newDays);
+                    }}
+                />
         </div>
 
         /* <div className="card border-success m-4 p-5 text-light">
