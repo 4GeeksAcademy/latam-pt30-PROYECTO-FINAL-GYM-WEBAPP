@@ -35,7 +35,7 @@ export const Footer = () => {
 							</Link>
 						</li>
 						<li className="nav-item">
-							<Link className="nav-link" href="#" to="/createEditPlan/:id">
+							<Link className="nav-link" href="#" to="/create-plan">
 							<i className="fa-solid fa-circle-plus fs-1 text-white"></i>
 							</Link>
 						</li>

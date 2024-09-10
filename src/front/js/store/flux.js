@@ -43,34 +43,34 @@ const getState = ({ getStore, getActions, setStore }) => {
 					name: "Plan 1",
 					days: [
 						{
-							day: "Day 1",
+							day: {id: "1", name:"Day 1"},
 							muscle_group: [
-								{ name: "Leg" },
-								{ name: "Arms" }
+								{ id: "1", name: "Chest" },
+								{ id: "2", name: "Back" }
 							],
 							exercises: [
-								{ name: "Pullups", reps: 8, sets: 4, rest_time: "20s", description: "Heavy", super_set:"" },
-								{ name: "Pushups", reps: 15, sets: 4, rest_time: "20s", description: "Light", super_set:"" },
-								{ name: "Bar", reps: 20, sets: 4, rest_time: "20s", description: "Increment weight", super_set:"" },
-								{ name: "Pullups", reps: 10, sets: 3, rest_time: "20s", description: "Heavy", super_set:"" },
-								{ name: "Pushups", reps: 20, sets: 3, rest_time: "20s", description: "Increment weight", super_set:"" },
-								{ name: "Bar", reps: 25, sets: 3, rest_time: "20s", description: "Light", super_set:"" },
-								{ name: "Peckfly", reps: 12, sets: 3, rest_time: "20s", description: "Heavy", super_set:"" },
+								{ id: "1", name: "Pullups", reps: 8, sets: 4, rest_time: "20s", description: "Heavy", super_set:"" },
+								{ id: "2", name: "Pushups", reps: 15, sets: 4, rest_time: "20s", description: "Light", super_set:"" },
+								{ id: "3", name: "Bar", reps: 20, sets: 4, rest_time: "20s", description: "Increment weight", super_set:"" },
+								{ id: "4", name: "Pullups", reps: 10, sets: 3, rest_time: "20s", description: "Heavy", super_set:"" },
+								{ id: "5", name: "Pushups", reps: 20, sets: 3, rest_time: "20s", description: "Increment weight", super_set:"" },
+								{ id: "6", name: "Bar", reps: 25, sets: 3, rest_time: "20s", description: "Light", super_set:"" },
+								{ id: "7", name: "Peckfly", reps: 12, sets: 3, rest_time: "20s", description: "Heavy", super_set:"" },
 							],
 						},
 						{
-							day: "Day 2",
+							day: {id: "2", name:"Day 2"},
 							muscle_group: [
-								{ name: "abs" },
-								{ name: "shoulders" }
+								{ id: "4", name: "Biceps" },
+								{ id: "5", name: "Triceps" }
 							],
 							exercises: [
-								{ name: "Pullups", reps: 10, sets: 3, rest_time: "20s", description: "Heavy", super_set:"" },
-								{ name: "Pushups", reps: 20, sets: 3, rest_time: "20s", description: "Increment weight", super_set:"" },
-								{ name: "Bar", reps: 25, sets: 3, rest_time: "20s", description: "Light", super_set:"" },
-								{ name: "Peckfly", reps: 12, sets: 3, rest_time: "20s", description: "Heavy", super_set:"" },
-								{ name: "Pullups", reps: 10, sets: 3, rest_time: "20s", description: "Heavy", super_set:"" },
-								{ name: "Pushups", reps: 20, sets: 3, rest_time: "20s", description: "Increment weight", super_set:"" },
+								{ id: "8", name: "Pullups", reps: 10, sets: 3, rest_time: "20s", description: "Heavy", super_set:"" },
+								{ id: "9", name: "Pushups", reps: 20, sets: 3, rest_time: "20s", description: "Increment weight", super_set:"" },
+								{ id: "10", name: "Bar", reps: 25, sets: 3, rest_time: "20s", description: "Light", super_set:"" },
+								{ id: "11",name: "Peckfly", reps: 12, sets: 3, rest_time: "20s", description: "Heavy", super_set:"" },
+								{ id: "12", name: "Pullups", reps: 10, sets: 3, rest_time: "20s", description: "Heavy", super_set:"" },
+								{ id: "13", name: "Pushups", reps: 20, sets: 3, rest_time: "20s", description: "Increment weight", super_set:"" },
 							],
 						},
 					],
@@ -80,28 +80,28 @@ const getState = ({ getStore, getActions, setStore }) => {
 					name: "Plan 2",
 					days: [
 						{
-							day: "Day 1",
+							day: {id: "3", name:"Day 1"},
 							muscle_group: [
-								{ name: "abs" },
-								{ name: "shoulders" }
+								{ id: "3", name: "Quads" },
+								{ id: "6", name: "Forearms" }
 							],
 							exercises: [
-								{ name: "Pullups", reps: 8, sets: 4, rest_time: "20s", description: "", super_set:"" },
-								{ name: "Pushups", reps: 15, sets: 4, rest_time: "20s", description: "", super_set:""  },
-								{ name: "Bar", reps: 20, sets: 4, rest_time: "20s", description: "", super_set:""  },
+								{ id: "14", name: "Pullups", reps: 8, sets: 4, rest_time: "20s", description: "", super_set:"" },
+								{ id: "15", name: "Pushups", reps: 15, sets: 4, rest_time: "20s", description: "", super_set:""  },
+								{ id: "16", name: "Bar", reps: 20, sets: 4, rest_time: "20s", description: "", super_set:""  },
 							],
 						},
 						{
-							day: "Day 2",
+							day: {id: "4", name:"Day 2"},
 							muscle_group: [
 								{ name: "abs" },
 								{ name: "shoulders" }
 							],
 							exercises: [
-								{ name: "Pullups", reps: 10, sets: 3, rest_time: "20s", description: "", super_set:""  },
-								{ name: "Pushups", reps: 20, sets: 3, rest_time: "20s", description: "", super_set:""  },
-								{ name: "Bar", reps: 25, sets: 3, rest_time: "20s", description: "", super_set:""  },
-								{ name: "Peckfly", reps: 12, sets: 3, rest_time: "20s", description: "", super_set:""  },
+								{ id: "17", name: "Pullups", reps: 10, sets: 3, rest_time: "20s", description: "", super_set:""  },
+								{ id: "18", name: "Pushups", reps: 20, sets: 3, rest_time: "20s", description: "", super_set:""  },
+								{ id: "19", name: "Bar", reps: 25, sets: 3, rest_time: "20s", description: "", super_set:""  },
+								{ id: "20", name: "Peckfly", reps: 12, sets: 3, rest_time: "20s", description: "", super_set:""  },
 							],
 						},
 					],
@@ -348,10 +348,15 @@ const getState = ({ getStore, getActions, setStore }) => {
 					const data = await response.json();
 					const store = getStore();
 					const updatedWorkouts = store.workouts.map(workout => {
+						// days: [1, 2, 3],          // Array de IDs de días
+						// exercise_ids: [4, 5, 6],  // Array de IDs de ejercicios
+						// name: "New Workout Name", // Nombre del plan de entrenamiento
+						// description: "Updated workout description" // Descripción
 						if (workout.id === id) {
 							return { ...workout, ...data };
 						}
 						return workout;
+
 					});
 					setStore({ workouts: updatedWorkouts });
 				} catch (error) {
@@ -361,7 +366,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			
 			//CREATE WORKOUT
 			//CreateEditPlan.jsx
-			createWorkout: async (workout) => {
+			createWorkout: async (createWorkout) => {
 				try {
 					const response = await fetch(`${process.env.BACKEND_URL}/api/workouts`, {
 						method: "POST",
@@ -369,7 +374,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 							"Content-Type": "application/json",
 							"Authorization": `Bearer ${getStore().userToken}`
 						},
-						body: JSON.stringify(workout),
+						body: JSON.stringify(createWorkout),
 					});
 					if (!response.ok) throw new Error("Failed to add workout");
 					const data = await response.json();

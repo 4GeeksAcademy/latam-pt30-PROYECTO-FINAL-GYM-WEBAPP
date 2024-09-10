@@ -56,10 +56,10 @@ export const Workout = () => {
         <div className="d-flex justify-content-center text-dark">
           <h1> {exercise.name} </h1>
         </div>
-        <div className="exercise-details text-dark justify-content-center">
+        <div className="exercise-details text-dark d-flex justify-content-center">
           {exercise.reps} REPS | {exercise.sets} SETS | {exercise.description}</div>
       </div>
-        <div id="exerciseDetails" className="d- flex workout-details col-8">
+        <div id="exerciseDetails" className="workout-details col-8">
           <div className="sets">
             {completedSets.map((completed, i) => (
               <div key={i} className="set-container">
@@ -72,7 +72,11 @@ export const Workout = () => {
               </div>
             ))}
           </div>
-            <Timer startTimer={startTimer} resetTimer={resetTimer} />
+            <Timer 
+            startTimer={startTimer} 
+            resetTimer={resetTimer} 
+            
+            />
         </div>
     </div>
   );

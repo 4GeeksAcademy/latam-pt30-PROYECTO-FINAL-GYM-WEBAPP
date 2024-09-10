@@ -8,10 +8,11 @@ export const MyWorkOut = (props) => {
     //const [data, setData] = useState([]);
 
 
-    const handleNavigate = (id, dayIndex, name) => {
-        navigate(`/workout/${id}/day/${dayIndex}/exercise/${name}`);
+    const handleNavigate = (workoutId, dayId, exerciseName) => {
+        navigate(`/workout/${workoutId}/day/${dayId}/exercise/${exerciseName}`);
     };
     console.log();
+
     return (
         <div className="d-flex flex-column">
             <div>
@@ -40,35 +41,38 @@ export const MyWorkOut = (props) => {
                         id={`collapseWidthExample-${props.id}`}
                     >
                         <div>
-                            {props.days.map((day, dayIndex) => (
-                                <div key={dayIndex}>
+                            {props.days.map((day, dayId) => (
+                                <div key={dayId}>
                                     
                                     <button
                                         className="alert rounded-5 text-light fw-semibold bg-body-secondary border-warning-subtle col-11"
                                         type="button"
                                         data-bs-toggle="collapse"
-                                        data-bs-target={`#dayCollapse-${props.index}-${dayIndex}`}
+                                        data-bs-target={`#dayCollapse-${props.id}-${dayId}`}
                                         aria-expanded="false"
-                                        aria-controls={`dayCollapse-${props.index}-${dayIndex}`}
+                                        aria-controls={`dayCollapse-${props.id}-${dayId}`}
                                     >
                                         <div className="d-flex justify-content-center">
-                                            <h3>{day.day} - {day.muscle_group.map((group, indexGroup) => {
-                                                return <span key={indexGroup}>{group.name}</span>
-                                            })}</h3>
+                                            <h3>
+                                            {day.day.name} - {day.muscle_group.map((group, idGroup) => {
+                                                       return <span key={idGroup}>{group.name}</span>
+                                                    })}
+                                            </h3>
+                                            {console.log(day.muscle_group)}
                                         </div>
                                         <div className="d-flex justify-content-end">
                                             <small className="text-light px-2">
-                                                {props.days[props.index].exercises.length} EXERCISES</small>
+                                                {day?.exercises?.length || 0} EXERCISES</small>
                                         </div>
                                     </button>
                                     <div
                                         className="collapse collapse-horizontal"
-                                        id={`dayCollapse-${props.index}-${dayIndex}`}
+                                        id={`dayCollapse-${props.id}-${dayId}`}
                                     >
-                                        {day.exercises.map((exercise, exerciseIndex) => (
+                                        {day.exercises.map((exercise, exerciseId) => (
                                             <div
-                                                key={exerciseIndex}
-                                                onClick={() => handleNavigate(props.id, dayIndex, exercise.name)}
+                                                key={exerciseId}
+                                                onClick={() => handleNavigate(props.id, dayId, exercise.name)}
                                                 style={{ cursor: "pointer" }}
                                             >
                                                 <div

@@ -5,18 +5,16 @@ import { ExcerciseForm } from './ExcerciseForm.jsx';
 
 export const DayForm = ({ day, muscles, onSave }) => {
     // Initialize form state with provided day data or defaults
-    const [formState, setFormState] = useState(day || { name: '', muscle_group: []});
-
-    const [selectedMuscleGroups, setSelectedMuscleGroups] = useState(muscles || []);
+    const [formState, setFormState] = useState(day);
+    const [selectedMuscleGroups, setSelectedMuscleGroups] = useState(day.muscle_groups || []);
     const [exercises, setExercises] = useState(day?.exercises || []);
 
-    // Handle input changes
-    const handleChange = ({ tarjet: {name, value} }) => {
-        setFormState(prevState => ({
-            ...prevState,
-            [name]: value
-        }));
+    // Handle day name changes
+    const handleDayChange = (e) => {
+        setFormState({ ...formState, day: e.target.value });
     };
+
+    //solo guarda solo del dia no los de componentes diferentes 
 
     // Handle muscle group selection
     const handleMuscleGroupChange = (e) => {
@@ -28,25 +26,64 @@ export const DayForm = ({ day, muscles, onSave }) => {
         }
     };
 
-    const handleAddExercise = () => {
-        setExercises([...exercises, { name: '', reps: '', sets: '', rest_time: '', description: '', super_set:'' }]);
-    };
+    // const handleAddExercise = (dayId) => {
+    //     dayId.preventDefault()
+    //     const newExercise = { id: "", name: "", reps: "", sets: "", rest_time: "", description: "", super_set: "" };
+    //     const updatedDays = day.map((day) => {
+    //         if (day.id === dayId) {
+    //             return {
+    //                 ...day,
+    //                 exercises: [...day.exercises, newExercise],
+    //             };
+    //         }
+    //         return day;
+    //     });
+    //     setExercises(updatedDays);
+    // };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        onSave(formState); // Pass the updated day back to parent
-    };
-
-    const handleSave = () => {
-        onSave({ ...day, muscleGroups: selectedMuscleGroups, exercises });
-    };
-
-    console.log(muscles);
+    const handleAddExercise = async (e) => {
+        e.preventDefault()
+        // Crea un nuevo ejercicio
+        // const newExercise = { 
+        //     name: "", 
+        //     reps: "", 
+        //     sets: "", 
+        //     rest_time: "", 
+        //     description: "", 
+        //     super_set: "" 
+        // };
     
-    console.log(day);
+        // // Mapea sobre los días, buscando el que coincide con dayId
+        // const updatedDays = day.map((day) => {
+        //     if (day.id === dayId) {
+        //         return {
+        //             ...day,
+        //             exercises: [...day.exercises, newExercise], // Añade el nuevo ejercicio al array de exercises
+        //         };
+        //     }
+        //     return day; // Si no es el día correcto, lo devuelve sin cambios
+        // });
+    
+        // Actualiza el estado de los días
+        setExercises([...exercises, { id: "", name: "", reps: "", sets: "", rest_time: "", description: "", super_set: "" }]);
+        //handleSaveDay()
+    };
+
+
+
+    //Save day
+    const handleSaveDay = (dayId) => {
+        const updatedWorkout = { ...workout };
+        updatedWorkout.days = day.map((day) => (day.id === dayId ? day : updatedWorkout.days));
+        setFormState(updatedWorkout);
+    };
+
+    //prevenir que no se actualice la palgina
+    // Al agregar un nuevo dia guardamos cambios 
+    console.log(formState.day);
     
     return (
-        <form className="day-form p-3" onSubmit={handleSubmit}>
+        <form className="day-form p-3">
             <h5>Day: </h5>
             <div className="form-group">
                 <input
@@ -54,16 +91,18 @@ export const DayForm = ({ day, muscles, onSave }) => {
                     className="form-control border-warning-subtle"
                     name="name"
                     placeholder="Day Name"
-                    value={formState.day}
-                    onChange={handleChange}
+                    value={formState.day.name}
+                    onChange={handleDayChange}
                 />
             </div>
+
+
             <div className="day-form">
                 <div className='my-3'>
                     <h5>Muscle Groups:</h5>
                     <div className="d-flex flex-wrap">
                         {muscles && muscles.map((group, index) => (
-                            <div key={group.index} className="form-check form-check-inline">
+                            <div key={group.id} className="form-check form-check-inline">
                                 <input
                                     type="checkbox"
                                     className="btn-check"
@@ -71,7 +110,7 @@ export const DayForm = ({ day, muscles, onSave }) => {
                                     value={group.name}
                                     checked={selectedMuscleGroups.includes(group.name)}
                                     onChange={handleMuscleGroupChange}
-                                    autoComplete="off"
+                                    //autoComplete="off"
                                 />
                                 <label className="btn" htmlFor={`muscleGroup-${index}`}>
                                     {group.name}
@@ -81,10 +120,11 @@ export const DayForm = ({ day, muscles, onSave }) => {
                     </div>
                     <div id="muscleGroupHelp" className="form-text">You can select more than one muscular group per day</div>
                 </div>
-                {/* <button className="btn btn-outline-primary mt-3" onClick={handleSave}>Save Day</button> */}
+
+
                 <div className="exercises-section">
                     <h4>Exercises</h4>
-                    {day?.exercises?.map((exercise, index) => (
+                    {exercises?.map((exercise, index) => (
                         <ExcerciseForm
                             key={index}
                             exercise={exercise}
@@ -92,17 +132,26 @@ export const DayForm = ({ day, muscles, onSave }) => {
                             index={index}
                         />
                     ))}
-                    <button className="btn btn-outline-success mt-2" onClick={handleAddExercise}>Add Exercise</button>
+                    <button 
+                    className="btn btn-outline-success mt-2 col-12" 
+                    onClick={handleAddExercise}>
+                        Add Exercise
+                        </button>
+                        
                 </div>
 
-                <button className="btn btn-outline-warning mt-3" onClick={handleSave}>Save Day</button>
+                {/* <button 
+                className="btn btn-outline-warning mt-3" 
+                onClick={handleSaveDay}>
+                    Save Day
+                    </button> */}
             </div>
         </form>    
     );
 };
 
 
-
+//componentes hijo y lo que se haga ahi se guarde en una lsita en el compnente padre
 
 
 

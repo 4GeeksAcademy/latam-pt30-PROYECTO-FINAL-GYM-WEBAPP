@@ -1,23 +1,20 @@
 import React, { useState, useEffect } from 'react';
-//import { Context } from '../store/appContext';
-//import { useParams } from 'react-router-dom';
+
 
 export const ExcerciseForm = ({ exercise, setExercises, index }) => {
     const [formState, setFormState] = useState(exercise);
-    //const { store, actions } = useContext(Context);
 
     useEffect(() => {
         setExercises(prevExercises => {
             const newExercises = [...prevExercises];
             newExercises[index] = formState;
             return newExercises;
-
-            
         });
     }, [formState, index, setExercises]);
 
 
-    const handleChange = ({ target: { name, value } }) => {
+    const handleChange = (e) => {
+        const { name, value } = e.target;
         setFormState(prevState => ({
             ...prevState,
             [name]: value,
@@ -30,7 +27,9 @@ export const ExcerciseForm = ({ exercise, setExercises, index }) => {
             <div className="exercise-form border border-success-subtle rounded p-3 mb-3">
                 {Object.keys(formState).map(key => (
                     <div className="form-group" key={key}>
-                        <label htmlFor={key} className="form-label">{key.charAt(0).toUpperCase() + key.slice(1)}</label>
+                        <label htmlFor={key} className="form-label">
+                            {key.charAt(0).toUpperCase() + key.slice(1)}
+                            </label>
                         <input
                             key={key}
                             type={key === 'reps' || key === 'sets' || key === 'rest_time' ? 'number' : 'text'}
@@ -43,18 +42,9 @@ export const ExcerciseForm = ({ exercise, setExercises, index }) => {
                     </div>
                 ))}
                 <div id="exercisesHelp" className="form-text">You can still edit before Saving Day</div>
-                    {/* <label htmlFor="description">Description</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        name="description"
-                        placeholder="Description"
-                        value={formState?.description}
-                        onChange={handleChange}
-                    /> */}
             </div>
-                );
-            };
+        );
+    };
 
 // import React, { useState, useContext } from 'react';
 // import { useNavigate, useParams } from 'react-router-dom';

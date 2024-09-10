@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import request, jsonify, url_for, Blueprint, current_app
-from api.models import db, User, Member, Objective, MuscleGroup, WorkoutPlan, Exercises, BodyMeasurement, Videos
+from api.models import db, User, Member, Objective, MuscleGroup, WorkoutPlan, Exercise, BodyMeasurement, Videos, Day
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 import os
@@ -374,51 +374,100 @@ def create_workout_plan():
         raise APIException('Error creating workout plan', status_code=400)
 
 # Endpoint para actualizar un plan de entrenamiento existente por su ID
-@api.route('/workout-plans/<int:workout_id>', methods=['PUT'])
-def update_workout_plan(workout_id):
-    data = request.json
+# @api.route('/workout-plans/<int:workout_id>', methods=['PUT'])
+# def update_workout_plan(workout_id):
+#     data = request.json
 
-    try:
-        workout_plan = WorkoutPlan.query.filter_by(id=workout_id).one()
-        workout_plan.name = data.get('name', workout_plan.name)
-        workout_plan.sets = data.get('sets', workout_plan.sets)
-        workout_plan.reps = data.get('reps', workout_plan.reps)
-        workout_plan.rest_time = data.get('rest_time', workout_plan.rest_time)
-        workout_plan.description_id = data.get('description_id', workout_plan.description_id)
-        workout_plan.training_day = data.get('training_day', workout_plan.training_day)
-        workout_plan.super_set = data.get('super_set', workout_plan.super_set)
-        workout_plan.user_id = data.get('user_id', workout_plan.user_id)
-        workout_plan.member_id = data.get('member_id', workout_plan.member_id)
-        #workout_plan.exercise_id = data.get('exercise_id', workout_plan.exercise_id)
-        workout_plan.muscle_group_id = data.get('muscle_group_id', workout_plan.muscle_group_id)
+#     try:
+#         workout_plan = WorkoutPlan.query.filter_by(id=workout_id).one()
+#         workout_plan.name = data.get('name', workout_plan.name)
+#         workout_plan.sets = data.get('sets', workout_plan.sets)
+#         workout_plan.reps = data.get('reps', workout_plan.reps)
+#         workout_plan.rest_time = data.get('rest_time', workout_plan.rest_time)
+#         workout_plan.description_id = data.get('description_id', workout_plan.description_id)
+#         workout_plan.training_day = data.get('training_day', workout_plan.training_day)
+#         workout_plan.super_set = data.get('super_set', workout_plan.super_set)
+#         workout_plan.user_id = data.get('user_id', workout_plan.user_id)
+#         workout_plan.member_id = data.get('member_id', workout_plan.member_id)
+#         workout_plan.exercise_id = data.get('exercise_id', workout_plan.exercise_id)
+#         workout_plan.muscle_group_id = data.get('muscle_group_id', workout_plan.muscle_group_id)
         
-        if 'muscle_group_ids' in data:
-            workout_plan.muscle_groups = []
-            for mg_id in data['muscle_group_ids']:
-                muscle_group = MuscleGroup.query.get(mg_id)
-                workout_plan.muscle_groups.append(muscle_group)
+#         if 'days' in data:
+#             workout_plan.day = []
+#             for day_id in data['days']:
+#                 day = Day.query.get(day_id)
+#                 if day:
+#                     workout_plan.day.append(day)
         
-        if 'exercise_ids' in data:
-            workout_plan.exercises = []
-            for ex_id in data['exercise_ids']:
-                exercise = Exercises.query.get(ex_id)
-                workout_plan.exercises.append(exercise)
+#         if 'exercise_ids' in data:
+#             workout_plan.exercises = []
+#             for ex_id in data['exercise_ids']:
+#                 exercise = Exercise.query.get(ex_id)
+#                 if exercise:
+#                     workout_plan.exercise.append(exercise)
 
-        db.session.commit()
-        return jsonify({"message": "Workout plan updated successfully", "workout_id": workout_plan.id}), 200
-    except NoResultFound:
-        raise APIException('Workout plan not found', status_code=404)
+#         db.session.commit()
+#         return jsonify({"message": "Workout plan updated successfully", "workout_id": workout_plan.id}), 200
+#     except NoResultFound:
+#         raise APIException('Workout plan not found', status_code=404)
 
-# Endpoint para eliminar un plan de entrenamiento por su ID
-@api.route('/workout-plans/<int:workout_id>', methods=['DELETE'])
-def delete_workout_plan(workout_id):
-    try:
-        workout_plan = WorkoutPlan.query.filter_by(id=workout_id).one()
-        db.session.delete(workout_plan)
-        db.session.commit()
-        return jsonify({"message": "Workout plan deleted successfully", "workout_id": workout_id}), 200
-    except NoResultFound:
-        raise APIException('Workout plan not found', status_code=404)
+# # Endpoint para eliminar un plan de entrenamiento por su ID
+# @api.route('/workout-plans/<int:workout_id>', methods=['DELETE'])
+# def delete_workout_plan(workout_id):
+#     try:
+#         workout_plan = WorkoutPlan.query.filter_by(id=workout_id).one()
+#         db.session.delete(workout_plan)
+#         db.session.commit()
+#         return jsonify({"message": "Workout plan deleted successfully", "workout_id": workout_id}), 200
+#     except NoResultFound:
+#         raise APIException('Workout plan not found', status_code=404)
+
+#WORKOUT FROM AI - Necesitamos asegurarnos de que la ruta que actualiza un plan de entrenamiento maneje la estructura correcta y no permita arrays vacíos si esos datos son requeridos.
+
+@api.route('/api/workouts/<int:workout_id>', methods=['PUT'])
+def update_workout(workout_id):
+    data = request.get_json()
+
+    # Buscar el plan de entrenamiento
+    workout_plan = WorkoutPlan.query.get_or_404(workout_id)
+
+    # Actualizar el nombre del plan de entrenamiento
+    if 'name' in data:
+        workout_plan.name = data['name']
+
+    # Actualizar los días
+    if 'days' in data:
+        workout_plan.days = []
+        for day_data in data['days']:
+            day = Day.query.get(day_data['day']['id'])  # Obtener el día por su ID
+            if day is None:
+                continue
+            # Actualizar los grupos musculares del día
+            if 'muscle_group' in day_data:
+                day.muscle_groups = []
+                for mg in day_data['muscle_group']:
+                    muscle_group = MuscleGroup.query.get(mg['id'])
+                    if muscle_group:
+                        day.muscle_groups.append(muscle_group)
+            
+            # Actualizar los ejercicios del día
+            if 'exercises' in day_data:
+                day.exercises = []
+                for ex in day_data['exercises']:
+                    exercise = Exercise.query.get(ex['id'])
+                    if exercise:
+                        exercise.reps = ex['reps']
+                        exercise.sets = ex['sets']
+                        exercise.rest_time = ex['rest_time']
+                        exercise.description = ex['description']
+                        exercise.super_set = ex['super_set']
+                        day.exercises.append(exercise)
+            workout_plan.days.append(day)
+
+    # Guardar los cambios
+    db.session.commit()
+
+    return jsonify({"message": "Workout plan updated successfully!"}),
 
 #EXERCISES_______________________________________________________
 # Endpoint para obtener todos los ejercicios

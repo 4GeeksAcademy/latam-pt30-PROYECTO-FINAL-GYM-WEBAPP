@@ -55,8 +55,6 @@ class Member(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     objective_id = db.Column(db.Integer, db.ForeignKey('objective.id'), nullable=False)
 
- 
-
     workout_plans = db.relationship('WorkoutPlan', backref='member', lazy=True)
 
     def __repr__(self):
@@ -126,6 +124,12 @@ class BodyMeasurement(db.Model):
             'shoulders': self.shoulders
         }
     
+          # Pivot table for WorkoutPlan and Exercises - agregar al endpoint!!!
+workout_plan_days = db.Table('workout_plan_days',
+    db.Column('workout_plan_id', db.Integer, db.ForeignKey('workout_plan.id'), primary_key=True),
+    db.Column('day_id', db.Integer, db.ForeignKey('day.id'), primary_key=True),
+    db.Column('exercise_id', db.Integer,db.ForeignKey('exercise.id'), primary_key=True )
+)
 class WorkoutPlan(db.Model):
     __tablename__ = 'workout_plan'
     id = db.Column(db.Integer, primary_key=True)
@@ -141,8 +145,7 @@ class WorkoutPlan(db.Model):
 
     muscle_group_id = db.Column(db.Integer, db.ForeignKey('muscle_group.id'), nullable=False)
     exercise_id = db.Column(db.Integer, db.ForeignKey('exercises.id'), nullable=False)
-
-    #1. Tabla que conecta work out con muscle group.
+    days = db.relationship('Day', secondary=workout_plan_days, backref=db.backref('workout_plans', lazy='dynamic'))
 
     def __repr__(self):
         return '<WorkoutPlan %r>' %self.id
@@ -164,18 +167,14 @@ class WorkoutPlan(db.Model):
             # do not serialize the password, its a security breach
         }  
     
-          # Pivot table for WorkoutPlan and Exercises - agregar al endpoint!!!
-workout_plan_days = db.Table('workout_plan_days',
-    db.Column('workout_plan_id', db.Integer, db.ForeignKey('workout_plan.id'), primary_key=True),
-    db.Column('day_id', db.Integer, db.ForeignKey('day.id'), primary_key=True),
-    db.Column('exercise_id', db.Integer,db.ForeignKey('exercise.id'), primary_key=True )
-)
-
 
 class Day(db.Model):
     __tablename__ = 'day'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
+
+    muscle_groups = db.relationship('MuscleGroup', backref='day', lazy=True)
+    exercises = db.relationship('Exercise', backref='day', lazy=True)
 
     def __repr__(self):
         return '<Day %r>' %self.id
@@ -187,8 +186,26 @@ class Day(db.Model):
         }
     
 
-class Exercises(db.Model):
-    __tablename__ = 'exercises'
+class MuscleGroup(db.Model):
+    __tablename__ = 'muscle_group'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False, unique=True)
+
+    day_id = db.Column(db.Integer, db.ForeignKey('day.id'))
+
+    def __repr__(self):
+        return '<MuscleGroups %r>' %self.id
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "name": self.name
+            # do not serialize the password, its a security breach
+        }
+    
+
+class Exercise(db.Model):
+    __tablename__ = 'exercise'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False, unique=True)
     sets = db.Column(db.String(50), nullable=False)
@@ -197,10 +214,12 @@ class Exercises(db.Model):
     description_id = db.Column(db.String(255))
     super_set = db.Column(db.Integer)
     Link_video = db.Column(db.String(50))
+
     muscle_group_id = db.Column(db.Integer, db.ForeignKey('muscle_group.id'))#muscle group esta en workout no exercices
-    
+    day_id = db.Column(db.Integer, db.ForeignKey('day.id'))
+
     def __repr__(self):
-        return '<Exercises %r>' %self.Id_exercise
+        return '<Exercise %r>' %self.Id_exercise
 
     def serialize(self):
         return {
@@ -223,24 +242,7 @@ workout_plan_muscle_group = db.Table('workout_plan_muscle_group',
     db.Column('workout_plan_id', db.Integer, db.ForeignKey('workout_plan.id'), primary_key=True),
     db.Column('muscle_group_id', db.Integer, db.ForeignKey('muscle_group.id'), primary_key=True)
 )
-#Tabla pivote conecta days con exercises
-class MuscleGroup(db.Model):
-    __tablename__ = 'muscle_group'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), nullable=False, unique=True)
 
-    # exercises = db.relationship('Exercises', backref='muscle_group', lazy=True)
-    # workout_plans = db.relationship('WorkoutPlan', backref='muscle_group', lazy=True)
-
-    def __repr__(self):
-        return '<MuscleGroups %r>' %self.id
-
-    def serialize(self):
-        return {
-            "id": self.id,
-            "name": self.name
-            # do not serialize the password, its a security breach
-        }
     
 class Videos(db.Model):
     __tablename__ = 'videos'

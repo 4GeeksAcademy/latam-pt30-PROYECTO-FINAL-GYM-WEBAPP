@@ -9,6 +9,14 @@ export const Dashboard = () => {
     const { id } = useParams();
     const image = store.memberProfileImage;
 
+    useEffect(() => {
+        if (store.workouts.length > 0) {
+            console.log("Workout names:", store.workouts.map(workout => workout.name));
+        }
+    }, [store.workouts]);
+
+
+    
     return (
         <div className="dashboard container mt-5">
             <div className='d-flex fw-bold justify-content-between'>
@@ -22,19 +30,26 @@ export const Dashboard = () => {
                 />
                 )}
                 <h1 className=' align-item-center'>MY WORKOUTS</h1>
-                <button className="btn btn-outline-primary mb-5 mx-4" onClick={() => navigate(`/create-plan`)}>+</button>
+                <button 
+                    className="btn btn-outline-primary mb-5 mx-4" 
+                    onClick={() => navigate(`/create-plan`)}
+                    >+</button>
                 {/* <img />  PROFILE PHOTO IMG */}
             </div>
-            {store.workouts && store.workouts.length > 0 && store.workouts.map((workout, index) => (
-                <MyWorkOut
-                    key={index}
-                    id={workout.id}
-                    name={workout.name}
-                    days={workout.days}
-                    index={index}
-                />
-
-            ))}
+            {store.workouts && store.workouts.length > 0 ? (
+                store.workouts.map((workout) => (
+                    <MyWorkOut
+                        key={workout.id}
+                        id={workout.id}
+                        name={workout.name}
+                        days={workout.days}
+                        //dayId={workout.day.id}
+                        //index={id}
+                    />
+                ))
+            ) : (
+                <p>No workouts available.</p>
+            )}
         </div>
     );
 };
