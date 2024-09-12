@@ -47,6 +47,32 @@ export const BodyMeasurementForm = () => {
         }
     };
 
+    const icons = {
+        height: './icons/height.png',
+        //height: '/icons/height.png',
+        weight: '/icons/weight.png',
+        //weight: '/icons/weight.png',
+        neck: '/icons/neck.png',
+        //neck: '/icons/neck.png',
+        relaxed_arm: '/icons/relaxed_arm.png',
+        //relaxed_arm: '/icons/relaxed_arm.png',
+        flexed_arm: '/icons/flexed_arm.png',
+        //flexed_arm: '/icons/flexed_arm.png',
+        waist: '/icons/waist.png',
+        //waist: '/icons/waist.png',
+        calves: '/icons/calves.png',
+        //calves: '/icons/calves.png',
+        chest: '/icons/chest.png',
+        //chest: '/icons/chest.png',
+        hips: '/icons/hips.png',
+        //hips: '/icons/hips.png',
+        thighs: '/icons/thighs.png',
+        //thighs: 'https://www.flaticon.com/free-icon/calendar_2886665?term=date&page=1&position=1&origin=search&related_id=2886665',
+        shoulders: '/icons/shoulders.png',
+        //shoulders: 'https://www.flaticon.com/free-icon/calendar_2886665?term=date&page=1&position=1&origin=search&related_id=2886665',
+        //date: 'https://www.flaticon.com/free-icon/calendar_2886665?term=date&page=1&position=1&origin=search&related_id=2886665'
+    };
+
     return (
         <div className="card col-11 m-auto m-4 mb-5 pb-5">
             <ul className="list-group list-group-flush">
@@ -61,9 +87,15 @@ export const BodyMeasurementForm = () => {
                             </span>
                             <h1 className='p-5'>ADD BODY MEASUREMENTS</h1>
                         </div>
-                        {Object.keys(input).map((key) => (
+                        {Object?.keys(input).map((key) => (
                             <div className="mb-3" key={key}>
                                 <label htmlFor={key} className="form-label">
+                                    <img 
+                                        src={icons[key]} 
+                                        alt={`${key} icon`} 
+                                        className="me-2" 
+                                        style={{ width: '24px', height: '24px' }} 
+                                    />
                                     {key.replace('_', ' ').toUpperCase()}
                                 </label>
                                 <input

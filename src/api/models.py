@@ -94,6 +94,7 @@ class BodyMeasurement(db.Model):
     __tablename__ = 'body_measurement'
 
     id = db.Column(db.Integer, primary_key=True)
+    date = db.Column(db.Integer, nullable=True)
     height = db.Column(db.Float, nullable=False)
     weight = db.Column(db.Float, nullable=False)
     neck = db.Column(db.Float, nullable=False)
@@ -110,6 +111,7 @@ class BodyMeasurement(db.Model):
     def serialize(self):
         return {
             'id': self.id,
+            "date": self.date,
             'user_id': self.user_id,
             'height': self.height,
             'weight': self.weight,
@@ -144,7 +146,7 @@ class WorkoutPlan(db.Model):
     member_id = db.Column(db.Integer, db.ForeignKey('member.id'), nullable=False)
 
     muscle_group_id = db.Column(db.Integer, db.ForeignKey('muscle_group.id'), nullable=False)
-    exercise_id = db.Column(db.Integer, db.ForeignKey('exercises.id'), nullable=False)
+    exercise_id = db.Column(db.Integer, db.ForeignKey('exercise.id'), nullable=False)
     days = db.relationship('Day', secondary=workout_plan_days, backref=db.backref('workout_plans', lazy='dynamic'))
 
     def __repr__(self):
@@ -174,7 +176,8 @@ class Day(db.Model):
     name = db.Column(db.String(50), nullable=False)
 
     muscle_groups = db.relationship('MuscleGroup', backref='day', lazy=True)
-    exercises = db.relationship('Exercise', backref='day', lazy=True)
+    #exercises = db.relationship('Exercise', backref='day', lazy=True)
+    sets = db.relationship('Set', backref='day', lazy=True, cascade="all, delete-orphan")
 
     def __repr__(self):
         return '<Day %r>' %self.id
@@ -203,20 +206,41 @@ class MuscleGroup(db.Model):
             # do not serialize the password, its a security breach
         }
     
+class Set(db.Model):
+    __tablename__ = 'set'
+    id = db.Column(db.Integer, primary_key=True)
+    type = db.Column(db.String(10), nullable=False)  # 'pair' o 'trio'
+    rest_time = db.Column(db.Integer, nullable=False)  # Tiempo en segundos
+
+    day_id = db.Column(db.Integer, db.ForeignKey('day.id'), nullable=False)
+    exercises = db.relationship('Exercise', backref='set', lazy=True, cascade="all, delete-orphan")
+
+    def __repr__(self):
+        return f'<Set {self.id} - {self.type}>'
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "type": self.type,
+            "rest_time": self.rest_time,
+            "exercises": [exercise.serialize() for exercise in self.exercises]
+        }    
+    
 
 class Exercise(db.Model):
     __tablename__ = 'exercise'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False, unique=True)
-    sets = db.Column(db.String(50), nullable=False)
+    sets = db.Column(db.Integer, nullable=False)
     reps = db.Column(db.Integer, nullable=False)
-    rest_time = db.Column(db.String(50), nullable=False)
+    rest_time = db.Column(db.Integer, nullable=False)
     description_id = db.Column(db.String(255))
     super_set = db.Column(db.Integer)
     Link_video = db.Column(db.String(50))
 
     muscle_group_id = db.Column(db.Integer, db.ForeignKey('muscle_group.id'))#muscle group esta en workout no exercices
-    day_id = db.Column(db.Integer, db.ForeignKey('day.id'))
+    #day_id = db.Column(db.Integer, db.ForeignKey('day.id'))
+    set_id = db.Column(db.Integer, db.ForeignKey('set.id'))  # Nueva relación
 
     def __repr__(self):
         return '<Exercise %r>' %self.Id_exercise
@@ -231,7 +255,7 @@ class Exercise(db.Model):
             "description_id": self.description_id,
             "super_set": self.super_set,
             "Link_video": self.Link_video,
-            # "muscle_group_id": self.muscle_group_id
+            "muscle_group_id": self.muscle_group_id
             # do not serialize the password, its a security breach
         }
     

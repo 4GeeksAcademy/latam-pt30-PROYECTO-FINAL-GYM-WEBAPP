@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ExcerciseForm } from './ExcerciseForm.jsx';
 //import { Context } from '../store/appContext.js';
 
@@ -6,9 +6,15 @@ import { ExcerciseForm } from './ExcerciseForm.jsx';
 export const DayForm = ({ day, muscles, onSave }) => {
     // Initialize form state with provided day data or defaults
     const [formState, setFormState] = useState(day);
-    const [selectedMuscleGroups, setSelectedMuscleGroups] = useState(day.muscle_groups || []);
     const [exercises, setExercises] = useState(day?.exercises || []);
+    const [selectedMuscleGroups, setSelectedMuscleGroups] = useState(day.muscle_group || []);
 
+    useEffect(() => {
+        setSelectedMuscleGroups(day.muscle_group || []); // Actualiza los grupos si el día cambia
+    },[day.muscle_group]);
+
+    console.log(day.muscle_group);
+    
     // Handle day name changes
     const handleDayChange = (e) => {
         setFormState({ ...formState, day: e.target.value });
@@ -20,9 +26,9 @@ export const DayForm = ({ day, muscles, onSave }) => {
     const handleMuscleGroupChange = (e) => {
         const { value, checked } = e.target;
         if (checked) {
-            setSelectedMuscleGroups([...selectedMuscleGroups, value]);
+            setSelectedMuscleGroups([...selectedMuscleGroups, { name: value }]); // Agregar si está seleccionado
         } else {
-            setSelectedMuscleGroups(selectedMuscleGroups.filter(group => group !== value));
+            setSelectedMuscleGroups(selectedMuscleGroups.filter(group => group.name !== value)); // Quitar si no lo está
         }
     };
 

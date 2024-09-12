@@ -16,16 +16,16 @@ export const BodyMeasurement = () => {
             <div className="d-flex justify-content-between align-items-center">
                 <h4
                     className="mb-3 p-3"
-                    style={{ cursor: 'pointer' }}
+                    //style={{ cursor: 'pointer' }}
                     data-bs-toggle="collapse"
                     data-bs-target={`#collapseMeasurement${id}`}
-                    aria-expanded="false"
+                    //aria-expanded="false"
                     aria-controls={`collapseMeasurement${id}`}
                 >
-                    MEASUREMENT <i className="fa-solid fa-caret-up m-2"></i>
+                    {store.body_measurements?.date} MEASUREMENT <i className="fa-solid fa-caret-up m-3"></i>
                 </h4>
                 <span
-                    className="d-flex justify-content-end m-3"
+                    className="d-flex justify-content-end m-2"
                     onClick={() => navigate(`/editMeasurement/${id}`)}
                 >
                     <i className="fa-solid fa-pen text-warning"></i>

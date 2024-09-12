@@ -50,7 +50,7 @@ export const Workout = () => {
           className="p-3 mb-3"
           onClick={() => navigate(`/dashboard`)}
           >
-              <i className="fa-solid fa-circle-chevron-left fs-1"></i>
+              <i className="fa-solid fa-circle-chevron-left fs-1 m-3"></i>
       </span>
       <div className="alert rounded-5 bg-light border-danger-subtle opacity-75 col-11">
         <div className="d-flex justify-content-center text-dark">

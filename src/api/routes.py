@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import request, jsonify, url_for, Blueprint, current_app
-from api.models import db, User, Member, Objective, MuscleGroup, WorkoutPlan, Exercise, BodyMeasurement, Videos, Day
+from api.models import db, User, Member, Objective, MuscleGroup, WorkoutPlan, Exercise, BodyMeasurement, Videos, Day, Set
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 import os
@@ -50,21 +50,9 @@ def handle_hello():
 def signup():
         #Extract data from request
     data = request.json
-    #Verifying we are receiving all required data in the request
+    
     email = data.get("email")
     password  = data.get("password")
-    # image_url = data.get("image", None)
-    # name = data.get('name', None)
-    # last_name = data.get('last_name', None)
-    # gender=data.get('gender', None)
-    # #height=data.get('height', None)
-    # weight=data.get('weight', None)
-    # birthday=data.get('birthday', None)
-    # city=data.get('city', None)
-    # country=data.get('country', None)
-    # #user_id=data.get('user_id', None)
-    # #objective_id=data.get('objective_id', None)
-
 
     #Returning 400 if data is not correct  
     if not email or not password:
@@ -181,20 +169,28 @@ def get_user(user_id):
 @api.route('/updateProfile/<int:user_id>', methods=['PUT'])
 def update_userProfile(user_id):
     data = request.json
-
+    print(data)
     #try:
     user = User.query.filter_by(id=user_id).first()
-    user.email = user.email
-    user.password = user.password
-    user.image_url = data.get('image_url', user.image_url)
-    user.name = data.get('name', user.name)
-    user.last_name = data.get('last_name', user.last_name)
-    user.gender = data.get('gender', user.gender)
-    user.height = data.get('height', user.height)
-    user.weight = data.get('weight', user.weight)
-    user.birthday = data.get('birthday', user.birthday)
-    user.city = data.get('city', user.city)
-    user.country = data.get('country', user.country)
+    # user.email = user.email
+    # user.password = user.password
+    # user.image_url = data.get('image_url', None)
+    # user.name = data.get('name', None)
+    # user.last_name = data.get('last_name', None)
+    # user.gender = data.get('gender', None)
+    # user.height = data.get('height', None)
+    # user.weight = data.get('weight', None)
+    # user.birthday = data.get('birthday', None)
+    # user.city = data.get('city', None)
+    # user.country = data.get('country', None)
+    # print(user.serialize())
+    if user is None:
+        raise APIException('El usuario que buscas no existe', status_code=404)
+
+    for key in data:
+        for col in user.serialize():
+            if key == col and key != "id":
+                setattr(user, col, data[key])
 
     db.session.commit()
     return jsonify({"message": "Member updated successfully", "user_id": user.id}), 200
@@ -362,7 +358,7 @@ def create_workout_plan():
         new_workout_plan.muscle_groups.append(muscle_group)
 
     for ex_id in data['exercise_ids']:
-        exercise = Exercises.query.get(ex_id)
+        exercise = Exercise.query.get(ex_id)
         new_workout_plan.exercises.append(exercise)
 
     try:
@@ -469,6 +465,46 @@ def update_workout(workout_id):
 
     return jsonify({"message": "Workout plan updated successfully!"}),
 
+#SETS
+#Create a Set
+#Supersets are two exercises done in an alternating fashion.
+#Tri-Sets are groups of three exercise performed in series.
+@api.route('/sets', methods=['POST'])
+def create_set():
+    data = request.get_json()
+    new_set = Set(
+        type=data['type'],
+        rest_time=data['rest_time'],
+        day_id=data['day_id']
+    )
+    db.session.add(new_set)
+    db.session.commit()
+    return jsonify(new_set.serialize()), 201
+
+#Obtain sets per day
+@api.route('/days/<int:day_id>/sets', methods=['GET'])
+def get_sets_by_day(day_id):
+    sets = Set.query.filter_by(day_id=day_id).all()
+    return jsonify([s.serialize() for s in sets]), 200
+
+#Update set
+@api.route('/sets/<int:set_id>', methods=['PUT'])
+def update_set(set_id):
+    set_obj = Set.query.get_or_404(set_id)
+    data = request.get_json()
+    set_obj.type = data.get('type', set_obj.type)
+    set_obj.rest_time = data.get('rest_time', set_obj.rest_time)
+    db.session.commit()
+    return jsonify(set_obj.serialize()), 200
+
+#Delete Set
+@api.route('/sets/<int:set_id>', methods=['DELETE'])
+def delete_set(set_id):
+    set_obj = Set.query.get_or_404(set_id)
+    db.session.delete(set_obj)
+    db.session.commit()
+    return jsonify({"message": "Set eliminado exitosamente"}), 200
+
 #EXERCISES_______________________________________________________
 # Endpoint para obtener todos los ejercicios
 # @api.route('/exercises', methods=['GET'])
@@ -481,7 +517,7 @@ def update_workout(workout_id):
 @api.route('/exercises/<int:exercise_id>', methods=['GET'])
 def get_exercise(exercise_id):
     try:
-        exercise = Exercises.query.filter_by(id=exercise_id).one()
+        exercise = Exercise.query.filter_by(id=exercise_id).one()
         return jsonify(exercise.serialize()), 200
     except NoResultFound:
         raise APIException('Exercise not found', status_code=404)
@@ -490,7 +526,7 @@ def get_exercise(exercise_id):
 @api.route('/exercises', methods=['POST'])
 def create_exercise():
     data = request.json
-    new_exercise = Exercises(
+    new_exercise = Exercise(
         name=data['name'],
         sets=data['sets'],
         reps=data['reps'],
@@ -515,7 +551,7 @@ def update_exercise(exercise_id):
     data = request.json
 
     try:
-        exercise = Exercises.query.filter_by(Id_exercise=exercise_id).one()
+        exercise = Exercise.query.filter_by(Id_exercise=exercise_id).one()
         exercise.name = data.get('name', exercise.name)
         exercise.sets = data.get('sets', exercise.sets)
         exercise.reps = data.get('reps', exercise.reps)
@@ -534,7 +570,7 @@ def update_exercise(exercise_id):
 @api.route('/exercises/<int:exercise_id>', methods=['DELETE'])
 def delete_exercise(exercise_id):
     try:
-        exercise = Exercises.query.filter_by(id=exercise_id).one()
+        exercise = Exercise.query.filter_by(id=exercise_id).one()
         db.session.delete(exercise)
         db.session.commit()
         return jsonify({"message": "Exercise deleted successfully", "exercise_id": exercise_id}), 200
@@ -629,6 +665,7 @@ def create_user_body_measurement(user_id):
     
     new_measurement = BodyMeasurement(
         user_id=user_id,
+        date=data['date'],
         height=data['height'],
         weight=data['weight'],
         neck=data['neck'],
@@ -657,6 +694,7 @@ def update_user_body_measurement(user_id, measurement_id):
 
     try:
         body_measurement = BodyMeasurement.query.filter_by(user_id=user_id, id=measurement_id).one()
+        body_measurement.date = data.get('date', body_measurement.date)
         body_measurement.height = data.get('height', body_measurement.height)
         body_measurement.weight = data.get('weight', body_measurement.weight)
         body_measurement.neck = data.get('neck', body_measurement.neck)

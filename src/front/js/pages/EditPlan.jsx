@@ -98,7 +98,7 @@ const EditPlan = () => {
                     <div key={day.id}>
                     <DayForm
                         day={day}
-                        muscles={muscles}
+                        muscles={muscles} // Lista completa de grupos musculares
                         setDays={setDays}
                         onSave={(updatedDay) => {
                             const newDays = [...days];

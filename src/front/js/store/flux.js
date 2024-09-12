@@ -40,37 +40,104 @@ const getState = ({ getStore, getActions, setStore }) => {
 			workouts: [
 				{
 					id: "1",
-					name: "Plan 1",
+					name: 'Body Recomposition "Begginers" ',
 					days: [
 						{
-							day: {id: "1", name:"Day 1"},
+							day: {id: "1", name:"Monday"},
 							muscle_group: [
-								{ id: "1", name: "Chest" },
-								{ id: "2", name: "Back" }
+								{ id: "3", name: "Quads" },
+								{ id: "10", name: "Glutes" },
+								{id: "14", name: "Calf"}
+
 							],
 							exercises: [
-								{ id: "1", name: "Pullups", reps: 8, sets: 4, rest_time: "20s", description: "Heavy", super_set:"" },
-								{ id: "2", name: "Pushups", reps: 15, sets: 4, rest_time: "20s", description: "Light", super_set:"" },
-								{ id: "3", name: "Bar", reps: 20, sets: 4, rest_time: "20s", description: "Increment weight", super_set:"" },
-								{ id: "4", name: "Pullups", reps: 10, sets: 3, rest_time: "20s", description: "Heavy", super_set:"" },
-								{ id: "5", name: "Pushups", reps: 20, sets: 3, rest_time: "20s", description: "Increment weight", super_set:"" },
-								{ id: "6", name: "Bar", reps: 25, sets: 3, rest_time: "20s", description: "Light", super_set:"" },
-								{ id: "7", name: "Peckfly", reps: 12, sets: 3, rest_time: "20s", description: "Heavy", super_set:"" },
+								{ id: "1", name: "Free Squats", reps: "30, 20, 15, 12, 10, 8, 6", sets: 7, rest_time: "60", description: "", super_set:"" },
+								{ id: "2", name: "Sissy Squats", reps: "30, 20, 15, 12, 10, 8, 6", sets: 7, rest_time: "60", description: "", super_set:"" },
+								{ id: "3", name: "Dispositions in Smith", reps: "15, 12, 10, 8", sets: 4, rest_time: "60", description: "Increment weight", super_set:"" },
+								{ id: "4", name: "Closing abductor", reps: 10, sets: 3, rest_time: "60", description: "Heavy", super_set:"" },
+								{ id: "5", name: "Barbell deadlift", reps: 20, sets: 4, rest_time: "60", description: "", super_set:"" },
+								{ id: "6", name: "Femoral lying", reps: 25, sets: 4, rest_time: "60", description: "Incrementar weight", super_set:"" },
+								{ id: "7", name: "Press", reps: 50, sets: 4, rest_time: "60", description: "", super_set:"" },
+								{ id: "8", name: "Sitting calf", reps: 30, sets: 4, rest_time: "60", description: "", super_set:"" },
+								{ id: "9", name: "Standing calf", reps: 30, sets: 4, rest_time: "60", description: "", super_set:"" }
 							],
 						},
 						{
-							day: {id: "2", name:"Day 2"},
+							day: {id: "2", name:"Tuesday"},
 							muscle_group: [
-								{ id: "4", name: "Biceps" },
+								{ id: "1", name: "Chest" },
+								{ id: "7", name: "Shoulders" },
 								{ id: "5", name: "Triceps" }
 							],
 							exercises: [
-								{ id: "8", name: "Pullups", reps: 10, sets: 3, rest_time: "20s", description: "Heavy", super_set:"" },
-								{ id: "9", name: "Pushups", reps: 20, sets: 3, rest_time: "20s", description: "Increment weight", super_set:"" },
-								{ id: "10", name: "Bar", reps: 25, sets: 3, rest_time: "20s", description: "Light", super_set:"" },
-								{ id: "11",name: "Peckfly", reps: 12, sets: 3, rest_time: "20s", description: "Heavy", super_set:"" },
-								{ id: "12", name: "Pullups", reps: 10, sets: 3, rest_time: "20s", description: "Heavy", super_set:"" },
-								{ id: "13", name: "Pushups", reps: 20, sets: 3, rest_time: "20s", description: "Increment weight", super_set:"" },
+								{ id: "10", name: "Incline chest press", reps: 10, sets: 4, rest_time: "60", description: "", super_set:"" },
+								{ id: "11", name: "Christs", reps: 15, sets: 4, rest_time: "60", description: "", super_set:"" },
+								{ id: "12", name: "Dumbbell flat press", reps: 10, sets: 4, rest_time: "60", description: "", super_set:"" },
+								{ id: "13", name: "Military press with dumbbell", reps: 10, sets: 4, rest_time: "60", description: "Increment weight", super_set:"" },
+								{ id: "14", name: "Birds", reps: 8, sets: 4, rest_time: "20s", description: "", super_set:"" },
+								{ id: "15", name: "Dumbbell front", reps: 15, sets: 4, rest_time: "60", description: "", super_set:""  },
+								{ id: "16", name: "Inverted peckfly", reps: 15, sets: 4, rest_time: "60", description: "", super_set:""  },
+								{ id: "17", name: "French press with bar", reps: 10, sets: 4, rest_time: "60", description: "", super_set:""  },
+								{ id: "18", name: "Cup", reps: 10, sets: 4, rest_time: "60", description: "", super_set:""  },
+								{ id: "19", name: "Triceps pulley with straight bar", reps: 15, sets: 4, rest_time: "60", description: "", super_set:""  }
+							],
+						},
+						{
+							day: {id: "3", name:"Wednesday"},
+							muscle_group: [
+								{ id: "3", name: "Quads" },
+								{ id: "10", name: "Glutes" },
+								{id: "14", name: "Calf"}
+							],
+							exercises: [
+								{ id: "1", name: "Free Squats", reps: "30, 20, 15, 12, 10, 8, 6", sets: 7, rest_time: "60", description: "", super_set:"" },
+								{ id: "2", name: "Sissy Squats", reps: "30, 20, 15, 12, 10, 8, 6", sets: 7, rest_time: "60", description: "", super_set:"" },
+								{ id: "3", name: "Dispositions in Smith", reps: "15, 12, 10, 8", sets: 4, rest_time: "60", description: "Increment weight", super_set:"" },
+								{ id: "4", name: "Closing abductor", reps: 10, sets: 3, rest_time: "60", description: "Heavy", super_set:"" },
+								{ id: "5", name: "Barbell deadlift", reps: 20, sets: 4, rest_time: "60", description: "", super_set:"" },
+								{ id: "6", name: "Femoral lying", reps: 25, sets: 4, rest_time: "60", description: "Incrementar weight", super_set:"" },
+								{ id: "7", name: "Press", reps: 50, sets: 4, rest_time: "60", description: "", super_set:"" },
+								{ id: "8", name: "Sitting calf", reps: 30, sets: 4, rest_time: "60", description: "", super_set:"" },
+								{ id: "9", name: "Standing calf", reps: 30, sets: 4, rest_time: "60", description: "", super_set:"" }
+							],
+						},
+						{
+							day: {id: "4", name:"Thursday"},
+							muscle_group: [
+								{ id: "2", name: "Back" },
+								{ id: "5", name: "Triceps" }
+							],
+							exercises: [
+								{ id: "20", name: "Pull-ups", reps: "Fail", sets: 6, rest_time: "60", description: "", super_set:"" },
+								{ id: "21", name: "Barbell front pull", reps: 10, sets: 4, rest_time: "60", description: "", super_set:"" },
+								{ id: "22", name: "Straight bar row", reps: 10, sets: 4, rest_time: "60", description: "", super_set:"" },
+								{ id: "23", name: "Seated row", reps: 10, sets: 4, rest_time: "60", description: "", super_set:"" },
+								{ id: "24", name: "Dumbbell row", reps: 10, sets: 4, rest_time: "60", description: "", super_set:"" },
+								{ id: "25", name: "Barbell curl", reps: 15, sets: 4, rest_time: "60", description: "Incrementar weight", super_set:"" },
+								{ id: "26", name: "Curl on biceps machine", reps: 20, sets: 4, rest_time: "60", description: "Down in 5 seconds", super_set:"" },
+								{ id: "27", name: "Hammer curl", reps: 30, sets: 4, rest_time: "60", description: "", super_set:"" },
+								{ id: "28", name: "Inverted curl with z bar", reps: 15, sets: 4, rest_time: "60", description: "Open grip", super_set:"" },
+								{ id: "29", name: "Triceps pulley with straight bar", reps: 15, sets: 4, rest_time: "60", description: "", super_set:""  }
+							],
+						},
+						{
+							day: {id: "2", name:"Friday"},
+							muscle_group: [
+								{ id: "1", name: "Chest" },
+								{ id: "7", name: "Shoulders" },
+								{ id: "5", name: "Triceps" }
+							],
+							exercises: [
+								{ id: "10", name: "Incline chest press", reps: 10, sets: 4, rest_time: "60", description: "", super_set:"" },
+								{ id: "11",name: "Christs", reps: 15, sets: 4, rest_time: "60", description: "", super_set:"" },
+								{ id: "12", name: "Dumbbell flat press", reps: 10, sets: 4, rest_time: "60", description: "", super_set:"" },
+								{ id: "13", name: "Military press with dumbbell", reps: 10, sets: 4, rest_time: "60", description: "Increment weight", super_set:"" },
+								{ id: "14", name: "Birds", reps: 8, sets: 4, rest_time: "20s", description: "", super_set:"" },
+								{ id: "15", name: "dumbbell front", reps: 15, sets: 4, rest_time: "60", description: "", super_set:""  },
+								{ id: "16", name: "Inverted peckfly", reps: 15, sets: 4, rest_time: "60", description: "", super_set:""  },
+								{ id: "17", name: "French press with bar", reps: 10, sets: 4, rest_time: "60", description: "", super_set:""  },
+								{ id: "18", name: "Cup", reps: 10, sets: 4, rest_time: "60", description: "", super_set:""  },
+								{ id: "19", name: "Triceps pulley with straight bar", reps: 15, sets: 4, rest_time: "60", description: "", super_set:""  }
 							],
 						},
 					],
@@ -80,27 +147,33 @@ const getState = ({ getStore, getActions, setStore }) => {
 					name: "Plan 2",
 					days: [
 						{
-							day: {id: "3", name:"Day 1"},
+							day: {id: "5", name:"Day 1"},
 							muscle_group: [
 								{ id: "3", name: "Quads" },
 								{ id: "6", name: "Forearms" }
 							],
 							exercises: [
-								{ id: "14", name: "Pullups", reps: 8, sets: 4, rest_time: "20s", description: "", super_set:"" },
-								{ id: "15", name: "Pushups", reps: 15, sets: 4, rest_time: "20s", description: "", super_set:""  },
-								{ id: "16", name: "Bar", reps: 20, sets: 4, rest_time: "20s", description: "", super_set:""  },
+								{ id: "20", name: "Incline chest press", reps: 10, sets: 4, rest_time: "60", description: "", super_set:"" },
+								{ id: "21", name: "Christs", reps: 15, sets: 4, rest_time: "60", description: "", super_set:"" },
+								{ id: "22", name: "Dumbbell flat press", reps: 10, sets: 4, rest_time: "60", description: "", super_set:"" },
+								{ id: "23", name: "Military press with dumbbell", reps: 10, sets: 4, rest_time: "60", description: "Increment weight", super_set:"" },
+								{ id: "24", name: "Birds", reps: 8, sets: 4, rest_time: "20s", description: "", super_set:"" },
+								{ id: "25", name: "dumbbell front", reps: 15, sets: 4, rest_time: "60", description: "", super_set:""  },
+								{ id: "26", name: "Inverted peckfly", reps: 15, sets: 4, rest_time: "60", description: "", super_set:""  },
+								{ id: "27", name: "French press with bar", reps: 10, sets: 4, rest_time: "60", description: "", super_set:""  },
+								{ id: "28", name: "Cup", reps: 10, sets: 4, rest_time: "60", description: "", super_set:""  },
+								
+								
 							],
 						},
 						{
-							day: {id: "4", name:"Day 2"},
+							day: {id: "6", name:"Day 2"},
 							muscle_group: [
 								{ name: "abs" },
 								{ name: "shoulders" }
 							],
 							exercises: [
-								{ id: "17", name: "Pullups", reps: 10, sets: 3, rest_time: "20s", description: "", super_set:""  },
-								{ id: "18", name: "Pushups", reps: 20, sets: 3, rest_time: "20s", description: "", super_set:""  },
-								{ id: "19", name: "Bar", reps: 25, sets: 3, rest_time: "20s", description: "", super_set:""  },
+								
 								{ id: "20", name: "Peckfly", reps: 12, sets: 3, rest_time: "20s", description: "", super_set:""  },
 							],
 						},
@@ -129,6 +202,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			body_measurements: [
 				{
 					id: "1",
+					date:"",
 					height: "174",
 					weight: "77",
 					neck: "45",
@@ -143,6 +217,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				},
 				{
 					id: "2",
+					date:"",
 					height: "174",
 					weight: "77",
 					neck: "45",
@@ -158,7 +233,40 @@ const getState = ({ getStore, getActions, setStore }) => {
 			],
 
 			//OTHERS
-			videos: [],
+			videos: [
+				{id:"1", title:"Flat bench press", link:"https://www.youtube.com/embed/SidmT09GXz8", muscle_group:"1"},
+				{id:"2", title:"Incline press", link:"https://www.youtube.com/embed/oZVCBM9f8Eo", muscle_group:"1"},
+				{id:"3", title:"Cable Crossover Flat Bench Fly", link:"https://www.youtube.com/embed/-8aurlfuYk4", muscle_group:"1"},
+				{id:"4", title:"Pulley crossover press", link:"https://www.youtube.com/embed/NyO5y-G5Ceg", muscle_group:"1"},
+				{id:"5", title:"Z Bar French Press", link:"https://www.youtube.com/embed/ANd7uB6wCVw", muscle_group:"5"},
+				{id:"6", title:"Close Grip Bench Press", link:"https://www.youtube.com/embed/43rg7fBNP2w", muscle_group:"5"},
+				{id:"7", title:"Parallel Bars Dips", link:"https://www.youtube.com/embed/QGoS22SITEM", muscle_group:"5"},
+				{id:"8", title:"Barbell bent over row", link:"https://www.youtube.com/embed/vnGSs0qnD8Q", muscle_group:"2"},
+				{id:"9", title:"Row gironda", link:"https://www.youtube.com/embed/GBXQBhuCT3U", muscle_group:"2"},
+				{id:"10", title:"Chest pull", link:"https://www.youtube.com/embed/Jz7oEmzhnfE", muscle_group:"2"},
+				{id:"11", title:"Barbell row", link:"https://www.youtube.com/embed/Nqh7q3zDCoQ", muscle_group:"2"},
+				{id:"12", title:"Gironde rowing", link:"https://www.youtube.com/embed/fPbfYDgzIgA", muscle_group:"2"},
+				{id:"13", title:"T Bar Row", link:"https://www.youtube.com/embed/hYo72r8Ivso", muscle_group:"2"},
+				{id:"14", title:"Rack pull", link:"https://www.youtube.com/embed/qknGn76BK80", muscle_group:"2"},
+				{id:"15", title:"Dumbbell shrug", link:"https://www.youtube.com/embed/xDt6qbKgLkY", muscle_group:"2"},
+				{id:"16", title:"Back Extension", link:"https://www.youtube.com/embed/Tb9yp81fI9s", muscle_group:"2"},
+				{id:"17", title:"Pull-ups for biceps", link:"https://www.youtube.com/embed/Oi3bW9nQmGI", muscle_group:"4"},
+				{id:"18", title:"Z bar curl scott bench", link:"https://www.youtube.com/embed/Gydpcouclx8", muscle_group:"4"},
+				{id:"19", title:"Concentration Curl", link:"https://www.youtube.com/embed/cHxRJdSVIkA", muscle_group:"4"},
+				{id:"20", title:"Abdominal Crunch", link:"https://www.youtube.com/embed/qXpYgvQ6_m4", muscle_group:"15"},
+				{id:"21", title:"Hack Squat", link:"https://www.youtube.com/embed/bGbHOeHXnB8", muscle_group:"3"},
+				{id:"22", title:"Squat", link:"https://www.youtube.com/embed/bGbHOeHXnB8", muscle_group:"3"},
+				{id:"23", title:"Leg Press", link:"https://www.youtube.com/embed/ahaJTts1f3s", muscle_group:"9"},
+				{id:"24", title:"Legs Extensions", link:"https://www.youtube.com/embed/PQRY75OY2TY", muscle_group:"3"},
+				{id:"25", title:"Lunges", link:"https://www.youtube.com/embed/20wSs0bp2Gs", muscle_group:"9"},
+				{id:"26", title:"Seated Calf Raise Machine", link:"https://www.youtube.com/embed/HSGjUouQZCQ", muscle_group:"14"},
+				{id:"27", title:"Hip thrust", link:"https://www.youtube.com/embed/W86oVlnLqY4", muscle_group:"10"},
+				{id:"28", title:"Military press", link:"https://www.youtube.com/embed/qLfQbDHWJvE", muscle_group:"1"},
+				{id:"29", title:"Standing Shoulder Fly", link:"https://www.youtube.com/embed/asgla5Zg-co", muscle_group:"1"},
+				{id:"30", title:"Lateral raises", link:"https://www.youtube.com/embed/XPPfnSEATJA", muscle_group:""},
+				{id:"31", title:"Lateral abs", link:"https://www.youtube.com/embed/VwLXMuL_30Q", muscle_group:"15"},
+				{id:"32", title:"Lower abs", link:"https://www.youtube.com/embed/QwXkV6AT_LA", muscle_group:"15"}
+			],
 			valExercises: []
 		},
 

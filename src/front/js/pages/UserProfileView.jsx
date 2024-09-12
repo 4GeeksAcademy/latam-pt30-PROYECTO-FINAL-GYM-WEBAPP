@@ -89,7 +89,7 @@ export const UserProfileView = () => {
                                     key={measurement.id}
                                     measurement={measurement}
                                     index={index}
-                                    className=""
+                                    //className=""
                                 />
                             </li>
                         ))}

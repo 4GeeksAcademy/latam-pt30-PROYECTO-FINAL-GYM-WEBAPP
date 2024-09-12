@@ -42,6 +42,7 @@ export const ExcerciseForm = ({ exercise, setExercises, index }) => {
                     </div>
                 ))}
                 <div id="exercisesHelp" className="form-text">You can still edit before Saving Day</div>
+                <button onClick='{actions.deleteExercise}' className='btn btn-outline-secondary btn-sm mt-3'>DELETE</button>
             </div>
         );
     };

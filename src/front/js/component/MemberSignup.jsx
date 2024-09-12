@@ -49,7 +49,7 @@ export const MemberSignup = () => {
         </div>
         <div className="offcanvas-body alert alert-primary text-light">
           <h2>
-            You are about to go to the next step and Track your improvements 🤳
+            You are about to go to the next level Tracking your improvements 🤳
           </h2>
           {/* <div className="dropdown mt-3">
             <button 

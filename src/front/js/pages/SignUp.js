@@ -65,10 +65,17 @@ export const SignUp = () => {
 							<h3>GYM APP <i className="fa fa-dumbbell text-danger px-1 mx-2"/></h3>
 							<h4>Input your workouts and display them ⬇︎</h4>
 							<h5>⏱️ Click between sets do not rest more than needed.</h5>
-							<h5 className="text-secondary">Members can see their improvements 🎖️ 📊 </h5>
+							<br/>
+							<h5>⭐ Become a Member.</h5>
+							<small className="text-secondary">Only for 3 dls a Mo.</small>
+							<h5 className="text-secondary">Members can track their Measurements and Improvements 🎖️ 📊 </h5>
 						</div>
 						
+						{/* <strong className="mb-3">🤳 Track your fitness</strong> */}
+						<br/>
 						<strong className="mb-3">🔓 Sign up for Free</strong>
+						<br/>
+						<small className="mb-3">You can do all except access to your graphics.</small>
 						<div className="my-3">
 							<label htmlFor="EmailInput" className="form-label">User</label>
 							<input
