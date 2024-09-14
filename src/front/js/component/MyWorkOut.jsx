@@ -41,16 +41,16 @@ export const MyWorkOut = (props) => {
                         id={`collapseWidthExample-${props.id}`}
                     >
                         <div>
-                            {props.days.map((day, dayId) => (
-                                <div key={dayId}>
+                            {props.days.map((day) => (
+                                <div key={day.day.id}>
                                     
                                     <button
                                         className="alert rounded-5 text-light fw-semibold bg-body-secondary border-warning-subtle col-11"
                                         type="button"
                                         data-bs-toggle="collapse"
-                                        data-bs-target={`#dayCollapse-${props.id}-${dayId}`}
+                                        data-bs-target={`#dayCollapse-${props.id}-${day.day.id}`}
                                         aria-expanded="false"
-                                        aria-controls={`dayCollapse-${props.id}-${dayId}`}
+                                        aria-controls={`dayCollapse-${props.id}-${day.day.id}`}
                                     >
                                         <div className="d-flex justify-content-center">
                                             <h3>
@@ -62,24 +62,30 @@ export const MyWorkOut = (props) => {
                                         </div>
                                         <div className="d-flex justify-content-end">
                                             <small className="text-light px-2">
-                                                {day?.exercises?.length || 0} EXERCISES</small>
+                                                {day?.sets.map(set => set.exercises.length).reduce((total, count) => total + count, 0) || 0} EXERCISES</small>
                                         </div>
                                     </button>
                                     <div
                                         className="collapse collapse-horizontal"
-                                        id={`dayCollapse-${props.id}-${dayId}`}
+                                        id={`dayCollapse-${props.id}-${day.day.id}`}
                                     >
-                                        {day.exercises.map((exercise, exerciseId) => (
+                                        
+                                        {day?.sets?.map(set => set.exercises.map(item => {
+                                            item["set_type"] = set.set_type
+                                            return item
+                                        })).flat().map((exercise) => (
                                             <div
-                                                key={exerciseId}
-                                                onClick={() => handleNavigate(props.id, dayId, exercise.name)}
+                                                key={exercise.id}
+                                                onClick={() => handleNavigate(props.id, day.day.id, exercise.name)}
                                                 style={{ cursor: "pointer" }}
                                             >
                                                 <div
                                                     className="alert border-danger-subtle rounded-5 bg-light text-dark fw-medium col-11"
                                                     role="alert"
                                                 >
-                                                    {exercise.name} - {exercise.sets} Sets x {exercise.reps} Reps
+                                                    {exercise.name} | {exercise.rounds} x {exercise.reps} Reps - {exercise.set_type} | {exercise.description}
+                                                <br/>
+                                                {/* <small> {exercise.description}</small> */}
                                                 </div>
                                             </div>
                                         ))}

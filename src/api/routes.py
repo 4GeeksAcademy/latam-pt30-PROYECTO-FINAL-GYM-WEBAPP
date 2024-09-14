@@ -341,7 +341,7 @@ def create_workout_plan():
     data = request.json
     new_workout_plan = WorkoutPlan(
         name=data['name'], 
-        sets=data['sets'], 
+        rounds=data['rounds'], 
         reps=data['reps'], 
         rest_time=data['rest_time'],
         description_id=data.get('description_id'), 
@@ -453,7 +453,7 @@ def update_workout(workout_id):
                     exercise = Exercise.query.get(ex['id'])
                     if exercise:
                         exercise.reps = ex['reps']
-                        exercise.sets = ex['sets']
+                        exercise.rounds = ex['rounds']
                         exercise.rest_time = ex['rest_time']
                         exercise.description = ex['description']
                         exercise.super_set = ex['super_set']
@@ -528,7 +528,7 @@ def create_exercise():
     data = request.json
     new_exercise = Exercise(
         name=data['name'],
-        sets=data['sets'],
+        rounds=data['rounds'],
         reps=data['reps'],
         rest_time=data['rest_time'],
         description_id=data.get('description_id'),
@@ -553,7 +553,7 @@ def update_exercise(exercise_id):
     try:
         exercise = Exercise.query.filter_by(Id_exercise=exercise_id).one()
         exercise.name = data.get('name', exercise.name)
-        exercise.sets = data.get('sets', exercise.sets)
+        exercise.rounds = data.get('rounds', exercise.rounds)
         exercise.reps = data.get('reps', exercise.reps)
         exercise.rest_time = data.get('rest_time', exercise.rest_time)
         exercise.description_id = data.get('description_id', exercise.description_id)

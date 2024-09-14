@@ -50,17 +50,42 @@ const getState = ({ getStore, getActions, setStore }) => {
 								{id: "14", name: "Calf"}
 
 							],
-							exercises: [
-								{ id: "1", name: "Free Squats", reps: "30, 20, 15, 12, 10, 8, 6", sets: 7, rest_time: "60", description: "", super_set:"" },
-								{ id: "2", name: "Sissy Squats", reps: "30, 20, 15, 12, 10, 8, 6", sets: 7, rest_time: "60", description: "", super_set:"" },
-								{ id: "3", name: "Dispositions in Smith", reps: "15, 12, 10, 8", sets: 4, rest_time: "60", description: "Increment weight", super_set:"" },
-								{ id: "4", name: "Closing abductor", reps: 10, sets: 3, rest_time: "60", description: "Heavy", super_set:"" },
-								{ id: "5", name: "Barbell deadlift", reps: 20, sets: 4, rest_time: "60", description: "", super_set:"" },
-								{ id: "6", name: "Femoral lying", reps: 25, sets: 4, rest_time: "60", description: "Incrementar weight", super_set:"" },
-								{ id: "7", name: "Press", reps: 50, sets: 4, rest_time: "60", description: "", super_set:"" },
-								{ id: "8", name: "Sitting calf", reps: 30, sets: 4, rest_time: "60", description: "", super_set:"" },
-								{ id: "9", name: "Standing calf", reps: 30, sets: 4, rest_time: "60", description: "", super_set:"" }
-							],
+							sets: [
+								{
+								  set_id: "A",
+								  set_type: "SuperSet", // Tipo de conjunto o TriSet
+								  exercises: [
+									{ id: "1", name: "Free Squats", reps: "30, 20, 15, 12, 10, 8, 6", rounds: 7, rest_time: "60", description: ""},
+									{ id: "2", name: "Sissy Squats", reps: "30, 20, 15, 12, 10, 8, 6", rounds: 7, rest_time: "60", description: ""},
+								  ]
+								},
+								{
+								  set_id: "B",
+								  set_type: "SuperSet",
+								  exercises: [
+									{ id: "3", name: "Dispositions in Smith", reps: "15, 12, 10, 8", rounds: 4, rest_time: "60", description: "Increment weight"},
+									{ id: "4", name: "Closing abductor", reps: 10, rounds: 3, rest_time: "60", description: "Heavy"}
+								  ]
+								},
+								{
+									set_id: "C",
+									set_type: "TriSet",
+									exercises: [
+										{ id: "5", name: "Barbell deadlift", reps: 20, rounds: 4, rest_time: "60", description: ""},
+										{ id: "6", name: "Femoral lying", reps: 25, rounds: 4, rest_time: "60", description: "Incrementar weight"},
+										{ id: "7", name: "Press", reps: 50, rounds: 4, rest_time: "60", description: ""}
+									]
+								  },
+								  {
+									set_id: "D",
+									set_type: "SuperSet",
+									exercises: [
+										{ id: "8", name: "Sitting calf", reps: 30, rounds: 4, rest_time: "60", description: ""},
+										{ id: "9", name: "Standing calf", reps: 30, rounds: 4, rest_time: "60", description: ""}
+									]
+								  },
+
+							  ],
 						},
 						{
 							day: {id: "2", name:"Tuesday"},
@@ -69,18 +94,49 @@ const getState = ({ getStore, getActions, setStore }) => {
 								{ id: "7", name: "Shoulders" },
 								{ id: "5", name: "Triceps" }
 							],
-							exercises: [
-								{ id: "10", name: "Incline chest press", reps: 10, sets: 4, rest_time: "60", description: "", super_set:"" },
-								{ id: "11", name: "Christs", reps: 15, sets: 4, rest_time: "60", description: "", super_set:"" },
-								{ id: "12", name: "Dumbbell flat press", reps: 10, sets: 4, rest_time: "60", description: "", super_set:"" },
-								{ id: "13", name: "Military press with dumbbell", reps: 10, sets: 4, rest_time: "60", description: "Increment weight", super_set:"" },
-								{ id: "14", name: "Birds", reps: 8, sets: 4, rest_time: "20s", description: "", super_set:"" },
-								{ id: "15", name: "Dumbbell front", reps: 15, sets: 4, rest_time: "60", description: "", super_set:""  },
-								{ id: "16", name: "Inverted peckfly", reps: 15, sets: 4, rest_time: "60", description: "", super_set:""  },
-								{ id: "17", name: "French press with bar", reps: 10, sets: 4, rest_time: "60", description: "", super_set:""  },
-								{ id: "18", name: "Cup", reps: 10, sets: 4, rest_time: "60", description: "", super_set:""  },
-								{ id: "19", name: "Triceps pulley with straight bar", reps: 15, sets: 4, rest_time: "60", description: "", super_set:""  }
-							],
+							sets: [
+								{
+								  set_id: "E",
+								  set_type: "SuperSet", // Tipo de conjunto
+								  exercises: [
+									{ id: "10", name: "Incline chest press", reps: 10, rounds: 4, rest_time: "60", description: ""},
+									{ id: "11", name: "Christs", reps: 15, rounds: 4, rest_time: "60", description: ""},
+								  ]
+								},
+								{
+								  set_id: "F",
+								  set_type: "SuperSet",
+								  exercises: [
+									{ id: "12", name: "Dumbbell flat press", reps: 10, rounds: 4, rest_time: "60", description: ""},
+									{ id: "13", name: "Chest cables down", reps: 10, rounds: 4, rest_time: "60", description: ""},
+								  ]
+								},
+								{
+									set_id: "G",
+									set_type: "SuperSet",
+									exercises: [
+										{ id: "14", name: "Military press with dumbbell", reps: 10, rounds: 4, rest_time: "60", description: "Increment weight"},
+										{ id: "15", name: "Birds", reps: 8, rounds: 4, rest_time: "20s", description: ""}
+									]
+								  },
+								  {
+									set_id: "H",
+									set_type: "SuperSet",
+									exercises: [
+										{ id: "16", name: "Dumbbell front", reps: 15, rounds: 4, rest_time: "60", description: "" },
+										{ id: "17", name: "Inverted peckfly", reps: 15, rounds: 4, rest_time: "60", description: "" }
+									]
+								  },
+								  {
+									set_id: "I",
+									set_type: "TriSet",
+									exercises: [
+										{ id: "18", name: "French press with bar", reps: 10, rounds: 4, rest_time: "60", description: "" },
+										{ id: "19", name: "Cup", reps: 10, rounds: 4, rest_time: "60", description: "" },
+										{ id: "20", name: "Triceps pulley with straight bar", reps: 15, rounds: 4, rest_time: "60", description: "" }
+									]
+								  },
+							  ],
 						},
 						{
 							day: {id: "3", name:"Wednesday"},
@@ -89,17 +145,42 @@ const getState = ({ getStore, getActions, setStore }) => {
 								{ id: "10", name: "Glutes" },
 								{id: "14", name: "Calf"}
 							],
-							exercises: [
-								{ id: "1", name: "Free Squats", reps: "30, 20, 15, 12, 10, 8, 6", sets: 7, rest_time: "60", description: "", super_set:"" },
-								{ id: "2", name: "Sissy Squats", reps: "30, 20, 15, 12, 10, 8, 6", sets: 7, rest_time: "60", description: "", super_set:"" },
-								{ id: "3", name: "Dispositions in Smith", reps: "15, 12, 10, 8", sets: 4, rest_time: "60", description: "Increment weight", super_set:"" },
-								{ id: "4", name: "Closing abductor", reps: 10, sets: 3, rest_time: "60", description: "Heavy", super_set:"" },
-								{ id: "5", name: "Barbell deadlift", reps: 20, sets: 4, rest_time: "60", description: "", super_set:"" },
-								{ id: "6", name: "Femoral lying", reps: 25, sets: 4, rest_time: "60", description: "Incrementar weight", super_set:"" },
-								{ id: "7", name: "Press", reps: 50, sets: 4, rest_time: "60", description: "", super_set:"" },
-								{ id: "8", name: "Sitting calf", reps: 30, sets: 4, rest_time: "60", description: "", super_set:"" },
-								{ id: "9", name: "Standing calf", reps: 30, sets: 4, rest_time: "60", description: "", super_set:"" }
-							],
+							sets: [
+								{
+								  set_id: "A",
+								  set_type: "SuperSet", // Tipo de conjunto o TriSet
+								  exercises: [
+									{ id: "1", name: "Free Squats", reps: "30, 20, 15, 12, 10, 8, 6", rounds: 7, rest_time: "60", description: ""},
+									{ id: "2", name: "Sissy Squats", reps: "30, 20, 15, 12, 10, 8, 6", rounds: 7, rest_time: "60", description: ""},
+								  ]
+								},
+								{
+								  set_id: "B",
+								  set_type: "SuperSet",
+								  exercises: [
+									{ id: "3", name: "Dispositions in Smith", reps: "15, 12, 10, 8", rounds: 4, rest_time: "60", description: "Increment weight"},
+									{ id: "4", name: "Closing abductor", reps: 10, rounds: 3, rest_time: "60", description: "Heavy"}
+								  ]
+								},
+								{
+									set_id: "C",
+									set_type: "TriSet",
+									exercises: [
+										{ id: "5", name: "Barbell deadlift", reps: 20, rounds: 4, rest_time: "60", description: ""},
+										{ id: "6", name: "Femoral lying", reps: 25, rounds: 4, rest_time: "60", description: "Incrementar weight"},
+										{ id: "7", name: "Press", reps: 50, rounds: 4, rest_time: "60", description: ""}
+									]
+								  },
+								  {
+									set_id: "D",
+									set_type: "SuperSet",
+									exercises: [
+										{ id: "8", name: "Sitting calf", reps: 30, rounds: 4, rest_time: "60", description: ""},
+										{ id: "9", name: "Standing calf", reps: 30, rounds: 4, rest_time: "60", description: ""}
+									]
+								  },
+
+							  ],
 						},
 						{
 							day: {id: "4", name:"Thursday"},
@@ -107,18 +188,48 @@ const getState = ({ getStore, getActions, setStore }) => {
 								{ id: "2", name: "Back" },
 								{ id: "5", name: "Triceps" }
 							],
-							exercises: [
-								{ id: "20", name: "Pull-ups", reps: "Fail", sets: 6, rest_time: "60", description: "", super_set:"" },
-								{ id: "21", name: "Barbell front pull", reps: 10, sets: 4, rest_time: "60", description: "", super_set:"" },
-								{ id: "22", name: "Straight bar row", reps: 10, sets: 4, rest_time: "60", description: "", super_set:"" },
-								{ id: "23", name: "Seated row", reps: 10, sets: 4, rest_time: "60", description: "", super_set:"" },
-								{ id: "24", name: "Dumbbell row", reps: 10, sets: 4, rest_time: "60", description: "", super_set:"" },
-								{ id: "25", name: "Barbell curl", reps: 15, sets: 4, rest_time: "60", description: "Incrementar weight", super_set:"" },
-								{ id: "26", name: "Curl on biceps machine", reps: 20, sets: 4, rest_time: "60", description: "Down in 5 seconds", super_set:"" },
-								{ id: "27", name: "Hammer curl", reps: 30, sets: 4, rest_time: "60", description: "", super_set:"" },
-								{ id: "28", name: "Inverted curl with z bar", reps: 15, sets: 4, rest_time: "60", description: "Open grip", super_set:"" },
-								{ id: "29", name: "Triceps pulley with straight bar", reps: 15, sets: 4, rest_time: "60", description: "", super_set:""  }
-							],
+							sets: [
+								{
+								  set_id: "J",
+								  set_type: "Set", // Tipo de conjunto
+								  exercises: [
+									{ id: "21", name: "Pull-ups", reps: "Fail", rounds: 6, rest_time: "60", description: ""}
+								  ]
+								},
+								{
+									set_id: "K",
+									set_type: "SuperSet", // Tipo de conjunto
+									exercises: [
+										{ id: "22", name: "Barbell front pull", reps: 10, rounds: 4, rest_time: "60", description: ""},
+										{ id: "23", name: "Straight bar row", reps: 10, rounds: 4, rest_time: "60", description: ""}
+									]
+								  },
+								  {
+									set_id: "L",
+									set_type: "SuperSet", // Tipo de conjunto
+									exercises: [
+										{ id: "24", name: "Seated row", reps: 10, rounds: 4, rest_time: "60", description: ""},
+										{ id: "25", name: "Dumbbell row", reps: 10, rounds: 4, rest_time: "60", description: ""}
+									]
+								  },
+								  {
+									set_id: "M",
+									set_type: "SuperSet", // Tipo de conjunto
+									exercises: [
+										{ id: "26", name: "Barbell curl", reps: 15, rounds: 4, rest_time: "60", description: "Incrementar weight"},
+										{ id: "27", name: "Curl on biceps machine", reps: 20, rounds: 4, rest_time: "60", description: "Down in 5 seconds"}
+									]
+								  },
+								  {
+									set_id: "M",
+									set_type: "TriSet", // Tipo de conjunto
+									exercises: [
+										{ id: "28", name: "Hammer curl", reps: 30, rounds: 4, rest_time: "60", description: ""},
+										{ id: "29", name: "Inverted curl with z bar", reps: 15, rounds: 4, rest_time: "60", description: "Open grip"},
+										{ id: "30", name: "Triceps pulley with straight bar", reps: 15, rounds: 4, rest_time: "60", description: "" }
+									]
+								  },
+							  ],
 						},
 						{
 							day: {id: "2", name:"Friday"},
@@ -127,58 +238,89 @@ const getState = ({ getStore, getActions, setStore }) => {
 								{ id: "7", name: "Shoulders" },
 								{ id: "5", name: "Triceps" }
 							],
-							exercises: [
-								{ id: "10", name: "Incline chest press", reps: 10, sets: 4, rest_time: "60", description: "", super_set:"" },
-								{ id: "11",name: "Christs", reps: 15, sets: 4, rest_time: "60", description: "", super_set:"" },
-								{ id: "12", name: "Dumbbell flat press", reps: 10, sets: 4, rest_time: "60", description: "", super_set:"" },
-								{ id: "13", name: "Military press with dumbbell", reps: 10, sets: 4, rest_time: "60", description: "Increment weight", super_set:"" },
-								{ id: "14", name: "Birds", reps: 8, sets: 4, rest_time: "20s", description: "", super_set:"" },
-								{ id: "15", name: "dumbbell front", reps: 15, sets: 4, rest_time: "60", description: "", super_set:""  },
-								{ id: "16", name: "Inverted peckfly", reps: 15, sets: 4, rest_time: "60", description: "", super_set:""  },
-								{ id: "17", name: "French press with bar", reps: 10, sets: 4, rest_time: "60", description: "", super_set:""  },
-								{ id: "18", name: "Cup", reps: 10, sets: 4, rest_time: "60", description: "", super_set:""  },
-								{ id: "19", name: "Triceps pulley with straight bar", reps: 15, sets: 4, rest_time: "60", description: "", super_set:""  }
-							],
+							sets: [
+								{
+								  set_id: "E",
+								  set_type: "SuperSet", // Tipo de conjunto
+								  exercises: [
+									{ id: "10", name: "Incline chest press", reps: 10, rounds: 4, rest_time: "60", description: ""},
+									{ id: "11", name: "Christs", reps: 15, rounds: 4, rest_time: "60", description: ""},
+								  ]
+								},
+								{
+								  set_id: "F",
+								  set_type: "SuperSet",
+								  exercises: [
+									{ id: "12", name: "Dumbbell flat press", reps: 10, rounds: 4, rest_time: "60", description: ""},
+									{ id: "13", name: "Chest cables down", reps: 10, rounds: 4, rest_time: "60", description: ""},
+								  ]
+								},
+								{
+									set_id: "G",
+									set_type: "SuperSet",
+									exercises: [
+										{ id: "14", name: "Military press with dumbbell", reps: 10, rounds: 4, rest_time: "60", description: "Increment weight"},
+										{ id: "15", name: "Birds", reps: 8, rounds: 4, rest_time: "20s", description: ""}
+									]
+								  },
+								  {
+									set_id: "H",
+									set_type: "SuperSet",
+									exercises: [
+										{ id: "16", name: "Dumbbell front", reps: 15, rounds: 4, rest_time: "60", description: "" },
+										{ id: "17", name: "Inverted peckfly", reps: 15, rounds: 4, rest_time: "60", description: "" }
+									]
+								  },
+								  {
+									set_id: "I",
+									set_type: "TriSet",
+									exercises: [
+										{ id: "18", name: "French press with bar", reps: 10, rounds: 4, rest_time: "60", description: "" },
+										{ id: "19", name: "Cup", reps: 10, rounds: 4, rest_time: "60", description: "" },
+										{ id: "20", name: "Triceps pulley with straight bar", reps: 15, rounds: 4, rest_time: "60", description: "" }
+									]
+								  },
+							  ],
 						},
 					],
-				},
-				{
-					id: "2",
-					name: "Plan 2",
-					days: [
-						{
-							day: {id: "5", name:"Day 1"},
-							muscle_group: [
-								{ id: "3", name: "Quads" },
-								{ id: "6", name: "Forearms" }
-							],
-							exercises: [
-								{ id: "20", name: "Incline chest press", reps: 10, sets: 4, rest_time: "60", description: "", super_set:"" },
-								{ id: "21", name: "Christs", reps: 15, sets: 4, rest_time: "60", description: "", super_set:"" },
-								{ id: "22", name: "Dumbbell flat press", reps: 10, sets: 4, rest_time: "60", description: "", super_set:"" },
-								{ id: "23", name: "Military press with dumbbell", reps: 10, sets: 4, rest_time: "60", description: "Increment weight", super_set:"" },
-								{ id: "24", name: "Birds", reps: 8, sets: 4, rest_time: "20s", description: "", super_set:"" },
-								{ id: "25", name: "dumbbell front", reps: 15, sets: 4, rest_time: "60", description: "", super_set:""  },
-								{ id: "26", name: "Inverted peckfly", reps: 15, sets: 4, rest_time: "60", description: "", super_set:""  },
-								{ id: "27", name: "French press with bar", reps: 10, sets: 4, rest_time: "60", description: "", super_set:""  },
-								{ id: "28", name: "Cup", reps: 10, sets: 4, rest_time: "60", description: "", super_set:""  },
+				}
+				// {
+				// 	id: "2",
+				// 	name: "Plan 2",
+				// 	days: [
+				// 		{
+				// 			day: {id: "5", name:"Day 1"},
+				// 			muscle_group: [
+				// 				{ id: "3", name: "Quads" },
+				// 				{ id: "6", name: "Forearms" }
+				// 			],
+				// 			exercises: [
+				// 				{ id: "20", name: "Incline chest press", reps: 10, sets: 4, rest_time: "60", description: "", super_set:"" },
+				// 				{ id: "21", name: "Christs", reps: 15, sets: 4, rest_time: "60", description: "", super_set:"" },
+				// 				{ id: "22", name: "Dumbbell flat press", reps: 10, sets: 4, rest_time: "60", description: "", super_set:"" },
+				// 				{ id: "23", name: "Military press with dumbbell", reps: 10, sets: 4, rest_time: "60", description: "Increment weight", super_set:"" },
+				// 				{ id: "24", name: "Birds", reps: 8, sets: 4, rest_time: "20s", description: "", super_set:"" },
+				// 				{ id: "25", name: "dumbbell front", reps: 15, sets: 4, rest_time: "60", description: "", super_set:""  },
+				// 				{ id: "26", name: "Inverted peckfly", reps: 15, sets: 4, rest_time: "60", description: "", super_set:""  },
+				// 				{ id: "27", name: "French press with bar", reps: 10, sets: 4, rest_time: "60", description: "", super_set:""  },
+				// 				{ id: "28", name: "Cup", reps: 10, sets: 4, rest_time: "60", description: "", super_set:""  },
 								
 								
-							],
-						},
-						{
-							day: {id: "6", name:"Day 2"},
-							muscle_group: [
-								{ name: "abs" },
-								{ name: "shoulders" }
-							],
-							exercises: [
+				// 			],
+				// 		},
+				// 		{
+				// 			day: {id: "6", name:"Day 2"},
+				// 			muscle_group: [
+				// 				{ name: "abs" },
+				// 				{ name: "shoulders" }
+				// 			],
+				// 			exercises: [
 								
-								{ id: "20", name: "Peckfly", reps: 12, sets: 3, rest_time: "20s", description: "", super_set:""  },
-							],
-						},
-					],
-				},
+				// 				{ id: "20", name: "Peckfly", reps: 12, sets: 3, rest_time: "20s", description: "", super_set:""  },
+				// 			],
+				// 		},
+				// 	],
+				// },
 
 			],
 			muscle_groups: [
@@ -464,7 +606,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 							return { ...workout, ...data };
 						}
 						return workout;
-
+						
 					});
 					setStore({ workouts: updatedWorkouts });
 				} catch (error) {
@@ -522,6 +664,113 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 			
+			// **** Fin se adiciona Singup y login 16 de julio de 2024 9:22 a.m. Por GE
+			//FETCHING EXERCISES FOR PRUEBA EXERCISES
+
+			getExercises: async () => {
+				try {
+					const resp = await fetch(process.env.BACKEND_URL + "/api/exercises")
+					const data = await resp.json()
+					setStore({ valExercises: data })
+					console.log("VALORES DE EXERCISES", data)
+					return data;
+				} catch (error) {
+					console.log("Error loading message from backend", error)
+				}
+			},
+
+			createSet: async (type, rest_time, day_id) => {
+                try {
+                    const response = await fetch(`${process.env.BACKEND_URL}/api/sets`, {
+                        method: 'POST',
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            type: type,
+                            rest_time: rest_time,
+                            day_id: day_id
+                        })
+                    });
+                    if (response.ok) {
+                        const newSet = await response.json();
+                        const store = getStore();
+                        setStore({ sets: [...store.sets, newSet] });
+                        return newSet;
+                    } else {
+                        console.error("Error creating set", response.statusText);
+                    }
+                } catch (error) {
+                    console.error("Error in createSet:", error);
+                }
+            },
+
+            // Obtener Sets por Día
+            getSetsByDay: async (day_id) => {
+                try {
+                    const response = await fetch(`${process.env.BACKEND_URL}/api/days/${day_id}/sets`, {
+                        method: 'GET',
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    });
+                    if (response.ok) {
+                        const sets = await response.json();
+                        setStore({ sets: sets });
+                    } else {
+                        console.error("Error fetching sets", response.statusText);
+                    }
+                } catch (error) {
+                    console.error("Error in getSetsByDay:", error);
+                }
+            },
+
+            // Actualizar Set
+            updateSet: async (set_id, updatedData) => {
+                try {
+                    const response = await fetch(`${process.env.BACKEND_URL}/api/sets/${set_id}`, {
+                        method: 'PUT',
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(updatedData)
+                    });
+                    if (response.ok) {
+                        const updatedSet = await response.json();
+                        const store = getStore();
+                        const updatedSets = store.sets.map(set => set.id === set_id ? updatedSet : set);
+                        setStore({ sets: updatedSets });
+                        return updatedSet;
+                    } else {
+                        console.error("Error updating set", response.statusText);
+                    }
+                } catch (error) {
+                    console.error("Error in updateSet:", error);
+                }
+            },
+
+            // Eliminar Set
+            deleteSet: async (set_id) => {
+                try {
+                    const response = await fetch(`${process.env.BACKEND_URL}/api/sets/${set_id}`, {
+                        method: 'DELETE',
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    });
+                    if (response.ok) {
+                        const store = getStore();
+                        const remainingSets = store.sets.filter(set => set.id !== set_id);
+                        setStore({ sets: remainingSets });
+                        return true;
+                    } else {
+                        console.error("Error deleting set", response.statusText);
+                    }
+                } catch (error) {
+                    console.error("Error in deleteSet:", error);
+                }
+            },
+        
 			
 			//MEMBERS FETCH ZONE_______________________________________________________
 			//CREATE MEMBER
@@ -663,20 +912,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 
 
-			// **** Fin se adiciona Singup y login 16 de julio de 2024 9:22 a.m. Por GE
-			//FETCHING EXERCISES FOR PRUEBA EXERCISES
-
-			getExercises: async () => {
-				try {
-					const resp = await fetch(process.env.BACKEND_URL + "/api/exercises")
-					const data = await resp.json()
-					setStore({ valExercises: data })
-					console.log("VALORES DE EXERCISES", data)
-					return data;
-				} catch (error) {
-					console.log("Error loading message from backend", error)
-				}
-			},
 
 
 

@@ -1,26 +1,47 @@
+
+//Sep 12 2024 2:37pm Change to add Sets.jsx as son
 import React, { useEffect, useState } from 'react';
-import { ExcerciseForm } from './ExcerciseForm.jsx';
+import { Sets } from "./Sets.jsx";
+//import { ExcerciseForm } from './ExcerciseForm.jsx';
 //import { Context } from '../store/appContext.js';
 
 
 export const DayForm = ({ day, muscles, onSave }) => {
-    // Initialize form state with provided day data or defaults
+// Initialize form state with provided day data or defaults
     const [formState, setFormState] = useState(day);
-    const [exercises, setExercises] = useState(day?.exercises || []);
-    const [selectedMuscleGroups, setSelectedMuscleGroups] = useState(day.muscle_group || []);
-
-    useEffect(() => {
-        setSelectedMuscleGroups(day.muscle_group || []); // Actualiza los grupos si el día cambia
-    },[day.muscle_group]);
-
-    console.log(day.muscle_group);
-    
     // Handle day name changes
     const handleDayChange = (e) => {
         setFormState({ ...formState, day: e.target.value });
     };
 
-    //solo guarda solo del dia no los de componentes diferentes 
+    //Save day
+    const handleSaveDay = (dayId) => {
+        const updatedWorkout = { ...workout };
+        updatedWorkout.days = day.map((day) => (day.id === dayId ? day : updatedWorkout.days));
+        setFormState(updatedWorkout);
+    };
+    
+    //prevenir que no se actualice la palgina
+    // Al agregar un nuevo dia guardamos cambios 
+    console.log(formState.day);
+
+
+// //Handle exercises__________________
+//     const [exercises, setExercises] = useState(day?.exercises || []);
+//     const handleAddExercise = async (e) => {
+//         e.preventDefault()
+//         setExercises([...exercises, { id: "", name: "", reps: "", sets: "", rest_time: "", description: "", super_set: "" }]);
+//         //handleSaveDay()
+//     };
+
+//Selected Muscle Groups from day.musclegroup_____________
+    const [selectedMuscleGroups, setSelectedMuscleGroups] = useState(day.muscle_group || []);
+
+    useEffect(() => {
+        setSelectedMuscleGroups(day.muscle_group || []); // Actualiza los grupos si el día cambia
+    },[day.muscle_group]);
+    
+    console.log(day.muscle_group);
 
     // Handle muscle group selection
     const handleMuscleGroupChange = (e) => {
@@ -32,61 +53,84 @@ export const DayForm = ({ day, muscles, onSave }) => {
         }
     };
 
-    // const handleAddExercise = (dayId) => {
-    //     dayId.preventDefault()
-    //     const newExercise = { id: "", name: "", reps: "", sets: "", rest_time: "", description: "", super_set: "" };
-    //     const updatedDays = day.map((day) => {
-    //         if (day.id === dayId) {
-    //             return {
-    //                 ...day,
-    //                 exercises: [...day.exercises, newExercise],
-    //             };
-    //         }
-    //         return day;
-    //     });
-    //     setExercises(updatedDays);
+//Hanlde Sets instead of exercises________________
+    //const [sets, setSets] = useState(day?.sets || []);
+    // const addSet = (type = 'Set') => {
+    //     const newSet = {
+    //         id: Date.now(),
+    //         type: 'SuperSet', // o 'TriSet', puedes hacerlo seleccionable
+    //         rest_time: 120, // 2 minutos para pares, 180 para tercias
+    //         exercises: [
+    //                 { id: "", name: "", reps: "", sets: "", rest_time: "", description: ""},
+    //                 { id: "", name: "", reps: "", sets: "", rest_time: "", description: ""},
+    //         ]
+    //     };
+    //     setSets([...sets, newSet]);
     // };
+    const [sets, setSets] = useState(day?.sets || []);
+    const addSet = (type = 'Set') => {
+        // Definir la cantidad de ejercicios y el tiempo de descanso según el tipo de set
+        let exercisesCount = 1;
+        let restTime = 60; // Por defecto 1 minuto
+        
+        switch (type) {
+            case 'SuperSet':
+                exercisesCount = 2;
+                restTime = 120; // 2 minutos
+                break;
+            case 'TriSet':
+                exercisesCount = 3;
+                restTime = 180; // 3 minutos
+                break;
+            case 'GrandSet':
+                exercisesCount = 4;
+                restTime = 240; // 4 minutos
+                break;
+            default:
+                exercisesCount = 1;
+                restTime = 60; // 1 minuto
+                break;
+        }
 
-    const handleAddExercise = async (e) => {
-        e.preventDefault()
-        // Crea un nuevo ejercicio
-        // const newExercise = { 
-        //     name: "", 
-        //     reps: "", 
-        //     sets: "", 
-        //     rest_time: "", 
-        //     description: "", 
-        //     super_set: "" 
-        // };
-    
-        // // Mapea sobre los días, buscando el que coincide con dayId
-        // const updatedDays = day.map((day) => {
-        //     if (day.id === dayId) {
-        //         return {
-        //             ...day,
-        //             exercises: [...day.exercises, newExercise], // Añade el nuevo ejercicio al array de exercises
-        //         };
-        //     }
-        //     return day; // Si no es el día correcto, lo devuelve sin cambios
-        // });
-    
-        // Actualiza el estado de los días
-        setExercises([...exercises, { id: "", name: "", reps: "", sets: "", rest_time: "", description: "", super_set: "" }]);
-        //handleSaveDay()
+        // Crear los ejercicios vacíos basados en la cantidad
+        const exercises = Array.from({ length: exercisesCount }, () => ({
+            id: Date.now() + Math.random(), // Un id único basado en timestamp y random
+            name: "",
+            reps: "",
+            rounds: "",
+            rest_time: restTime,
+            description: ""
+        }));
+
+        // Crear el nuevo set
+        const newSet = {
+            id: Date.now(), // El id del set también puede ser un timestamp
+            type: type, // Tipo del set (Set, SuperSet, etc.)
+            rest_time: restTime, // Tiempo de descanso
+            exercises: exercises // Array de ejercicios
+        };
+
+        // Agregar el nuevo set al estado
+        setSets([...sets, newSet]);
     };
 
 
-
-    //Save day
-    const handleSaveDay = (dayId) => {
-        const updatedWorkout = { ...workout };
-        updatedWorkout.days = day.map((day) => (day.id === dayId ? day : updatedWorkout.days));
-        setFormState(updatedWorkout);
+    const updateSet = (updatedSet) => {
+        const updatedSets = sets.map(set => set.id === updatedSet.id ? updatedSet : set);
+        setSets(updatedSets);
     };
 
-    //prevenir que no se actualice la palgina
-    // Al agregar un nuevo dia guardamos cambios 
-    console.log(formState.day);
+    const removeSet = (id) => {
+        const updatedSets = sets.filter(set => set.id !== id);
+        setSets(updatedSets);
+    };
+
+    const handleSubmit = () => {
+        // Aquí manejarías la lógica para enviar los sets al backend
+        // Por ejemplo, haciendo una petición POST para cada set
+    };
+
+    
     
     return (
         <form className="day-form p-3">
@@ -129,28 +173,33 @@ export const DayForm = ({ day, muscles, onSave }) => {
 
 
                 <div className="exercises-section">
-                    <h4>Exercises</h4>
-                    {exercises?.map((exercise, index) => (
+                    <h4>N° Exercises per Round</h4>
+                    {/* {exercises?.map((exercise, index) => (
                         <ExcerciseForm
                             key={index}
                             exercise={exercise}
                             setExercises={setExercises}
                             index={index}
                         />
+                    ))} */}
+                    {sets.map(set => (
+                        <Sets
+                            key={set.id}
+                            set={set}
+                            updateSet={updateSet}
+                            removeSet={removeSet}
+                        />
                     ))}
-                    <button 
+                    <div id="muscleGroupHelp" className="form-text">Set = 1 Exercise, SuperSet = 2 Exercises, TriSet = 3 Exercises, GrandSet = +4 Exercise in a Round</div>
+                    {/* <button 
                     className="btn btn-outline-success mt-2 col-12" 
                     onClick={handleAddExercise}>
                         Add Exercise
-                        </button>
+                        </button> */}
+                    <button className="btn btn-outlined-primary" onClick={addSet}>Agregar Set</button>
+                    <button className="btn btn-outline-success mt-3" onClick={handleSubmit}>Guardar Día</button>
                         
                 </div>
-
-                {/* <button 
-                className="btn btn-outline-warning mt-3" 
-                onClick={handleSaveDay}>
-                    Save Day
-                    </button> */}
             </div>
         </form>    
     );

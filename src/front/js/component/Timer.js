@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Context } from "../store/appContext";
 
-const Timer = ({ startTimer, resetTimer }) => {
+export const Timer = ({ startTimer, resetTimer }) => {
   const [time, setTime] = useState(0);
   const [isActive, setIsActive] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
@@ -60,8 +60,8 @@ const Timer = ({ startTimer, resetTimer }) => {
 
   return (
     <div className="timer alert alert-success mt-4 col-9">
-      <h1 className="time display-1">{formatTime(time)}</h1>
-      <div className="buttons">
+      <h1 className="time text-center display-1">{formatTime(time)}</h1>
+      <div className="buttons d-flex justify-content-center">
         <button 
         className="pause-btn btn btn-outline-warning m-2" 
         onClick={() => setIsActive(!isActive)}>
@@ -111,4 +111,4 @@ const Timer = ({ startTimer, resetTimer }) => {
   );
 };
 
-export default Timer;
+

@@ -52,11 +52,12 @@ const Layout = () => {
             <Route element={<UserProfileView/>} path="/profileView"/>
 
             <Route element={<MemberSignup />} path="/memberSignup" />
+            <Route element={<Set />} path="/set "/>
             {/* <Route element={<Workout />} path="/workout/:exerciseName" />
             <Route element={<Exercise />} path="/exercises/:id" />
             <Route element={<PruebaExercises />} path="/exercises" />
-            <Route element={<Exercise />} path="/prueba/:id" /> */}
             <Route element={<PruebaExercises />} path="/prueba" />
+            <Route element={<Exercise />} path="/prueba/:id" /> */}
 
           </Routes>
           <Footer />

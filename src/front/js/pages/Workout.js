@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import Timer from "../component/Timer";
+import { Timer } from "../component/Timer.js";
 import { Context } from "../store/appContext";
 export const Workout = () => {
   const { store } = useContext(Context);
@@ -12,37 +12,47 @@ export const Workout = () => {
   const navigate = useNavigate();
 
 
+  
   useEffect(() => {
     if (params.name && store.workouts.length > 0) {
       const workout = store.workouts.find(w => w.id == params.workoutId);
+      console.log(workout);
+      
       if (workout) {
-        const ex = workout.days[params.dayId].exercises.find(e => e.name === params.name);
+        const ex = workout.days?.find(day => params.dayId == day.day.id).sets?.map(set => set.exercises.map(item => {
+          item["set_type"] = set.set_type
+          return item
+      })).flat().find(e => e.name === params.name);
+        console.log(ex);
+        
         setExercise(ex);
-        setCompletedSets(Array(ex.sets).fill(false));
+        setCompletedSets(Array(ex.rounds).fill(false));
       }
     }
   }, [params.name, store.workouts]);
 
+  
 
   if (!exercise) {
     return <div>No exercise data available. Please go back to the workouts list.</div>;
   }
 
 
-  const toggleSetCompletion = (index) => {
+  const toggleSetCompletion = (roundIndex, setIndex) => {
     const updatedSets = [...completedSets];
-    if (!updatedSets[index]) {
-      // Solo activar el cronómetro si la serie no estaba completada antes
-      updatedSets[index] = true;
+    if (!updatedSets[roundIndex][setIndex]) {
+      // Marcar como completado y reiniciar el cronómetro solo si el set no estaba completado
+      updatedSets[roundIndex][setIndex] = true;
       setResetTimer(true);
       setStartTimer(false);
-      setTimeout(() => setStartTimer(true), 50);
+      setTimeout(() => setStartTimer(true), 50); // Reinicia el cronómetro
     } else {
-      updatedSets[index] = false;
+      updatedSets[roundIndex][setIndex] = false; // Desmarcar como incompleto
     }
     setCompletedSets(updatedSets);
   };
 
+console.log(completedSets);
 
   return (
     <div className="container my-5">
@@ -52,23 +62,34 @@ export const Workout = () => {
           >
               <i className="fa-solid fa-circle-chevron-left fs-1 m-3"></i>
       </span>
-      <div className="alert rounded-5 bg-light border-danger-subtle opacity-75 col-11">
+      <div className="alert rounded-5 bg-light border-danger-subtle opacity-75 mx-auto">
         <div className="d-flex justify-content-center text-dark">
           <h1> {exercise.name} </h1>
         </div>
         <div className="exercise-details text-dark d-flex justify-content-center">
-          {exercise.reps} REPS | {exercise.sets} SETS | {exercise.description}</div>
+          {exercise.reps} REPS | {exercise.rounds} ROUNDS | {exercise.set_type}</div>
+          <small>{exercise.description}</small>
       </div>
-        <div id="exerciseDetails" className="workout-details col-8">
-          <div className="sets">
-            {completedSets.map((completed, i) => (
-              <div key={i} className="set-container">
-                <button 
+        <div id="exerciseDetails" className="workout-details d-flex flex-column align-items-center">
+          <h4>Rounds</h4>
+          <div className="rounds d-flex">
+            {completedSets.map((round, roundIndex) => (
+              <div key={roundIndex} className="mx-1">
+                <div>
+                    <div>
+                      <button 
+                      onClick={() => toggleSetCompletion(roundIndex, roundIndex)} 
+                      className={`btn btn-success btn-lg ${round ? 'completed' : ''}`}>
+                        {round ? <i className="fa fa-check"></i> : <span className="set-number">{roundIndex + 1}</span>}
+                      </button>
+                    </div>
+                </div>
+                {/* <button 
                 onClick={() => toggleSetCompletion(i)} 
                 className={`btn btn-success btn-lg ${completed ? 'completed' : ''}`}>
                   {completed ? "" : ""}
                  <span className="set-number d-flex ">{i + 1}</span>  
-                </button>
+                </button> */}
               </div>
             ))}
           </div>
