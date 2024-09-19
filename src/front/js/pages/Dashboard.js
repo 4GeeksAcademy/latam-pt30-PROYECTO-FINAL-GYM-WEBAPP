@@ -18,7 +18,7 @@ export const Dashboard = () => {
 
     
     return (
-        <div className="dashboard container mt-5">
+        <div className="dashboard container mt-5 mb-5">
             <div className='d-flex fw-bold justify-content-between'>
                 {image && (
                     <img 

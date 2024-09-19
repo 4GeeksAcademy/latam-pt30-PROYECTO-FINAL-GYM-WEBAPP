@@ -36,7 +36,7 @@ const EditPlan = () => {
 
     const handleAddDay = async () => {
         const updatedWorkout = { ...workout, days: days };
-        setDays([...days, { day: "", muscle_group: [{ id: "", name: "" }], exercises: [{ name: "", reps: "", sets: "", rest_time: "", description: "", super_set:"" }] }]);
+        setDays([...days, { day: "", muscle_group: [{ id: "", name: "" }],sets: [{ id:"", type:"", exercises: [{ name: "", reps: "", rounds: "", rest_time: "", description: ""}] }] }]);
         actions.updateWorkout(workout.id, updatedWorkout);
     };
     // const handleAddDay = () => {
@@ -94,8 +94,8 @@ const EditPlan = () => {
                     onChange={(e) => setWorkout({ ...workout, name: e.target.value })}
                 />
             </div>
-            {days?.map((day) => (
-                    <div key={day.id}>
+            {days?.map((day, index) => (
+                    <div key={day.id || index}> {/* Usamos el índice como key si el id no existe */}
                     <DayForm
                         day={day}
                         muscles={muscles} // Lista completa de grupos musculares

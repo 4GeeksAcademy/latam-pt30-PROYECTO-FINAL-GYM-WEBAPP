@@ -341,12 +341,12 @@ def create_workout_plan():
     data = request.json
     new_workout_plan = WorkoutPlan(
         name=data['name'], 
-        rounds=data['rounds'], 
-        reps=data['reps'], 
-        rest_time=data['rest_time'],
-        description_id=data.get('description_id'), 
-        training_day=data['training_day'], 
-        superSet=data['super_set'],
+        # rounds=data['rounds'], 
+        # reps=data['reps'], 
+        # rest_time=data['rest_time'],
+        # description_id=data.get('description_id'), 
+        # training_day=data['training_day'], 
+        # superSet=data['super_set'],
         use_id=data['user_id'], 
         member_id=data['member_id'], 
         exercise_id=data['exercise_id'],
@@ -532,7 +532,7 @@ def create_exercise():
         reps=data['reps'],
         rest_time=data['rest_time'],
         description_id=data.get('description_id'),
-        super_set=data.get('super_set'),
+        # super_set=data.get('super_set'),
         Link_video=data.get('Link_video'),
         muscle_group_id=data['muscle_group_id']
     )
@@ -557,7 +557,7 @@ def update_exercise(exercise_id):
         exercise.reps = data.get('reps', exercise.reps)
         exercise.rest_time = data.get('rest_time', exercise.rest_time)
         exercise.description_id = data.get('description_id', exercise.description_id)
-        exercise.super_set = data.get('super_set', exercise.super_set)
+        # exercise.super_set = data.get('super_set', exercise.super_set)
         exercise.Link_video = data.get('Link_video', exercise.Link_video)
         exercise.Id_musclegroup = data.get('Id_musclegroup', exercise.Id_musclegroup)
         

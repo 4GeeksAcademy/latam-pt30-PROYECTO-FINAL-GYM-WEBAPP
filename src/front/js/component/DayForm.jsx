@@ -107,7 +107,7 @@ export const DayForm = ({ day, muscles, onSave }) => {
             id: Date.now(), // El id del set también puede ser un timestamp
             type: type, // Tipo del set (Set, SuperSet, etc.)
             rest_time: restTime, // Tiempo de descanso
-            exercises: exercises // Array de ejercicios
+            exercises: [exercises] // Array de ejercicios
         };
 
         // Agregar el nuevo set al estado
@@ -173,7 +173,8 @@ export const DayForm = ({ day, muscles, onSave }) => {
 
 
                 <div className="exercises-section">
-                    <h4>N° Exercises per Round</h4>
+                    <h4>Exercises</h4>
+                    <div id="muscleGroupHelp" className="form-text">Set = 1 Exercise, SuperSet = 2 Exercises, TriSet = 3 Exercises, GrandSet = +4 Exercise in a Round</div>
                     {/* {exercises?.map((exercise, index) => (
                         <ExcerciseForm
                             key={index}
@@ -190,15 +191,15 @@ export const DayForm = ({ day, muscles, onSave }) => {
                             removeSet={removeSet}
                         />
                     ))}
-                    <div id="muscleGroupHelp" className="form-text">Set = 1 Exercise, SuperSet = 2 Exercises, TriSet = 3 Exercises, GrandSet = +4 Exercise in a Round</div>
                     {/* <button 
                     className="btn btn-outline-success mt-2 col-12" 
                     onClick={handleAddExercise}>
                         Add Exercise
                         </button> */}
-                    <button className="btn btn-outlined-primary" onClick={addSet}>Agregar Set</button>
-                    <button className="btn btn-outline-success mt-3" onClick={handleSubmit}>Guardar Día</button>
-                        
+                    <div className='d-flex justify-content-between'>
+                        <button className="btn btn-outline-light p-1" onClick={addSet}>Agregar Set</button>
+                        <button className="btn btn-outline-warning " onClick={handleSubmit}>Guardar Día</button>
+                    </div>    
                 </div>
             </div>
         </form>    

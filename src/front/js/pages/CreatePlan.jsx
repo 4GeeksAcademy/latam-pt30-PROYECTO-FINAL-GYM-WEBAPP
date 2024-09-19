@@ -11,15 +11,20 @@ export const CreatePlan = () => {
     const [workoutName, setWorkoutName] = useState('');
     // Estado para gestionar los días dentro del workout
     const [days, setDays] = useState([{
-        day: "",
+        day: [{ id: "", name: "" }],
         muscle_group: [{ id: "", name: "" }],
-        exercises: [{ name: "", reps: "", sets: "", rest_time: "", description: "", super_set:"" }],
+        sets: [{ id: "", type: "", rest_time:"", exercises: [ { id: "", name: "", reps: [], rounds: "", rest_time: "", description: ""}] }],
     }]);
 
     // Función para agregar un nuevo día vacío
     const handleAddDay = async () => {
         const newWorkout = { name: workoutName, days: days };
-        setDays([...days, { day: "", muscle_group: [{ id: "", name: "" }], exercises: [{ name: "", reps: "", sets: "", rest_time: "", description: "", super_set:"" }] }]);
+        setDays([...days, { 
+            day: [{ id: "", 
+            name: "" }], 
+            muscle_group: [{ id: "", name: "" }], 
+            sets: [{ id: "", type: "", rest_time:"", exercises: [ { id: "", name: "", reps: [], rounds: "", rest_time: "", description: ""}] }],
+             }]);
         actions.createWorkout(newWorkout);
     };
 

@@ -52,36 +52,40 @@ const getState = ({ getStore, getActions, setStore }) => {
 							],
 							sets: [
 								{
-								  set_id: "A",
-								  set_type: "SuperSet", // Tipo de conjunto o TriSet
+								  id: "A",
+								  type: "SuperSet", // Tipo de conjunto o TriSet
+								  rest_time:"",
 								  exercises: [
-									{ id: "1", name: "Free Squats", reps: "30, 20, 15, 12, 10, 8, 6", rounds: 7, rest_time: "60", description: ""},
-									{ id: "2", name: "Sissy Squats", reps: "30, 20, 15, 12, 10, 8, 6", rounds: 7, rest_time: "60", description: ""},
+									{ id: "1", name: "Free Squats", reps: [ "30, 20, 15, 12, 10, 8, 6" ], rounds: 7, rest_time: "60", description: ""},
+									{ id: "2", name: "Sissy Squats", reps: [ "30, 20, 15, 12, 10, 8, 6" ], rounds: 7, rest_time: "60", description: ""},
 								  ]
 								},
 								{
-								  set_id: "B",
-								  set_type: "SuperSet",
+								  id: "B",
+								  type: "SuperSet",
+								  rest_time:"",
 								  exercises: [
-									{ id: "3", name: "Dispositions in Smith", reps: "15, 12, 10, 8", rounds: 4, rest_time: "60", description: "Increment weight"},
-									{ id: "4", name: "Closing abductor", reps: 10, rounds: 3, rest_time: "60", description: "Heavy"}
+									{ id: "3", name: "Dispositions in Smith", reps: [ "15, 12, 10, 8" ], rounds: 4, rest_time: "60", description: "Increment weight"},
+									{ id: "4", name: "Closing abductor", reps: [ 10 ], rounds: 3, rest_time: "60", description: "Heavy"}
 								  ]
 								},
 								{
-									set_id: "C",
-									set_type: "TriSet",
+									id: "C",
+									type: "TriSet",
+									rest_time:"",
 									exercises: [
-										{ id: "5", name: "Barbell deadlift", reps: 20, rounds: 4, rest_time: "60", description: ""},
-										{ id: "6", name: "Femoral lying", reps: 25, rounds: 4, rest_time: "60", description: "Incrementar weight"},
-										{ id: "7", name: "Press", reps: 50, rounds: 4, rest_time: "60", description: ""}
+										{ id: "5", name: "Barbell deadlift", reps: [ 20 ], rounds: 4, rest_time: "60", description: ""},
+										{ id: "6", name: "Femoral lying", reps: [ 25 ], rounds: 4, rest_time: "60", description: "Incrementar weight"},
+										{ id: "7", name: "Press", reps: [ 50 ], rounds: 4, rest_time: "60", description: ""}
 									]
 								  },
 								  {
-									set_id: "D",
-									set_type: "SuperSet",
+									id: "D",
+									type: "SuperSet",
+									rest_time:"",
 									exercises: [
-										{ id: "8", name: "Sitting calf", reps: 30, rounds: 4, rest_time: "60", description: ""},
-										{ id: "9", name: "Standing calf", reps: 30, rounds: 4, rest_time: "60", description: ""}
+										{ id: "8", name: "Sitting calf", reps: [ 30 ], rounds: 4, rest_time: "60", description: ""},
+										{ id: "9", name: "Standing calf", reps: [ 30 ], rounds: 4, rest_time: "60", description: ""}
 									]
 								  },
 
@@ -96,44 +100,49 @@ const getState = ({ getStore, getActions, setStore }) => {
 							],
 							sets: [
 								{
-								  set_id: "E",
-								  set_type: "SuperSet", // Tipo de conjunto
+								  id: "E",
+								  type: "SuperSet", // Tipo de conjunto
+								  rest_time:"",
 								  exercises: [
-									{ id: "10", name: "Incline chest press", reps: 10, rounds: 4, rest_time: "60", description: ""},
-									{ id: "11", name: "Christs", reps: 15, rounds: 4, rest_time: "60", description: ""},
+									{ id: "10", name: "Incline chest press", reps: [ 10 ], rounds: 4, rest_time: "60", description: ""},
+									{ id: "11", name: "Christs", reps: [ 15 ], rounds: 4, rest_time: "60", description: ""},
 								  ]
 								},
 								{
-								  set_id: "F",
-								  set_type: "SuperSet",
+								  id: "F",
+								  type: "SuperSet",
+								  rest_time:"",
 								  exercises: [
-									{ id: "12", name: "Dumbbell flat press", reps: 10, rounds: 4, rest_time: "60", description: ""},
-									{ id: "13", name: "Chest cables down", reps: 10, rounds: 4, rest_time: "60", description: ""},
+									{ id: "12", name: "Dumbbell flat press", reps: [ 10 ], rounds: 4, rest_time: "60", description: ""},
+									{ id: "13", name: "Chest cables down", reps: [ 10 ], rounds: 4, rest_time: "60", description: ""},
 								  ]
 								},
 								{
-									set_id: "G",
-									set_type: "SuperSet",
+									id: "G",
+									type: "SuperSet",
+									rest_time:"",
 									exercises: [
-										{ id: "14", name: "Military press with dumbbell", reps: 10, rounds: 4, rest_time: "60", description: "Increment weight"},
-										{ id: "15", name: "Birds", reps: 8, rounds: 4, rest_time: "20s", description: ""}
+										{ id: "14", name: "Military press with dumbbell", reps: [ 10 ], rounds: 4, rest_time: "60", description: "Increment weight"},
+										{ id: "15", name: "Birds", reps: [ 8 ], rounds: 4, rest_time: "20s", description: ""}
 									]
 								  },
 								  {
-									set_id: "H",
-									set_type: "SuperSet",
+									id: "H",
+									type: "SuperSet",
+									rest_time:"",
 									exercises: [
-										{ id: "16", name: "Dumbbell front", reps: 15, rounds: 4, rest_time: "60", description: "" },
-										{ id: "17", name: "Inverted peckfly", reps: 15, rounds: 4, rest_time: "60", description: "" }
+										{ id: "16", name: "Dumbbell front", reps: [ 15 ], rounds: 4, rest_time: "60", description: "" },
+										{ id: "17", name: "Inverted peckfly", reps: [ 15 ], rounds: 4, rest_time: "60", description: "" }
 									]
 								  },
 								  {
-									set_id: "I",
-									set_type: "TriSet",
+									id: "I",
+									type: "TriSet",
+									rest_time:"",
 									exercises: [
-										{ id: "18", name: "French press with bar", reps: 10, rounds: 4, rest_time: "60", description: "" },
-										{ id: "19", name: "Cup", reps: 10, rounds: 4, rest_time: "60", description: "" },
-										{ id: "20", name: "Triceps pulley with straight bar", reps: 15, rounds: 4, rest_time: "60", description: "" }
+										{ id: "18", name: "French press with bar", reps: [ 10 ], rounds: 4, rest_time: "60", description: "" },
+										{ id: "19", name: "Cup", reps: [ 10 ], rounds: 4, rest_time: "60", description: "" },
+										{ id: "20", name: "Triceps pulley with straight bar", reps: [ 15 ], rounds: 4, rest_time: "60", description: "" }
 									]
 								  },
 							  ],
@@ -147,36 +156,40 @@ const getState = ({ getStore, getActions, setStore }) => {
 							],
 							sets: [
 								{
-								  set_id: "A",
-								  set_type: "SuperSet", // Tipo de conjunto o TriSet
+								  id: "J",
+								  type: "SuperSet", // Tipo de conjunto o TriSet
+								  rest_time:"",
 								  exercises: [
-									{ id: "1", name: "Free Squats", reps: "30, 20, 15, 12, 10, 8, 6", rounds: 7, rest_time: "60", description: ""},
-									{ id: "2", name: "Sissy Squats", reps: "30, 20, 15, 12, 10, 8, 6", rounds: 7, rest_time: "60", description: ""},
+									{ id: "1", name: "Free Squats", reps: [ "30, 20, 15, 12, 10, 8, 6" ], rounds: 7, rest_time: "60", description: ""},
+									{ id: "2", name: "Sissy Squats", reps: [ "30, 20, 15, 12, 10, 8, 6" ], rounds: 7, rest_time: "60", description: ""},
 								  ]
 								},
 								{
-								  set_id: "B",
-								  set_type: "SuperSet",
+								  id: "K",
+								  type: "SuperSet",
+								  rest_time:"",
 								  exercises: [
-									{ id: "3", name: "Dispositions in Smith", reps: "15, 12, 10, 8", rounds: 4, rest_time: "60", description: "Increment weight"},
-									{ id: "4", name: "Closing abductor", reps: 10, rounds: 3, rest_time: "60", description: "Heavy"}
+									{ id: "3", name: "Dispositions in Smith", reps: [ "15, 12, 10, 8" ], rounds: 4, rest_time: "60", description: "Increment weight"},
+									{ id: "4", name: "Closing abductor", reps: [ 10 ], rounds: 3, rest_time: "60", description: "Heavy"}
 								  ]
 								},
 								{
-									set_id: "C",
-									set_type: "TriSet",
+									id: "L",
+									type: "TriSet",
+									rest_time:"",
 									exercises: [
-										{ id: "5", name: "Barbell deadlift", reps: 20, rounds: 4, rest_time: "60", description: ""},
-										{ id: "6", name: "Femoral lying", reps: 25, rounds: 4, rest_time: "60", description: "Incrementar weight"},
-										{ id: "7", name: "Press", reps: 50, rounds: 4, rest_time: "60", description: ""}
+										{ id: "5", name: "Barbell deadlift", reps: [ 20 ], rounds: 4, rest_time: "60", description: ""},
+										{ id: "6", name: "Femoral lying", reps: [ 25 ], rounds: 4, rest_time: "60", description: "Incrementar weight"},
+										{ id: "7", name: "Press", reps: [ 50 ], rounds: 4, rest_time: "60", description: ""}
 									]
 								  },
 								  {
-									set_id: "D",
-									set_type: "SuperSet",
+									id: "M",
+									type: "SuperSet",
+									rest_time:"",
 									exercises: [
-										{ id: "8", name: "Sitting calf", reps: 30, rounds: 4, rest_time: "60", description: ""},
-										{ id: "9", name: "Standing calf", reps: 30, rounds: 4, rest_time: "60", description: ""}
+										{ id: "8", name: "Sitting calf", reps: [ 30 ], rounds: 4, rest_time: "60", description: ""},
+										{ id: "9", name: "Standing calf", reps: [ 30 ], rounds: 4, rest_time: "60", description: ""}
 									]
 								  },
 
@@ -190,49 +203,54 @@ const getState = ({ getStore, getActions, setStore }) => {
 							],
 							sets: [
 								{
-								  set_id: "J",
-								  set_type: "Set", // Tipo de conjunto
+								  id: "N",
+								  type: "Set", // Tipo de conjunto
+								  rest_time:"",
 								  exercises: [
-									{ id: "21", name: "Pull-ups", reps: "Fail", rounds: 6, rest_time: "60", description: ""}
+									{ id: "21", name: "Pull-ups", reps: [ "Fail" ], rounds: 6, rest_time: "60", description: ""}
 								  ]
 								},
 								{
-									set_id: "K",
-									set_type: "SuperSet", // Tipo de conjunto
+									id: "O",
+									type: "SuperSet", // Tipo de conjunto
+									rest_time:"",
 									exercises: [
-										{ id: "22", name: "Barbell front pull", reps: 10, rounds: 4, rest_time: "60", description: ""},
-										{ id: "23", name: "Straight bar row", reps: 10, rounds: 4, rest_time: "60", description: ""}
+										{ id: "22", name: "Barbell front pull", reps: [ 10 ], rounds: 4, rest_time: "60", description: ""},
+										{ id: "23", name: "Straight bar row", reps: [ 10 ], rounds: 4, rest_time: "60", description: ""}
 									]
 								  },
 								  {
-									set_id: "L",
-									set_type: "SuperSet", // Tipo de conjunto
+									id: "P",
+									type: "SuperSet", // Tipo de conjunto
+									rest_time:"",
 									exercises: [
-										{ id: "24", name: "Seated row", reps: 10, rounds: 4, rest_time: "60", description: ""},
-										{ id: "25", name: "Dumbbell row", reps: 10, rounds: 4, rest_time: "60", description: ""}
+										{ id: "24", name: "Seated row", reps: [ 10 ], rounds: 4, rest_time: "60", description: ""},
+										{ id: "25", name: "Dumbbell row", reps: [ 10 ], rounds: 4, rest_time: "60", description: ""}
 									]
 								  },
 								  {
-									set_id: "M",
-									set_type: "SuperSet", // Tipo de conjunto
+									id: "Q",
+									type: "SuperSet", // Tipo de conjunto
+									rest_time:"",
 									exercises: [
-										{ id: "26", name: "Barbell curl", reps: 15, rounds: 4, rest_time: "60", description: "Incrementar weight"},
-										{ id: "27", name: "Curl on biceps machine", reps: 20, rounds: 4, rest_time: "60", description: "Down in 5 seconds"}
+										{ id: "26", name: "Barbell curl", reps: [ 15 ], rounds: 4, rest_time: "60", description: "Incrementar weight"},
+										{ id: "27", name: "Curl on biceps machine", reps: [ 20 ], rounds: 4, rest_time: "60", description: "Down in 5 seconds"}
 									]
 								  },
 								  {
-									set_id: "M",
-									set_type: "TriSet", // Tipo de conjunto
+									id: "R",
+									type: "TriSet", // Tipo de conjunto
+									rest_time:"",
 									exercises: [
-										{ id: "28", name: "Hammer curl", reps: 30, rounds: 4, rest_time: "60", description: ""},
-										{ id: "29", name: "Inverted curl with z bar", reps: 15, rounds: 4, rest_time: "60", description: "Open grip"},
-										{ id: "30", name: "Triceps pulley with straight bar", reps: 15, rounds: 4, rest_time: "60", description: "" }
+										{ id: "28", name: "Hammer curl", reps: [ 30 ], rounds: 4, rest_time: "60", description: ""},
+										{ id: "29", name: "Inverted curl with z bar", reps: [ 15 ], rounds: 4, rest_time: "60", description: "Open grip"},
+										{ id: "30", name: "Triceps pulley with straight bar", reps: [ 15 ], rounds: 4, rest_time: "60", description: "" }
 									]
 								  },
 							  ],
 						},
 						{
-							day: {id: "2", name:"Friday"},
+							day: {id: "5", name:"Friday"},
 							muscle_group: [
 								{ id: "1", name: "Chest" },
 								{ id: "7", name: "Shoulders" },
@@ -240,44 +258,49 @@ const getState = ({ getStore, getActions, setStore }) => {
 							],
 							sets: [
 								{
-								  set_id: "E",
-								  set_type: "SuperSet", // Tipo de conjunto
+								  id: "S",
+								  type: "SuperSet", // Tipo de conjunto
+								  rest_time:"",
 								  exercises: [
-									{ id: "10", name: "Incline chest press", reps: 10, rounds: 4, rest_time: "60", description: ""},
-									{ id: "11", name: "Christs", reps: 15, rounds: 4, rest_time: "60", description: ""},
+									{ id: "10", name: "Incline chest press", reps: [ 10 ], rounds: 4, rest_time: "60", description: ""},
+									{ id: "11", name: "Christs", reps: [ 15 ], rounds: 4, rest_time: "60", description: ""},
 								  ]
 								},
 								{
-								  set_id: "F",
-								  set_type: "SuperSet",
+								  id: "T",
+								  type: "SuperSet",
+								  rest_time:"",
 								  exercises: [
-									{ id: "12", name: "Dumbbell flat press", reps: 10, rounds: 4, rest_time: "60", description: ""},
-									{ id: "13", name: "Chest cables down", reps: 10, rounds: 4, rest_time: "60", description: ""},
+									{ id: "12", name: "Dumbbell flat press", reps: [ 10 ], rounds: 4, rest_time: "60", description: ""},
+									{ id: "13", name: "Chest cables down", reps: [ 10 ], rounds: 4, rest_time: "60", description: ""},
 								  ]
 								},
 								{
-									set_id: "G",
-									set_type: "SuperSet",
+									id: "U",
+									type: "SuperSet",
+									rest_time:"",
 									exercises: [
-										{ id: "14", name: "Military press with dumbbell", reps: 10, rounds: 4, rest_time: "60", description: "Increment weight"},
-										{ id: "15", name: "Birds", reps: 8, rounds: 4, rest_time: "20s", description: ""}
+										{ id: "14", name: "Military press with dumbbell", reps: [ 10 ], rounds: 4, rest_time: "60", description: "Increment weight"},
+										{ id: "15", name: "Birds", reps: [ 8 ], rounds: 4, rest_time: "20s", description: ""}
 									]
 								  },
 								  {
-									set_id: "H",
-									set_type: "SuperSet",
+									id: "V",
+									type: "SuperSet",
+									rest_time:"",
 									exercises: [
-										{ id: "16", name: "Dumbbell front", reps: 15, rounds: 4, rest_time: "60", description: "" },
-										{ id: "17", name: "Inverted peckfly", reps: 15, rounds: 4, rest_time: "60", description: "" }
+										{ id: "16", name: "Dumbbell front", reps: [ 15 ], rounds: 4, rest_time: "60", description: "" },
+										{ id: "17", name: "Inverted peckfly", reps: [ 15 ], rounds: 4, rest_time: "60", description: "" }
 									]
 								  },
 								  {
-									set_id: "I",
-									set_type: "TriSet",
+									id: "W",
+									type: "TriSet",
+									rest_time:"",
 									exercises: [
-										{ id: "18", name: "French press with bar", reps: 10, rounds: 4, rest_time: "60", description: "" },
-										{ id: "19", name: "Cup", reps: 10, rounds: 4, rest_time: "60", description: "" },
-										{ id: "20", name: "Triceps pulley with straight bar", reps: 15, rounds: 4, rest_time: "60", description: "" }
+										{ id: "18", name: "French press with bar", reps: [ 10 ], rounds: 4, rest_time: "60", description: "" },
+										{ id: "19", name: "Cup", reps: [ 10 ], rounds: 4, rest_time: "60", description: "" },
+										{ id: "20", name: "Triceps pulley with straight bar", reps: [ 15 ], rounds: 4, rest_time: "60", description: "" }
 									]
 								  },
 							  ],
@@ -771,6 +794,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                 }
             },
         
+    
 			
 			//MEMBERS FETCH ZONE_______________________________________________________
 			//CREATE MEMBER

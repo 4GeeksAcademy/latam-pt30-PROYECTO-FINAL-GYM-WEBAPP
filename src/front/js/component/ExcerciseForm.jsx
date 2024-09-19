@@ -1,57 +1,165 @@
 // src/components/ExerciseForm.js
-import React from "react";
+import React, { useState }  from "react";
 
 export const ExerciseForm = ({ exercise, updateExercise, removeExercise }) => {
+    // Estado local para el valor del input de reps
+    const [inputValue, setInputValue] = useState('');
+    
+    // Actualizar el ejercicio en función de los cambios de los inputs
     const handleChange = (e) => {
         const { name, value } = e.target;
+        // Actualizamos el ejercicio con el nuevo valor
         updateExercise(exercise.id, { ...exercise, [name]: value });
-
-
     };
 
+    console.log(Array.isArray(exercise.rounds)); // Debería ser true
+    console.log(exercise.rounds); // Verifica el contenido
+    
+    // Agregar un round al ejercicio
+    const addRound = (reps) => {
+        // Creamos un nuevo round con el número de reps introducido
+        const newReps = [...(exercise.reps || []), reps];
+        // Incrementamos el número de rondas
+        const newRounds = (exercise.rounds || 0) + 1;
+        // Actualizamos el ejercicio con los nuevos rounds
+        updateExercise(exercise.id, { ...exercise, reps: newReps, rounds: newRounds });
+    };
+
+    // Manejar la adición de un nuevo round
+    const handleAddRound = () => {
+        const reps = parseInt(inputValue); //Convertimos el valor del input a número
+        if (!isNaN(reps) && reps > 0) { // Validamos que sea un número válido
+            addRound(reps);
+            setInputValue(''); // Limpiar el input después de agregar
+        }
+    };
+
+    console.log(exercise.name);
+    
     return (
-        <div className="exercise-form mb-2">
+        <div className="exercise-form mb-2 border border-success-subtle p-4">
+            <label htmlFor={`name-${exercise.id}`} className="form-label">Exercise Name</label>
             <input
                 type="text"
                 name="name"
+                id={`name-${exercise.id}`}
                 value={exercise.name}
                 onChange={handleChange}
                 placeholder="Exercise Name"
                 className="form-control mb-1"
             />
+            
+            {/* <label htmlFor={`rounds-${exercise.id}`} className="form-label">How many Rounds?</label>
             <input
                 type="number"
                 name="rounds"
+                id={`rounds-${exercise.id}`}
                 value={exercise.rounds}
                 onChange={handleChange}
                 placeholder="How many Rounds?"
                 className="form-control mb-1"
                 min={1} // Evitar valores negativos o cero
             />
+            
+            <label htmlFor={`reps-${exercise.id}`} className="form-label">How many Reps?</label>
             <input
                 type="number"
                 name="reps"
+                id={`reps-${exercise.id}`}
                 value={exercise.reps}
                 onChange={handleChange}
                 placeholder="How many Reps?"
                 className="form-control mb-1"
                 min={1} // Evitar valores negativos o cero
+            /> */}
+
+
+
+                {console.log(exercise)}
+                {console.log(exercise.rounds)}
+            {/* <div>
+                {exercise.rounds && exercise.rounds.map((round, index) => (
+                    <div key={index}>
+                        <p>Round {round.roundNumber}: {round.reps} reps</p>
+                    </div>
+                ))}
+            </div>     */}
+             {/* <div className="rounds-section">
+                {exercise?.rounds?.length > 0 ? (
+                    exercise.reps.map((reps, index) => ( */}
+                        {/* // <div key={index} className="round-item">
+                        //     <p>
+                        //         {/* <strong>Round {round.roundNumber}:</strong> {round.reps} reps */}
+                        {/* //         <strong>Round {index + 1}:</strong> {reps} reps
+                        //     </p> */}
+                        {/* // </div> */}
+                {/* //     ))
+                // ) : (
+                //     // <p>No rounds added yet.</p>
+                // )}
+            </div> */}
+
+            {/* Mostrar rondas y reps */}
+            <div className="rounds-section">
+                {exercise?.rounds > 0 ? (
+                    // Iteramos sobre las rondas usando Array.from({ length: exercise.rounds })
+                    Array.from({ length: exercise.rounds }).map((_, index) => (
+                        <div key={index} className="round-item">
+                            <p>
+                                <strong>Round {index + 1}: </strong> 
+                                
+                                {/* Si hay múltiples valores en reps, mostramos el valor correspondiente */}
+                                {/* Si reps tiene solo un valor, lo usamos para todas las rondas   */}
+                                {exercise.reps.length > 1 
+                                    ? exercise.reps[index] || exercise.reps[exercise.reps.length - 1]
+                                    : exercise.reps[0]} reps
+                            </p>
+                        </div>
+                    ))
+                ) : (
+                    <p>No rounds added yet.</p>
+                )}
+            </div>
+
+
+            {/* Input para agregar round y reps */} 
+            <input
+                type="number"
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                placeholder="Enter reps for new round"
+                className="form-control mb-1 m-2"
             />
+            <button 
+                className="btn btn-sm btn-outline-light m-3"
+                onClick={handleAddRound}
+                >Add Round
+            </button>
+
+
+
+            
+            <label htmlFor={`description-${exercise.id}`} className="form-label"
+            >Description</label>
+            
             <textarea
                 name="description"
+                id={`description-${exercise.id}`}
                 value={exercise.description}
                 onChange={handleChange}
                 placeholder="Description (optional)"
-                className="form-control mb-2"
+                className="form-control mb-2 "
             />
-            <div 
-                id="exercisesHelp" 
-                className="form-text"
-            >You can still edit before Saving Day</div>
-            <button 
-                className="btn btn-danger btn-sm" 
+            
+            {/* <div id="exercisesHelp" className="form-text">
+                You can still edit before Saving Day
+            </div> */}
+            
+            <button
+                className="btn btn-outline-secondary btn-sm mt-3"
                 onClick={() => removeExercise(exercise.id)}
-            >Eliminar Ejercicio
+            >
+                Delete Exercise
             </button>
         </div>
     );

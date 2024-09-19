@@ -71,7 +71,7 @@ export const MyWorkOut = (props) => {
                                     >
                                         
                                         {day?.sets?.map(set => set.exercises.map(item => {
-                                            item["set_type"] = set.set_type
+                                            item["type"] = set.type
                                             return item
                                         })).flat().map((exercise) => (
                                             <div
@@ -83,9 +83,12 @@ export const MyWorkOut = (props) => {
                                                     className="alert border-danger-subtle rounded-5 bg-light text-dark fw-medium col-11"
                                                     role="alert"
                                                 >
-                                                    {exercise.name} | {exercise.rounds} x {exercise.reps} Reps - {exercise.set_type} | {exercise.description}
+                                                    {exercise.name} | {exercise.rounds} x {exercise.reps} Reps - {exercise.type} | {exercise.description}
                                                 <br/>
-                                                {/* <small> {exercise.description}</small> */}
+                                                {/* <small
+                                                        className="rounded-circle border border-light d-inline-block me-2"
+                                                        style={{ backgroundColor: color, width: '12px', height: '12px' }}
+                                                > {exercise.description}</small> */}
                                                 </div>
                                             </div>
                                         ))}
@@ -96,6 +99,8 @@ export const MyWorkOut = (props) => {
                     </div>
                 </div>
             </div>
+            <div className="mb-5"></div>
+            <div className="mb-5"></div>
         </div>
     );
 };

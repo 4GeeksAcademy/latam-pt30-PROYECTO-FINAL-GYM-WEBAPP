@@ -2,6 +2,8 @@ import React, { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Timer } from "../component/Timer.js";
 import { Context } from "../store/appContext";
+
+
 export const Workout = () => {
   const { store } = useContext(Context);
   const [exercise, setExercise] = useState(null);
@@ -12,17 +14,17 @@ export const Workout = () => {
   const navigate = useNavigate();
 
 
-  
   useEffect(() => {
     if (params.name && store.workouts.length > 0) {
       const workout = store.workouts.find(w => w.id == params.workoutId);
-      console.log(workout);
+      //console.log(workout);
       
       if (workout) {
         const ex = workout.days?.find(day => params.dayId == day.day.id).sets?.map(set => set.exercises.map(item => {
-          item["set_type"] = set.set_type
+          item["type"] = set.type
           return item
-      })).flat().find(e => e.name === params.name);
+      }))
+      .flat().find(e => e.name === params.name);
         console.log(ex);
         
         setExercise(ex);
@@ -67,7 +69,8 @@ console.log(completedSets);
           <h1> {exercise.name} </h1>
         </div>
         <div className="exercise-details text-dark d-flex justify-content-center">
-          {exercise.reps} REPS | {exercise.rounds} ROUNDS | {exercise.set_type}</div>
+        
+          {exercise.reps} REPS | {exercise.rounds} ROUNDS | {exercise.type}</div>
           <small>{exercise.description}</small>
       </div>
         <div id="exerciseDetails" className="workout-details d-flex flex-column align-items-center">

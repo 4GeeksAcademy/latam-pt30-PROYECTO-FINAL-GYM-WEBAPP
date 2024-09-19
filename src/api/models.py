@@ -136,12 +136,12 @@ class WorkoutPlan(db.Model):
     __tablename__ = 'workout_plan'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
-    rounds = db.Column(db.String(50), nullable=False)
-    reps = db.Column(db.Integer, nullable=False)
-    rest_time = db.Column(db.String(50), nullable=False)
-    description_id = db.Column(db.String(255))
-    training_day = db.Column(db.Integer)
-    super_set = db.Column(db.Integer)
+    # rounds = db.Column(db.String(50), nullable=False)
+    # reps = db.Column(db.Integer, nullable=False)
+    # rest_time = db.Column(db.String(50), nullable=False)
+    # description_id = db.Column(db.String(255))
+    # training_day = db.Column(db.Integer)
+    # super_set = db.Column(db.Integer)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     member_id = db.Column(db.Integer, db.ForeignKey('member.id'), nullable=False)
 
@@ -156,12 +156,12 @@ class WorkoutPlan(db.Model):
         return {
             "id": self.id,
             "name": self.name,
-            "rounds": self.rounds,
-            "reps": self.reps,
-            "rest_time": self.rest_time,
-            "description_id": self.description_id,
-            "training_day": self.training_day,
-            "super_set": self.super_set,
+            # "rounds": self.rounds,
+            # "reps": self.reps,
+            # "rest_time": self.rest_time,
+            # "description_id": self.description_id,
+            # "training_day": self.training_day,
+            # "super_set": self.super_set,
             "user_id": self.user_id,
             "member_id": self.member_id,
             "muscle_group_id": self.muscle_group_id,
@@ -231,11 +231,11 @@ class Exercise(db.Model):
     __tablename__ = 'exercise'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False, unique=True)
-    sets = db.Column(db.Integer, nullable=False)
+    rounds = db.Column(db.Integer, nullable=False)
     reps = db.Column(db.Integer, nullable=False)
     rest_time = db.Column(db.Integer, nullable=False)
     description_id = db.Column(db.String(255))
-    super_set = db.Column(db.Integer)
+    # super_set = db.Column(db.Integer)
     Link_video = db.Column(db.String(50))
 
     muscle_group_id = db.Column(db.Integer, db.ForeignKey('muscle_group.id'))#muscle group esta en workout no exercices
@@ -249,11 +249,11 @@ class Exercise(db.Model):
         return {
             "id": self.id,
             "name": self.name,
-            "sets": self.sets,
+            "rounds": self.rounds,
             "reps": self.reps,
             "rest_time": self.rest_time,
             "description_id": self.description_id,
-            "super_set": self.super_set,
+            # "super_set": self.super_set,
             "Link_video": self.Link_video,
             "muscle_group_id": self.muscle_group_id
             # do not serialize the password, its a security breach
