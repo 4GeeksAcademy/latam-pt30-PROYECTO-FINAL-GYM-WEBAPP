@@ -5,13 +5,13 @@ export const VideoCarousel = () => {
     const { store, actions } = useContext(Context);
 
     useEffect(() => {
-        actions.getVideos();
+        // actions.getVideos();
     }, []);
 
     return (
         <div id="carouselExampleCaptions" className="carousel slide" data-bs-ride="carousel">
             <div className="carousel-indicators">
-                {store.videos.map((video, index) => (
+                {store.videos && store.videos.map((video, index) => (
                     <button
                         key={index}
                         type="button"
@@ -24,7 +24,7 @@ export const VideoCarousel = () => {
                 ))}
             </div>
             <div className="carousel-inner">
-                {store.videos.map((video, index) => (
+                {store.videos && store.videos.map((video, index) => (
                     <div key={index} className={`carousel-item ${index === 0 ? "active" : ""}`}>
                         {/* <iframe
                             src={video.link}
@@ -32,13 +32,13 @@ export const VideoCarousel = () => {
                             className="d-block w-100"
                             referrerpolicy="strict-origin-when-cross-origin"
                         ></iframe> */}
-                        <iframe 
-                        // width="923" 
-                        // height="519" 
-                        src={video.link} 
-                        title={video.title} 
-                        frameborder="0" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                        <iframe
+                            // width="923" 
+                            // height="519" 
+                            src={video.link}
+                            title={video.title}
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                         <div className="carousel-caption d-none d-md-block">
                             <h5>{video.title}</h5>
                             <p>Some representative placeholder content for the slide.</p>

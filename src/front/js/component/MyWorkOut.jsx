@@ -8,10 +8,15 @@ export const MyWorkOut = (props) => {
     //const [data, setData] = useState([]);
 
 
-    const handleNavigate = (workoutId, dayId, exerciseName) => {
-        navigate(`/workout/${workoutId}/day/${dayId}/exercise/${exerciseName}`);
+    const handleNavigate = (workoutId, dayId, exerciseName, setId) => {
+        navigate(`/workout/${workoutId}/day/${dayId}/set/${setId}`);
     };
     console.log();
+
+    const setExercise = props.days.map((day) => day.sets.map(set => set.exercises.map(item => {
+        item["type"] = set.type
+        return item
+    })))
 
     return (
         <div className="d-flex flex-column">
@@ -43,7 +48,7 @@ export const MyWorkOut = (props) => {
                         <div>
                             {props.days.map((day) => (
                                 <div key={day.day.id}>
-                                    
+
                                     <button
                                         className="alert rounded-5 text-light fw-semibold bg-body-secondary border-warning-subtle col-11"
                                         type="button"
@@ -54,9 +59,9 @@ export const MyWorkOut = (props) => {
                                     >
                                         <div className="d-flex justify-content-center">
                                             <h3>
-                                            {day.day.name} - {day.muscle_group.map((group, idGroup) => {
-                                                       return <span key={idGroup}>{group.name}</span>
-                                                    })}
+                                                {day.day.name} - {day.muscle_group.map((group, idGroup) => {
+                                                    return <span key={idGroup}>{group.name}</span>
+                                                })}
                                             </h3>
                                             {console.log(day.muscle_group)}
                                         </div>
@@ -69,26 +74,23 @@ export const MyWorkOut = (props) => {
                                         className="collapse collapse-horizontal"
                                         id={`dayCollapse-${props.id}-${day.day.id}`}
                                     >
-                                        
+
                                         {day?.sets?.map(set => set.exercises.map(item => {
                                             item["type"] = set.type
-                                            return item
+                                            return { ...item, setId: set.id }
                                         })).flat().map((exercise) => (
                                             <div
                                                 key={exercise.id}
-                                                onClick={() => handleNavigate(props.id, day.day.id, exercise.name)}
+                                                onClick={() => handleNavigate(props.id, day.day.id, exercise.name, exercise.setId)}
                                                 style={{ cursor: "pointer" }}
                                             >
+                                                setId: {exercise.setId}
                                                 <div
                                                     className="alert border-danger-subtle rounded-5 bg-light text-dark fw-medium col-11"
                                                     role="alert"
                                                 >
                                                     {exercise.name} | {exercise.rounds} x {exercise.reps} Reps - {exercise.type} | {exercise.description}
-                                                <br/>
-                                                {/* <small
-                                                        className="rounded-circle border border-light d-inline-block me-2"
-                                                        style={{ backgroundColor: color, width: '12px', height: '12px' }}
-                                                > {exercise.description}</small> */}
+                                                    <br />
                                                 </div>
                                             </div>
                                         ))}
@@ -101,7 +103,7 @@ export const MyWorkOut = (props) => {
             </div>
             <div className="mb-5"></div>
             <div className="mb-5"></div>
-        </div>
+        </div >
     );
 };
 
