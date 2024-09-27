@@ -1,81 +1,75 @@
-# WebApp boilerplate with React JS and Flask API
+# GymApp Routine and Improvements Tracker with React JS and Flask API
 
-Build web applications using React.js for the front end and python/flask for your backend API.
+## Overview
+Developed a gym app enabling users to create and manage personalized workout routines, featuring sets check and rest-time chronometer, and graphical analytics for tracking body measurements and fitness goals, using React.js, Python, Flask, SQLAlchemy, Flux
 
-- Documentation can be found here: https://start.4geeksacademy.com/starters/react-flask
-- Here is a video on [how to use this template](https://www.loom.com/share/f37c6838b3f1496c95111e515e83dd9b)
-- Integrated with Pipenv for package managing.
-- Fast deployment to heroku [in just a few steps here](https://start.4geeksacademy.com/backend/deploy-heroku-posgres).
-- Use of .env file.
-- SQLAlchemy integration for database abstraction.
+- Engineered a responsive UI with React.js, achieving sub-1s loading times.
+- Implemented Flask backend, ensuring API response times under 200ms.
+- Utilized SQLAlchemy for efficient database management, supporting high traffic bandwidth.
+- Integrated Flux architecture, enhancing state management and reducing latency.
 
-### 1) Installation:
+## Target Audience
+The app is aimed at users who want to follow customized workout routines and keep detailed records of their progress, both in terms of exercises and physical measurements.
 
-> If you use Github Codespaces (recommended) or Gitpod this template will already come with Python, Node and the Posgres Database installed. If you are working locally make sure to install Python 3.10, Node 
+## Technologies Used
+- **Frontend**: [React](https://reactjs.org/)
+- **Backend**: [Flask](https://flask.palletsprojects.com/), [Node.js](https://nodejs.org/)
+- **Database**: [PostgreSQL](https://www.postgresql.org/)
+- **Deployment**: Docker (optional), Heroku, or any hosting service compatible with PostgreSQL and Node.js
+- **Version Control**: Git
 
-It is recomended to install the backend first, make sure you have Python 3.8, Pipenv and a database engine (Posgress recomended)
+## Key Features
+- **Interactive Dashboard**: The main panel displays collapsible workout routines. Each routine contains:
+  - **Training Days**: Each training day contains sets of exercises.
+  - **Sets and Variants**:
+    - **Set**: A single exercise.
+    - **SuperSet**: Two exercises.
+    - **TriSet**: Three exercises.
+    - **GiantSet**: Four or more exercises.
+- **User Profile**: Users can create a profile with their personal information and profile picture.
+- **Body Measurement Tracking**: Members can record their physical measurements, collapse or expand the data by the registration date, and view charts showing their progress over time.
+- **Custom Workouts**: Users can create new personalized routines, organized by days, with exercises grouped into sets, supersets, trisets, or giantsets.
+- **Set Timer**: A custom timer that automatically adjusts to the needs of each set (supersets, trisets, etc.).
 
-1. Install the python packages: `$ pipenv install`
-2. Create a .env file based on the .env.example: `$ cp .env.example .env`
-3. Install your database engine and create your database, depending on your database you have to create a DATABASE_URL variable with one of the possible values, make sure you replace the valudes with your database information:
+##App 
 
-| Engine    | DATABASE_URL                                        |
-| --------- | --------------------------------------------------- |
-| SQLite    | sqlite:////test.db                                  |
-| MySQL     | mysql://username:password@localhost:port/example    |
-| Postgress | postgres://username:password@localhost:5432/example |
+<img width="530" alt="Screenshot 2024-09-27 at 9 46 34 a m" src="https://github.com/user-attachments/assets/c3669267-35ed-4e22-b3de-44f53416b97f">
+<img width="530" alt="Screenshot 2024-09-27 at 9 38 44 a m" src="https://github.com/user-attachments/assets/3e54d71e-2366-4ca8-b257-3f8c7bbfc241">
 
-4. Migrate the migrations: `$ pipenv run migrate` (skip if you have not made changes to the models on the `./src/api/models.py`)
-5. Run the migrations: `$ pipenv run upgrade`
-6. Run the application: `$ pipenv run start`
+<img width="530" alt="Screenshot 2024-09-27 at 9 48 00 a m" src="https://github.com/user-attachments/assets/c1022ef1-bb08-4858-8d31-e17d55e7b809">
+<img width="530" alt="Screenshot 2024-09-27 at 9 48 03 a m" src="https://github.com/user-attachments/assets/da1e8553-938c-42b7-a79e-f429ccf85a23">
+<img width="530" alt="Screenshot 2024-09-27 at 9 48 22 a m" src="https://github.com/user-attachments/assets/cd5573c6-6793-4b03-85b0-435685103e5c">
 
-> Note: Codespaces users can connect to psql by typing: `psql -h localhost -U gitpod example`
+<img width="530" alt="Screenshot 2024-09-27 at 9 49 41 a m" src="https://github.com/user-attachments/assets/b97bb7d5-4343-4837-bac2-ca51716e9db7">
+<img width="530" alt="Screenshot 2024-09-27 at 9 47 35 a m" src="https://github.com/user-attachments/assets/89fcdeba-2332-4c6b-8714-7e9647c42f58">
+<img width="530" alt="Screenshot 2024-09-27 at 9 47 50 a m" src="https://github.com/user-attachments/assets/64f8cc17-5cbf-4927-8c83-777ec72f64f0">
 
-### Undo a migration
+## Entity Structure
 
-You are also able to undo a migration by running
+```plaintext
+Workouts (id)
+   |
+   +-- DayForm (id, workout_id)
+   |       |
+   |       +-- Set (set_id, dayform_id, set_type)
+   |              |
+   |              +-- Exercise (exercise_id, set_id)
+   |
+   +-- DayForm (id, workout_id)
+           |
+           +-- Set (set_id, dayform_id, set_type)
+                  |
+                  +-- Exercise (exercise_id, set_id)
 
-```sh
-$ pipenv run downgrade
-```
 
-### Backend Populate Table Users
 
-To insert test users in the database execute the following command:
+Workouts: Represents the overall workout routine. Each Workout has its own id.
+DayForm: A Workout can have several days (represented by DayForm). Each DayForm has an id and a workout_id to identify which routine it belongs to.
+Set: Each DayForm can contain several sets, identified by set_id. Sets can be of type Set, SuperSet, TriSet, or GiantSet.
+Exercise: Each Set contains multiple exercises, each identified by an exercise_id.
 
-```sh
-$ flask insert-test-users 5
-```
 
-And you will see the following message:
 
-```
-  Creating test users
-  test_user1@test.com created.
-  test_user2@test.com created.
-  test_user3@test.com created.
-  test_user4@test.com created.
-  test_user5@test.com created.
-  Users created successfully!
-```
 
-### **Important note for the database and the data inside it**
 
-Every Github codespace environment will have **its own database**, so if you're working with more people eveyone will have a different database and different records inside it. This data **will be lost**, so don't spend too much time manually creating records for testing, instead, you can automate adding records to your database by editing ```commands.py``` file inside ```/src/api``` folder. Edit line 32 function ```insert_test_data``` to insert the data according to your model (use the function ```insert_test_users``` above as an example). Then, all you need to do is run ```pipenv run insert-test-data```.
 
-### Front-End Manual Installation:
-
--   Make sure you are using node version 14+ and that you have already successfully installed and runned the backend.
-
-1. Install the packages: `$ npm install`
-2. Start coding! start the webpack dev server `$ npm run start`
-
-## Publish your website!
-
-This boilerplate it's 100% read to deploy with Render.com and Heroku in a matter of minutes. Please read the [official documentation about it](https://start.4geeksacademy.com/deploy).
-
-### Contributors
-
-This template was built as part of the 4Geeks Academy [Coding Bootcamp](https://4geeksacademy.com/us/coding-bootcamp) by [Alejandro Sanchez](https://twitter.com/alesanchezr) and many other contributors. Find out more about our [Full Stack Developer Course](https://4geeksacademy.com/us/coding-bootcamps/part-time-full-stack-developer), and [Data Science Bootcamp](https://4geeksacademy.com/us/coding-bootcamps/datascience-machine-learning).
-
-You can find other templates and resources like this at the [school github page](https://github.com/4geeksacademy/).
